@@ -102,28 +102,6 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getAngle()*-1;
   }
 
-  public double nowNegative(int i)
-  {
-    return i*-1;
-  }
-  
-  public double nowNegative(double i)
-  {
-    return i*-1;
-  }
-
-  public double toDouble(float i)
-  {
-    double o = i;
-    return o;
-  }
-  
-  public double toDouble(int i)
-  {
-    double o = i;
-    return o;
-  }
-
   /**
    * Resets the odometry to the specified pose.
    *
