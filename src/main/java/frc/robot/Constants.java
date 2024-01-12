@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.util.PIDConstants;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -198,8 +200,10 @@ public final class Constants {
     public static final PIDController kPThetaController = new PIDController(8.0, 0, 0.75);
 
     // PID constants for new Pathplanner code
-    public static final PIDGains kTranslationGains = new PIDGains(0.0, 0.0, 0.0);
-    public static final PIDGains kRotationGains = new PIDGains(0.0, 0.0, 0.0);
+    public static final PIDConstants kTranslationGains = new PIDConstants(0.0, 0.0, 0.0);
+    public static final PIDConstants kRotationGains = new PIDConstants(0.0, 0.0, 0.0);
+
+    public static final double kDriveBaseRadius = 0.48; // Drive base radius in meters. Distance from robot center to furthest module.
 
     public static final PIDGains kMovingPIDGains =
         new PIDGains(0.3,0, 0.01);
