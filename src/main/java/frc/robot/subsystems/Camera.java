@@ -4,12 +4,17 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
   PhotonCamera camera;
+  AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+  PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, null);
   /** Creates a new ExampleSubsystem. */
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
@@ -48,6 +55,7 @@ public class Camera extends SubsystemBase {
   @Override
   public void periodic() {
     System.out.println(getTagID());
+    System.out.println(getEstimatedGlobalPose());
   }
 
   @Override
@@ -72,5 +80,9 @@ public class Camera extends SubsystemBase {
     double angle = Math.toRadians(target.getYaw());
     return angle;
     }
+  }
+
+  public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
+    return photonPoseEstimator.update();
   }
 }
