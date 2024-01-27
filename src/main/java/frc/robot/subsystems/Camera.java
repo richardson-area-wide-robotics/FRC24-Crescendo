@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -21,13 +23,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
-  PhotonCamera camera;
+  PhotonCamera camera = new PhotonCamera("camera");
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
   PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, null);
   /** Creates a new ExampleSubsystem. */
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
   }
+
   /**
    * Example command factory method.
    *
@@ -55,7 +58,7 @@ public class Camera extends SubsystemBase {
   @Override
   public void periodic() {
     System.out.println(getTagID());
-    System.out.println(getEstimatedGlobalPose());
+    //System.out.println(getEstimatedGlobalPose());
   }
 
   @Override
@@ -63,11 +66,17 @@ public class Camera extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public int getTagID() {
+  public List<Integer> getTagID() {
     PhotonPipelineResult result = camera.getLatestResult();
-    PhotonTrackedTarget target = result.getBestTarget(); 
-    int id = target.getFiducialId();
-    return id;
+    ArrayList<Integer> targetIds = new ArrayList<Integer>();
+    boolean hasTargets = result.hasTargets();
+    if (hasTargets) {
+      List<PhotonTrackedTarget> targets = result.getTargets();
+      for (int i = 0; i < targets.size(); i++) {
+        targetIds.add(targets.get(i).getFiducialId());
+      }
+    }
+    return targetIds;
   }
 
   public double getYaw() {
