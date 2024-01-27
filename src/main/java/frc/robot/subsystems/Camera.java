@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems;
 
-import java.util.Optional;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -17,55 +17,28 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
-  PhotonCamera camera = new PhotonCamera("camera");
+  PhotonCamera camera;
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
   PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, null);
-  /** Creates a new ExampleSubsystem. */
+
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
-  }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
   }
 
   @Override
   public void periodic() {
     System.out.println(getTagID());
-    //System.out.println(getEstimatedGlobalPose());
+    // System.out.println(getEstimatedGlobalPose());
   }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
-
+  /**
+   * Returns a list of the fiducial IDs of all the AprilTags currently being detected, in an arbitrary order
+   * Returns an empty list if no targets are found
+   * @return
+   */
   public List<Integer> getTagID() {
     PhotonPipelineResult result = camera.getLatestResult();
     ArrayList<Integer> targetIds = new ArrayList<Integer>();
@@ -79,19 +52,12 @@ public class Camera extends SubsystemBase {
     return targetIds;
   }
 
-  public double getYaw() {
-    PhotonPipelineResult result = camera.getLatestResult();
-    PhotonTrackedTarget target = result.getBestTarget();
-    if(target == null) {
-      return 0.0;
-    }
-    else {  
-    double angle = Math.toRadians(target.getYaw());
-    return angle;
-    }
-  }
-
+  /**
+   * Returns the global position of the robot.
+   * @return
+   */
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    return photonPoseEstimator.update();
+    throw new UnsupportedOperationException("Not implemented");
+    //return photonPoseEstimator.update();
   }
 }
