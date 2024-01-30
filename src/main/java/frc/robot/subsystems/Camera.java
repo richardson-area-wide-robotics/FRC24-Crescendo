@@ -17,6 +17,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
@@ -30,7 +31,8 @@ public class Camera extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getTagID());
+    //System.out.println(getTagID());
+    System.out.println(getTransforms());
     // System.out.println(getEstimatedGlobalPose());
   }
 
@@ -42,14 +44,29 @@ public class Camera extends SubsystemBase {
   public List<Integer> getTagID() {
     PhotonPipelineResult result = camera.getLatestResult();
     ArrayList<Integer> targetIds = new ArrayList<Integer>();
-    boolean hasTargets = result.hasTargets();
-    if (hasTargets) {
+    if (result.hasTargets()) {
       List<PhotonTrackedTarget> targets = result.getTargets();
       for (int i = 0; i < targets.size(); i++) {
         targetIds.add(targets.get(i).getFiducialId());
       }
     }
     return targetIds;
+  }
+/**
+ * Returns a list of the distances of all visible AprilTags from the camera in meters
+ * Returns an empty list if no targets are found
+ * @return
+ */
+  public List<Transform3d> getTransforms() {
+    PhotonPipelineResult result = camera.getLatestResult();
+    ArrayList<Transform3d> targetTransforms = new ArrayList<Transform3d>();
+    if (result.hasTargets()) {
+      List<PhotonTrackedTarget> targets = result.getTargets();
+      for (int i = 0; i < targets.size(); i++) {
+        targetTransforms.add(targets.get(i).getBestCameraToTarget());
+      }
+    }
+    return targetTransforms;
   }
 
   /**
