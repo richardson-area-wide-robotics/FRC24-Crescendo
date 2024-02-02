@@ -17,24 +17,38 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
   PhotonCamera camera;
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-  PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, null);
+  PhotonPoseEstimator photonPoseEstimator; 
+  final double cameraOffsetX = 0.254;
+  final double cameraOffsetY = 0;
+  final double cameraOffsetZ = 1.0922;
+  final double cameraPitch = 0.0872;
+  Transform3d cameraToRobot;
 
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
+    this.cameraToRobot = new Transform3d(new Translation3d(cameraOffsetX, cameraOffsetY, cameraOffsetZ), new Rotation3d(0, cameraPitch, 0));
+    this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, cameraToRobot);
   }
 
   @Override
   public void periodic() {
     //System.out.println(getTagID());
-    System.out.println(getTransforms());
-    // System.out.println(getEstimatedGlobalPose());
+    //System.out.println(getTransforms());
+    //System.out.println(getEstimatedGlobalPose());
+
+    final Optional<EstimatedRobotPose> robotPose = getEstimatedGlobalPose();
+    if(robotPose.isPresent()) {
+    System.out.println(robotPose.get().estimatedPose);
   }
+}
 
   /**
    * Returns a list of the fiducial IDs of all the AprilTags currently being detected, in an arbitrary order
@@ -74,7 +88,6 @@ public class Camera extends SubsystemBase {
    * @return
    */
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    throw new UnsupportedOperationException("Not implemented");
-    //return photonPoseEstimator.update();
+    return photonPoseEstimator.update();
   }
 }
