@@ -32,6 +32,6 @@ public final class Constants {
     public static final int shooterLeftCANID = 12;
 
     // TODO: fix import error
-    public static final Measure<Distance> shooterWheelDiameter = units.Units.Inches.of(4.0);
+    public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
   }
 }

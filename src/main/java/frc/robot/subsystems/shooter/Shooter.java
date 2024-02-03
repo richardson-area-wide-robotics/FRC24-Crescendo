@@ -58,8 +58,25 @@ public class Shooter extends SubsystemBase {
         m_shooterRightPIDController.setReference(rightSpeed.in(RPM), CANSparkFlex.ControlType.kVelocity);
     }
 
+    /**
+     * Spins shooter wheels such that the tangential velocity at a point along the circumfrence is the velocity given in meters per second.
+     * @param leftLinear
+     * @param rightLinear
+     */
     private void spinShooterLinear(Measure<Velocity<Distance>> leftLinear, Measure<Velocity<Distance>> rightLinear) {
-        // TODO
+        Measure<Velocity<Angle>> leftAngular = wheelSpeedToRotation(leftLinear, Constants.ShooterConstants.shooterWheelRadius);
+        Measure<Velocity<Angle>> rightAngular = wheelSpeedToRotation(rightLinear, Constants.ShooterConstants.shooterWheelRadius);
+        spinShooterAngular(leftAngular,rightAngular);
+    }
+
+    public Measure<Velocity<Angle>> wheelSpeedToRotation(Measure<Velocity<Distance>> speed, Measure<Distance> radius)
+    {
+       return RadiansPerSecond.of(speed.in(MetersPerSecond)/radius.in(Meters));
+    }
+
+    public Measure<Velocity<Distance>> wheelRotationToSpeed(Measure<Velocity<Angle>> speed, Measure<Distance> radius)
+    {
+       return MetersPerSecond.of(speed.in(RadiansPerSecond)*radius.in(Meters));
     }
 
     // TODO: stop method
@@ -73,7 +90,10 @@ public class Shooter extends SubsystemBase {
     // TODO: speaker shot method
     public void setShootSpeed(Measure<Velocity<Distance>> launchSpeed, Measure<Velocity<Angle>> rotationalSpeed)
     {
-        
+        double num = wheelRotationToSpeed(rotationalSpeed, Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
+        Measure<Velocity<Distance>> leftSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond)-num);
+        Measure<Velocity<Distance>> rightSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond)+num);
+        spinShooterLinear(leftSpeed,rightSpeed);
     }
     
 
