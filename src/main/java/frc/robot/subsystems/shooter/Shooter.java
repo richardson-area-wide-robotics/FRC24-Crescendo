@@ -32,6 +32,7 @@ public class Shooter extends SubsystemBase {
     private SparkPIDController m_shooterLeftPIDController;
     private SparkPIDController m_shooterRightPIDController;
 
+    //desiredPivot should always be in degrees from the horizontal plane.
     private double desiredPivot;
     private Measure<Velocity<Distance>> desiredShotSpeed;
     private Measure<Velocity<Angle>> desiredRotation; 
@@ -91,14 +92,34 @@ public class Shooter extends SubsystemBase {
         spinShooterAngular(leftAngular,rightAngular);
     }
 
+    /**
+     * converts a linear velocity to a rotational speed based on the provided radius.
+     * @param speed
+     * @param radius
+     * @return
+     */
     public Measure<Velocity<Angle>> wheelSpeedToRotation(Measure<Velocity<Distance>> speed, Measure<Distance> radius)
     {
        return RadiansPerSecond.of(speed.in(MetersPerSecond)/radius.in(Meters));
     }
-
+    
+    /**
+     * converts a rotational speed to a linear velocity based on the provided radius.
+     * @param speed
+     * @param radius
+     * @return
+     */
     public Measure<Velocity<Distance>> wheelRotationToSpeed(Measure<Velocity<Angle>> speed, Measure<Distance> radius)
     {
        return MetersPerSecond.of(speed.in(RadiansPerSecond)*radius.in(Meters));
+    }
+    
+    public void idle()
+    {
+        m_shooterLeftMotor.stopMotor();
+        m_shooterRightMotor.stopMotor();
+        m_kickerMotor.stopMotor();
+        spinFeeder(RPM.of(240));
     }
 
     public void stopAll() {
@@ -108,7 +129,6 @@ public class Shooter extends SubsystemBase {
       m_shooterRightMotor.stopMotor();
     }
 
-    // TODO: speaker shot method
     public void setShootSpeed(Measure<Velocity<Distance>> launchSpeed, Measure<Velocity<Angle>> rotationalSpeed)
     {
         double num = wheelRotationToSpeed(rotationalSpeed, Inches.of(12)).in(MetersPerSecond);
@@ -117,7 +137,10 @@ public class Shooter extends SubsystemBase {
         spinShooterLinear(leftSpeed,rightSpeed);
     }
     
-
+    public void anglePivot(double angle)
+    {
+      
+    }
     
     public void calcShotSpeed()
     {
@@ -128,14 +151,19 @@ public class Shooter extends SubsystemBase {
      * Calculates the pivot of the shooter required to shoot in the speaker from the robot's current position.
      * @return
      */
-    public double calcPivot()
+    public void calcPivot()
     {
-        return 0.0;
+        desiredPivot = 0.0;
     }
 
     public void speakerMode()
     {
-
+      calcPivot();
+      calcShotSpeed();
+      //Add a line here to angle the pivot.
+      Measure<Velocity<Distance>> lSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)-wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
+      Measure<Velocity<Distance>> rSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)+wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
+      spinShooterLinear(lSpeed, rSpeed);
     }
 
     /**
@@ -156,6 +184,7 @@ public class Shooter extends SubsystemBase {
     private boolean getIsAtLeftShooterSpeed() {
         double desired = desiredShotSpeed.in(MetersPerSecond)-wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
         double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
+        //Current speed of the left wheel
         double speed = wheelRotationToSpeed(RadiansPerSecond.of(leftShotSpeed.getVelocity()),Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
         if (speed <= desired + tol && speed >= desired - tol)
         {
