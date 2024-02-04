@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.units.Distance;
 import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Angle;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -31,7 +33,10 @@ public final class Constants {
     public static final int shooterRightCANID = 11;
     public static final int shooterLeftCANID = 12;
 
-    // TODO: fix import error
     public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
+    public static final Measure<Velocity<Angle>> kickerSpeed = RPM.of(300.0);
+
+    public static final double pivotToleranceDegrees = 3.6; 
+    public static final Measure<Velocity<Distance>> launchSpeedTolerance = MetersPerSecond.of(0.01); 
   }
 }
