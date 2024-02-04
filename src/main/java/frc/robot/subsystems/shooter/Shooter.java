@@ -32,10 +32,10 @@ public class Shooter extends SubsystemBase {
     private SparkPIDController m_shooterLeftPIDController;
     private SparkPIDController m_shooterRightPIDController;
 
-    //desiredPivot should always be in degrees from the horizontal plane.
+    // desiredPivot should always be in degrees from the horizontal plane.
     private double desiredPivot;
     private Measure<Velocity<Distance>> desiredShotSpeed;
-    private Measure<Velocity<Angle>> desiredRotation; 
+    private Measure<Velocity<Angle>> desiredRotation;
 
     public Shooter() {
         m_feederMotor = new CANSparkMax(Constants.ShooterConstants.feederMotorCANID, MotorType.kBrushless);
@@ -45,34 +45,34 @@ public class Shooter extends SubsystemBase {
 
         m_feederMotor.restoreFactoryDefaults();
         m_kickerMotor.restoreFactoryDefaults();
-        m_shooterLeftMotor .restoreFactoryDefaults();
+        m_shooterLeftMotor.restoreFactoryDefaults();
         m_shooterRightMotor.restoreFactoryDefaults();
 
         m_shooterLeftPIDController = m_shooterLeftMotor.getPIDController();
         m_shooterRightPIDController = m_shooterRightMotor.getPIDController();
         m_kickerPIDController = m_kickerMotor.getPIDController();
         m_feederPIDController = m_feederMotor.getPIDController();
-  
+
         rightShotSpeed = m_shooterRightMotor.getEncoder();
         leftShotSpeed = m_shooterLeftMotor.getEncoder();
-        leftShotSpeed.setVelocityConversionFactor(1/(120*Math.PI));
-        rightShotSpeed.setVelocityConversionFactor(1/(120*Math.PI));
+        leftShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
+        rightShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
         pivotAngle.setPositionConversionFactor(360);
 
         desiredPivot = 0;
-        desiredShotSpeed = MetersPerSecond.of(0.0);    
+        desiredShotSpeed = MetersPerSecond.of(0.0);
         desiredRotation = RadiansPerSecond.of(0.0);
         // Set PID values
     }
 
     // TODO: spinFeeder
-    private void spinFeeder(Measure<Velocity<Angle>> speed){
-       m_feederPIDController.setReference(speed.in(RadiansPerSecond),CANSparkFlex.ControlType.kVelocity);
+    private void spinFeeder(Measure<Velocity<Angle>> speed) {
+        m_feederPIDController.setReference(speed.in(RadiansPerSecond), CANSparkFlex.ControlType.kVelocity);
     }
 
     // TODO: spinKicker
-    private void spinKicker(Measure<Velocity<Angle>> speed){
-       m_kickerPIDController.setReference(speed.in(RadiansPerSecond),CANSparkFlex.ControlType.kVelocity);
+    private void spinKicker(Measure<Velocity<Angle>> speed) {
+        m_kickerPIDController.setReference(speed.in(RadiansPerSecond), CANSparkFlex.ControlType.kVelocity);
     }
 
     // TODO: spinShooter
@@ -82,40 +82,45 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Spins shooter wheels such that the tangential velocity at a point along the circumference is the velocity given in meters per second.
+     * Spins shooter wheels such that the tangential velocity at a point along the
+     * circumference is the velocity given in meters per second.
+     * 
      * @param leftLinear
      * @param rightLinear
      */
     private void spinShooterLinear(Measure<Velocity<Distance>> leftLinear, Measure<Velocity<Distance>> rightLinear) {
-        Measure<Velocity<Angle>> leftAngular = wheelSpeedToRotation(leftLinear, Constants.ShooterConstants.shooterWheelRadius);
-        Measure<Velocity<Angle>> rightAngular = wheelSpeedToRotation(rightLinear, Constants.ShooterConstants.shooterWheelRadius);
-        spinShooterAngular(leftAngular,rightAngular);
+        Measure<Velocity<Angle>> leftAngular = wheelSpeedToRotation(leftLinear,
+                Constants.ShooterConstants.shooterWheelRadius);
+        Measure<Velocity<Angle>> rightAngular = wheelSpeedToRotation(rightLinear,
+                Constants.ShooterConstants.shooterWheelRadius);
+        spinShooterAngular(leftAngular, rightAngular);
     }
 
     /**
-     * converts a linear velocity to a rotational speed based on the provided radius.
+     * converts a linear velocity to a rotational speed based on the provided
+     * radius.
+     * 
      * @param speed
      * @param radius
      * @return
      */
-    public Measure<Velocity<Angle>> wheelSpeedToRotation(Measure<Velocity<Distance>> speed, Measure<Distance> radius)
-    {
-       return RadiansPerSecond.of(speed.in(MetersPerSecond)/radius.in(Meters));
+    public Measure<Velocity<Angle>> wheelSpeedToRotation(Measure<Velocity<Distance>> speed, Measure<Distance> radius) {
+        return RadiansPerSecond.of(speed.in(MetersPerSecond) / radius.in(Meters));
     }
-    
+
     /**
-     * converts a rotational speed to a linear velocity based on the provided radius.
+     * converts a rotational speed to a linear velocity based on the provided
+     * radius.
+     * 
      * @param speed
      * @param radius
      * @return
      */
-    public Measure<Velocity<Distance>> wheelRotationToSpeed(Measure<Velocity<Angle>> speed, Measure<Distance> radius)
-    {
-       return MetersPerSecond.of(speed.in(RadiansPerSecond)*radius.in(Meters));
+    public Measure<Velocity<Distance>> wheelRotationToSpeed(Measure<Velocity<Angle>> speed, Measure<Distance> radius) {
+        return MetersPerSecond.of(speed.in(RadiansPerSecond) * radius.in(Meters));
     }
-    
-    public void idle()
-    {
+
+    public void idle() {
         m_shooterLeftMotor.stopMotor();
         m_shooterRightMotor.stopMotor();
         m_kickerMotor.stopMotor();
@@ -123,90 +128,91 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stopAll() {
-      m_feederMotor.stopMotor();
-      m_kickerMotor.stopMotor();
-      m_shooterLeftMotor.stopMotor();
-      m_shooterRightMotor.stopMotor();
+        m_feederMotor.stopMotor();
+        m_kickerMotor.stopMotor();
+        m_shooterLeftMotor.stopMotor();
+        m_shooterRightMotor.stopMotor();
     }
 
-    public void setShootSpeed(Measure<Velocity<Distance>> launchSpeed, Measure<Velocity<Angle>> rotationalSpeed)
-    {
+    public void setShootSpeed(Measure<Velocity<Distance>> launchSpeed, Measure<Velocity<Angle>> rotationalSpeed) {
         double num = wheelRotationToSpeed(rotationalSpeed, Inches.of(12)).in(MetersPerSecond);
-        Measure<Velocity<Distance>> leftSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond)-num);
-        Measure<Velocity<Distance>> rightSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond)+num);
-        spinShooterLinear(leftSpeed,rightSpeed);
+        Measure<Velocity<Distance>> leftSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond) - num);
+        Measure<Velocity<Distance>> rightSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond) + num);
+        spinShooterLinear(leftSpeed, rightSpeed);
     }
-    
-    public void anglePivot(double angle)
-    {
-      
+
+    public void anglePivot(double angle) {
+
     }
-    
-    public void calcShotSpeed()
-    {
-      desiredShotSpeed = MetersPerSecond.of(4.0);
+
+    public void calcShotSpeed() {
+        desiredShotSpeed = MetersPerSecond.of(4.0);
     }
 
     /**
-     * Calculates the pivot of the shooter required to shoot in the speaker from the robot's current position.
+     * Calculates the pivot of the shooter required to shoot in the speaker from the
+     * robot's current position.
+     * 
      * @return
      */
-    public void calcPivot()
-    {
+    public void calcPivot() {
         desiredPivot = 0.0;
     }
 
-    public void speakerMode()
-    {
-      calcPivot();
-      calcShotSpeed();
-      //Add a line here to angle the pivot.
-      Measure<Velocity<Distance>> lSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)-wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
-      Measure<Velocity<Distance>> rSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)+wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
-      spinShooterLinear(lSpeed, rSpeed);
+    public void speakerMode() {
+        calcPivot();
+        calcShotSpeed();
+        // Add a line here to angle the pivot.
+        Measure<Velocity<Distance>> lSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)
+                - wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
+        Measure<Velocity<Distance>> rSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)
+                + wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
+        spinShooterLinear(lSpeed, rSpeed);
     }
 
     /**
-     * Returns true if the current position of the pivot of the shooter is within the tolerance of the desired pivot angle.
+     * Returns true if the current position of the pivot of the shooter is within
+     * the tolerance of the desired pivot angle.
      * Tolerance in degrees is defined in ShooterConstants.
+     * 
      * @return
      */
     private boolean getIsAtDesiredPivot() {
         double pos = pivotAngle.getPosition();
         double tol = Constants.ShooterConstants.pivotToleranceDegrees;
-        if (pos <= desiredPivot + tol && pos >= desiredPivot - tol)
-        {
-          return true;
+        if (pos <= desiredPivot + tol && pos >= desiredPivot - tol) {
+            return true;
         }
         return false;
     }
 
     private boolean getIsAtLeftShooterSpeed() {
-        double desired = desiredShotSpeed.in(MetersPerSecond)-wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
+        double desired = desiredShotSpeed.in(MetersPerSecond)
+                - wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
         double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
-        //Current speed of the left wheel
-        double speed = wheelRotationToSpeed(RadiansPerSecond.of(leftShotSpeed.getVelocity()),Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
-        if (speed <= desired + tol && speed >= desired - tol)
-        {
-          return true;
+        // Current speed of the left wheel
+        double speed = wheelRotationToSpeed(RadiansPerSecond.of(leftShotSpeed.getVelocity()),
+                Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
+        if (speed <= desired + tol && speed >= desired - tol) {
+            return true;
         }
         return false;
     }
 
     private boolean getIsAtRightShooterSpeed() {
-        double desired = desiredShotSpeed.in(MetersPerSecond)+wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
+        double desired = desiredShotSpeed.in(MetersPerSecond)
+                + wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
         double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
-        double speed = wheelRotationToSpeed(RadiansPerSecond.of(rightShotSpeed.getVelocity()),Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
-        if (speed <= desired + tol && speed >= desired - tol)
-        {
-          return true;
+        double speed = wheelRotationToSpeed(RadiansPerSecond.of(rightShotSpeed.getVelocity()),
+                Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
+        if (speed <= desired + tol && speed >= desired - tol) {
+            return true;
         }
         return false;
     }
 
     private boolean getIsAtShooterSpeed() {
-        if(getIsAtLeftShooterSpeed() && getIsAtRightShooterSpeed())
-        {
+        if (getIsAtLeftShooterSpeed() && getIsAtRightShooterSpeed()) {
             return true;
         }
         return false;
@@ -214,8 +220,7 @@ public class Shooter extends SubsystemBase {
 
     // TODO: speakerFire method
     public void speakerFire() {
-        if(getIsAtShooterSpeed() && getIsAtDesiredPivot())
-        {
+        if (getIsAtShooterSpeed() && getIsAtDesiredPivot()) {
             spinKicker(Constants.ShooterConstants.kickerSpeed);
         }
     }
