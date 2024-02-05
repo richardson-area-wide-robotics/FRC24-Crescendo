@@ -6,10 +6,8 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
@@ -67,12 +65,12 @@ public class Shooter extends SubsystemBase {
 
     // TODO: spinFeeder
     private void spinFeeder(Measure<Velocity<Angle>> speed) {
-        m_feederPIDController.setReference(speed.in(RadiansPerSecond), CANSparkFlex.ControlType.kVelocity);
+        m_feederPIDController.setReference(speed.in(RPM), CANSparkFlex.ControlType.kVelocity);
     }
 
     // TODO: spinKicker
     private void spinKicker(Measure<Velocity<Angle>> speed) {
-        m_kickerPIDController.setReference(speed.in(RadiansPerSecond), CANSparkFlex.ControlType.kVelocity);
+        m_kickerPIDController.setReference(speed.in(RPM), CANSparkFlex.ControlType.kVelocity);
     }
 
     // TODO: spinShooter
@@ -111,7 +109,6 @@ public class Shooter extends SubsystemBase {
     /**
      * converts a rotational speed to a linear velocity based on the provided
      * radius.
-     * 
      * @param speed
      * @param radius
      * @return
@@ -134,7 +131,11 @@ public class Shooter extends SubsystemBase {
         m_shooterRightMotor.stopMotor();
     }
 
+    /**
+     * Spins the shooter wheels based on a given launch speed and rotational speed of the note.
+     */
     public void setShootSpeed(Measure<Velocity<Distance>> launchSpeed, Measure<Velocity<Angle>> rotationalSpeed) {
+        //num represents the change in the linear speed required to rotate the note at the provided rotationalSpeed.
         double num = wheelRotationToSpeed(rotationalSpeed, Inches.of(12)).in(MetersPerSecond);
         Measure<Velocity<Distance>> leftSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond) - num);
         Measure<Velocity<Distance>> rightSpeed = MetersPerSecond.of(launchSpeed.in(MetersPerSecond) + num);
@@ -145,6 +146,12 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * Calculates the output speed of the shooter required to shoot in the speaker from the
+     * robot's current position.
+     * 
+     * Should take in the robots position on the feild given by Swerve Odometry.
+     */
     public void calcShotSpeed() {
         desiredShotSpeed = MetersPerSecond.of(4.0);
     }
@@ -153,12 +160,17 @@ public class Shooter extends SubsystemBase {
      * Calculates the pivot of the shooter required to shoot in the speaker from the
      * robot's current position.
      * 
+     * Should take in the robots position on the feild given by Swerve Odometry.
      * @return
      */
     public void calcPivot() {
         desiredPivot = 0.0;
     }
 
+    /**
+     * While called, angles the pivot of the shooter and sets the shooter to the output speed neccissary
+     * to score from the bot's distance from the shooter. However, does not shoot the note. 
+     */
     public void speakerMode() {
         calcPivot();
         calcShotSpeed();
@@ -203,6 +215,7 @@ public class Shooter extends SubsystemBase {
         double desired = desiredShotSpeed.in(MetersPerSecond)
                 + wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
         double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
+        // Current speed of the right wheel
         double speed = wheelRotationToSpeed(RadiansPerSecond.of(rightShotSpeed.getVelocity()),
                 Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
         if (speed <= desired + tol && speed >= desired - tol) {
@@ -218,8 +231,12 @@ public class Shooter extends SubsystemBase {
         return false;
     }
 
-    // TODO: speakerFire method
+    /**
+     * Spins the kicker enough to fire only when the shooter is at the neccissary launch speed and pivot angle.
+     */
     public void speakerFire() {
+        calcPivot();
+        calcShotSpeed();
         if (getIsAtShooterSpeed() && getIsAtDesiredPivot()) {
             spinKicker(Constants.ShooterConstants.kickerSpeed);
         }
