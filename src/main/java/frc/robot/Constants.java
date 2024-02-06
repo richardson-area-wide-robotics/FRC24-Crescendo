@@ -28,10 +28,13 @@ public final class Constants {
 
   // TODO: shooter constants
   public static class ShooterConstants {
-    public static final int feederMotorCANID = 9;
-    public static final int kickerMotorCANID = 10;
-    public static final int shooterRightCANID = 11;
-    public static final int shooterLeftCANID = 12;
+    public static final int feederMotorCANID = 10;
+    public static final int kickerMotorCANID = 11;
+    public static final int shooterRightCANID = 12;
+    public static final int shooterLeftCANID = 13;
+
+    public static final int pivotRightCANID = 8;
+    public static final int pivotLeftCANID = 9;
 
     public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
     public static final Measure<Velocity<Angle>> kickerSpeed = RPM.of(300.0);
