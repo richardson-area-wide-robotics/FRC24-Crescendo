@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
     private SparkPIDController m_shooterRightPIDController;
 
     // desiredPivot should always be in degrees from the horizontal plane.
-    private double desiredPivot;
+    private Measure<Angle> desiredPivotAngle;
     private Measure<Velocity<Distance>> desiredShotSpeed;
     private Measure<Velocity<Angle>> desiredRotation;
 
@@ -57,7 +57,7 @@ public class Shooter extends SubsystemBase {
         rightShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
         pivotAngle.setPositionConversionFactor(360);
 
-        desiredPivot = 0;
+        desiredPivotAngle = Degrees.of(0);
         desiredShotSpeed = MetersPerSecond.of(0.0);
         desiredRotation = RadiansPerSecond.of(0.0);
         // Set PID values
@@ -164,7 +164,7 @@ public class Shooter extends SubsystemBase {
      * @return
      */
     public void calcPivot() {
-        desiredPivot = 0.0;
+        desiredPivotAngle = Degrees.of(0.0);
     }
 
     /**
@@ -189,10 +189,10 @@ public class Shooter extends SubsystemBase {
      * 
      * @return
      */
-    private boolean getIsAtDesiredPivot() {
+    private boolean getIsAtDesiredPivotAngle() {
         double pos = pivotAngle.getPosition();
         double tol = Constants.ShooterConstants.pivotToleranceDegrees;
-        if (pos <= desiredPivot + tol && pos >= desiredPivot - tol) {
+        if (pos <= desiredPivotAngle.in(Degrees) + tol && pos >= desiredPivotAngle.in(Degrees) - tol) {
             return true;
         }
         return false;
@@ -237,7 +237,7 @@ public class Shooter extends SubsystemBase {
     public void speakerFire() {
         calcPivot();
         calcShotSpeed();
-        if (getIsAtShooterSpeed() && getIsAtDesiredPivot()) {
+        if (getIsAtShooterSpeed() && getIsAtDesiredPivotAngle()) {
             spinKicker(Constants.ShooterConstants.kickerSpeed);
         }
     }
