@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
     // desiredPivot should always be in degrees from the horizontal plane.
     private Measure<Angle> desiredPivotAngle;
     private Measure<Velocity<Distance>> desiredShotSpeed;
-    private Measure<Velocity<Angle>> desiredRotation;
+    private Measure<Velocity<Angle>> desiredRotationSpeed;
 
     public Shooter() {
         m_feederMotor = new CANSparkMax(Constants.ShooterConstants.feederMotorCANID, MotorType.kBrushless);
@@ -59,7 +59,7 @@ public class Shooter extends SubsystemBase {
 
         desiredPivotAngle = Degrees.of(0);
         desiredShotSpeed = MetersPerSecond.of(0.0);
-        desiredRotation = RadiansPerSecond.of(0.0);
+        desiredRotationSpeed = RadiansPerSecond.of(0.0);
         // Set PID values
     }
 
@@ -176,9 +176,9 @@ public class Shooter extends SubsystemBase {
         calcShotSpeed();
         // Add a line here to angle the pivot.
         Measure<Velocity<Distance>> lSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)
-                - wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
+                - wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond));
         Measure<Velocity<Distance>> rSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)
-                + wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond));
+                + wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond));
         spinShooterLinear(lSpeed, rSpeed);
     }
 
@@ -200,7 +200,7 @@ public class Shooter extends SubsystemBase {
 
     private boolean getIsAtLeftShooterSpeed() {
         double desired = desiredShotSpeed.in(MetersPerSecond)
-                - wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
+                - wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond);
         double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
         // Current speed of the left wheel
         double speed = wheelRotationToSpeed(RadiansPerSecond.of(leftShotSpeed.getVelocity()),
@@ -213,7 +213,7 @@ public class Shooter extends SubsystemBase {
 
     private boolean getIsAtRightShooterSpeed() {
         double desired = desiredShotSpeed.in(MetersPerSecond)
-                + wheelRotationToSpeed(desiredRotation, Inches.of(12)).in(MetersPerSecond);
+                + wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond);
         double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
         // Current speed of the right wheel
         double speed = wheelRotationToSpeed(RadiansPerSecond.of(rightShotSpeed.getVelocity()),
