@@ -39,7 +39,20 @@ public final class Constants {
     public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
     public static final Measure<Velocity<Angle>> kickerSpeed = RPM.of(300.0);
 
-    public static final double pivotToleranceDegrees = 3.6; 
     public static final Measure<Velocity<Distance>> launchSpeedTolerance = MetersPerSecond.of(0.01); 
+
+    public static class Pivot {
+      public static final double P = 0.0;
+      public static final double I = 0.0;
+      public static final double D = 0.0;
+
+      public static final Measure<Angle> toleranceAngle = Degrees.of(3.6); 
+
+      // smallest angle (between hardstop and shooter) that the shooter can pivot to
+      public static final Measure<Angle> minAngle = Degrees.of(5.0); // TBD
+
+      // highest angle (between hardstop and shooter) that the shooter can pivot to
+      public static final Measure<Angle> maxAngle = Degrees.of(45.0); // TBD
+    }
   }
 }

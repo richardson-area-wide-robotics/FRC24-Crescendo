@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder;
 
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +22,10 @@ public class Shooter extends SubsystemBase {
     private CANSparkFlex m_shooterLeftMotor;
     private CANSparkFlex m_shooterRightMotor;
 
-    private AbsoluteEncoder pivotAngle;
+    private CANSparkFlex m_pivotLeftMotor;
+    private CANSparkFlex m_pivotRightMotor;
+
+    private AbsoluteEncoder pivotEncoder;
     private RelativeEncoder leftShotSpeed;
     private RelativeEncoder rightShotSpeed;
 
@@ -29,8 +33,8 @@ public class Shooter extends SubsystemBase {
     private SparkPIDController m_kickerPIDController;
     private SparkPIDController m_shooterLeftPIDController;
     private SparkPIDController m_shooterRightPIDController;
+    private SparkPIDController m_pivotPIDController;
 
-    // desiredPivot should always be in degrees from the horizontal plane.
     private Measure<Angle> desiredPivotAngle;
     private Measure<Velocity<Distance>> desiredShotSpeed;
     private Measure<Velocity<Angle>> desiredRotationSpeed;
@@ -40,27 +44,53 @@ public class Shooter extends SubsystemBase {
         m_kickerMotor = new CANSparkFlex(Constants.ShooterConstants.kickerMotorCANID, MotorType.kBrushless);
         m_shooterLeftMotor = new CANSparkFlex(Constants.ShooterConstants.shooterLeftCANID, MotorType.kBrushless);
         m_shooterRightMotor = new CANSparkFlex(Constants.ShooterConstants.shooterRightCANID, MotorType.kBrushless);
+        m_pivotLeftMotor = new CANSparkFlex(Constants.ShooterConstants.pivotLeftCANID, MotorType.kBrushless);
+        m_pivotRightMotor = new CANSparkFlex(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
 
         m_feederMotor.restoreFactoryDefaults();
         m_kickerMotor.restoreFactoryDefaults();
         m_shooterLeftMotor.restoreFactoryDefaults();
         m_shooterRightMotor.restoreFactoryDefaults();
+        m_pivotLeftMotor.restoreFactoryDefaults();
+        m_pivotRightMotor.restoreFactoryDefaults();
+
+        m_pivotRightMotor.setInverted( true );
+        m_pivotRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        m_pivotRightMotor.setSmartCurrentLimit(0);
+
+        m_pivotLeftMotor.follow(m_pivotRightMotor);
 
         m_shooterLeftPIDController = m_shooterLeftMotor.getPIDController();
         m_shooterRightPIDController = m_shooterRightMotor.getPIDController();
         m_kickerPIDController = m_kickerMotor.getPIDController();
         m_feederPIDController = m_feederMotor.getPIDController();
+        m_pivotPIDController = m_pivotRightMotor.getPIDController();
 
         rightShotSpeed = m_shooterRightMotor.getEncoder();
         leftShotSpeed = m_shooterLeftMotor.getEncoder();
+        pivotEncoder = m_pivotRightMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+
         leftShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
         rightShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
-        pivotAngle.setPositionConversionFactor(360);
 
         desiredPivotAngle = Degrees.of(0);
         desiredShotSpeed = MetersPerSecond.of(0.0);
         desiredRotationSpeed = RadiansPerSecond.of(0.0);
+
         // Set PID values
+        m_pivotPIDController.setFeedbackDevice(pivotEncoder);
+        m_pivotPIDController.setPositionPIDWrappingEnabled(false); // Based on 2023 Code, not sure if needed
+        m_pivotPIDController.setP(Constants.ShooterConstants.Pivot.P);
+        m_pivotPIDController.setI(Constants.ShooterConstants.Pivot.I);
+        m_pivotPIDController.setD(Constants.ShooterConstants.Pivot.D);
+
+
+        m_feederMotor.burnFlash();
+        m_kickerMotor.burnFlash();
+        m_shooterLeftMotor.burnFlash();
+        m_shooterRightMotor.burnFlash();
+        m_pivotLeftMotor.burnFlash();
+        m_pivotRightMotor.burnFlash();
     }
 
     // TODO: spinFeeder
@@ -129,6 +159,8 @@ public class Shooter extends SubsystemBase {
         m_kickerMotor.stopMotor();
         m_shooterLeftMotor.stopMotor();
         m_shooterRightMotor.stopMotor();
+        m_pivotRightMotor.stopMotor();
+        m_pivotLeftMotor.stopMotor();
     }
 
     /**
@@ -142,8 +174,11 @@ public class Shooter extends SubsystemBase {
         spinShooterLinear(leftSpeed, rightSpeed);
     }
 
-    public void anglePivot(double angle) {
-
+    /** 
+     * Pivots the shooter to a given angle about the axis of the absolute encoder. 
+     */
+    public void pivotTo(Measure<Angle> angle) {
+        m_pivotPIDController.setReference(angle.in(Rotations), CANSparkFlex.ControlType.kPosition);
     }
 
     /**
@@ -190,12 +225,10 @@ public class Shooter extends SubsystemBase {
      * @return
      */
     private boolean getIsAtDesiredPivotAngle() {
-        double pos = pivotAngle.getPosition();
-        double tol = Constants.ShooterConstants.pivotToleranceDegrees;
-        if (pos <= desiredPivotAngle.in(Degrees) + tol && pos >= desiredPivotAngle.in(Degrees) - tol) {
-            return true;
-        }
-        return false;
+        Measure<Angle> currentAngle = Rotations.of(pivotEncoder.getPosition());
+        Measure<Angle> toleranceAngle = Constants.ShooterConstants.Pivot.toleranceAngle;
+        
+        return Math.abs(currentAngle.in(Degrees) - desiredPivotAngle.in(Degrees)) <= toleranceAngle.in(Degrees);
     }
 
     private boolean getIsAtLeftShooterSpeed() {
@@ -242,4 +275,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    public Measure<Angle> getCurrentPivotAngle() {
+        return Rotations.of(pivotEncoder.getPosition());
+    }
 }
