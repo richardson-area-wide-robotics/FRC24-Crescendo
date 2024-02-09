@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -60,6 +61,19 @@ public class RobotContainer {
         .b()
         .whileTrue(Commands.run(() -> {
           m_shooter.speakerMode();
+        }, m_shooter));
+
+    // Temporary pivot button bindings for testing
+    m_driverController
+        .leftBumper()
+        .onTrue(Commands.run(() -> {
+          m_shooter.pivotTo(Degrees.of(10.0));
+        }, m_shooter));
+
+    m_driverController
+        .rightBumper()
+        .onTrue(Commands.run(() -> {
+          m_shooter.pivotTo(Degrees.of(45.0));
         }, m_shooter));
   }
 
