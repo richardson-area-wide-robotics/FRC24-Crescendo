@@ -4,15 +4,13 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.shooter.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,17 +23,17 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final XboxController m_driverController =
-      new XboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
 
-    m_shooter.setDefaultCommand(new RunCommand(
-            () -> m_shooter.idle(),
-            m_shooter));
+    m_shooter.setDefaultCommand(Commands.run(() -> {
+      m_shooter.idle();
+    }, m_shooter));
   }
 
   /**
@@ -48,15 +46,21 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(m_driverController, Button.kCross.value)
-        .onTrue(new RunCommand(
-            () -> m_shooter.speakerFire(),
-            m_shooter));
+    // Reset button bindings
+    CommandScheduler.getInstance().getActiveButtonLoop().clear();
+    
+    // Temporary shooter button bindings
+    m_driverController
+        .a()
+        .onTrue(Commands.run(() -> {
+          m_shooter.speakerFire();
+        }, m_shooter));
 
-    new JoystickButton(m_driverController, Button.kTriangle.value)
-        .whileTrue(new RunCommand(
-            () -> m_shooter.speakerMode(),
-            m_shooter));
+    m_driverController
+        .b()
+        .whileTrue(Commands.run(() -> {
+          m_shooter.speakerMode();
+        }, m_shooter));
   }
 
   /**
