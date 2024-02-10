@@ -22,8 +22,8 @@ public class Shooter extends SubsystemBase {
     private CANSparkFlex m_shooterLeftMotor;
     private CANSparkFlex m_shooterRightMotor;
 
-    private CANSparkFlex m_pivotLeftMotor;
-    private CANSparkFlex m_pivotRightMotor;
+    private CANSparkMax m_pivotLeftMotor;
+    private CANSparkMax m_pivotRightMotor;
 
     private AbsoluteEncoder pivotEncoder;
     private RelativeEncoder leftShotSpeed;
@@ -44,8 +44,8 @@ public class Shooter extends SubsystemBase {
         m_kickerMotor = new CANSparkFlex(Constants.ShooterConstants.kickerMotorCANID, MotorType.kBrushless);
         m_shooterLeftMotor = new CANSparkFlex(Constants.ShooterConstants.shooterLeftCANID, MotorType.kBrushless);
         m_shooterRightMotor = new CANSparkFlex(Constants.ShooterConstants.shooterRightCANID, MotorType.kBrushless);
-        m_pivotLeftMotor = new CANSparkFlex(Constants.ShooterConstants.pivotLeftCANID, MotorType.kBrushless);
-        m_pivotRightMotor = new CANSparkFlex(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
+        m_pivotLeftMotor = new CANSparkMax(Constants.ShooterConstants.pivotLeftCANID, MotorType.kBrushless);
+        m_pivotRightMotor = new CANSparkMax(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
 
         m_feederMotor.restoreFactoryDefaults();
         m_kickerMotor.restoreFactoryDefaults();
@@ -59,6 +59,9 @@ public class Shooter extends SubsystemBase {
         m_pivotRightMotor.setSmartCurrentLimit(0);
 
         m_pivotLeftMotor.follow(m_pivotRightMotor);
+        m_pivotLeftMotor.setInverted(true);
+
+        m_shooterLeftMotor.setInverted(true);
 
         m_shooterLeftPIDController = m_shooterLeftMotor.getPIDController();
         m_shooterRightPIDController = m_shooterRightMotor.getPIDController();
@@ -70,20 +73,14 @@ public class Shooter extends SubsystemBase {
         leftShotSpeed = m_shooterLeftMotor.getEncoder();
         pivotEncoder = m_pivotRightMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-        leftShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
-        rightShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
+        //leftShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
+        //rightShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
 
         desiredPivotAngle = Degrees.of(0);
         desiredShotSpeed = MetersPerSecond.of(0.0);
         desiredRotationSpeed = RadiansPerSecond.of(0.0);
 
-        // Set PID values
-        m_pivotPIDController.setFeedbackDevice(pivotEncoder);
-        m_pivotPIDController.setPositionPIDWrappingEnabled(false); // Based on 2023 Code, not sure if needed
-        m_pivotPIDController.setP(Constants.ShooterConstants.Pivot.P);
-        m_pivotPIDController.setI(Constants.ShooterConstants.Pivot.I);
-        m_pivotPIDController.setD(Constants.ShooterConstants.Pivot.D);
-
+        setPIDValues();
 
         m_feederMotor.burnFlash();
         m_kickerMotor.burnFlash();
@@ -135,6 +132,24 @@ public class Shooter extends SubsystemBase {
     public Measure<Velocity<Angle>> wheelSpeedToRotation(Measure<Velocity<Distance>> speed, Measure<Distance> radius) {
         return RadiansPerSecond.of(speed.in(MetersPerSecond) / radius.in(Meters));
     }
+    
+    private void setPIDValues()
+    {
+        m_pivotPIDController.setFeedbackDevice(pivotEncoder);
+        m_pivotPIDController.setPositionPIDWrappingEnabled(false); // Based on 2023 Code, not sure if needed
+        m_pivotPIDController.setP(Constants.ShooterConstants.Pivot.P);
+        m_pivotPIDController.setI(Constants.ShooterConstants.Pivot.I);
+        m_pivotPIDController.setD(Constants.ShooterConstants.Pivot.D);
+
+        m_shooterRightPIDController.setP(Constants.ShooterConstants.Pivot.P);
+        m_shooterRightPIDController.setI(Constants.ShooterConstants.Pivot.I);
+        m_shooterRightPIDController.setD(Constants.ShooterConstants.Pivot.D);
+
+        m_shooterLeftPIDController.setP(Constants.ShooterConstants.Pivot.P);
+        m_shooterLeftPIDController.setI(Constants.ShooterConstants.Pivot.I);
+        m_shooterLeftPIDController.setD(Constants.ShooterConstants.Pivot.D);
+    }
+    
 
     /**
      * converts a rotational speed to a linear velocity based on the provided
@@ -188,18 +203,23 @@ public class Shooter extends SubsystemBase {
      * Should take in the robots position on the feild given by Swerve Odometry.
      */
     public void calcShotSpeed() {
-        desiredShotSpeed = MetersPerSecond.of(4.0);
+        desiredShotSpeed = MetersPerSecond.of(4);
+        System.out.println(desiredShotSpeed);
+        System.out.println("Rotations per second: "+4/Math.pow(0.05*Math.PI,2));
+        System.out.println("Actual RPM: "+rightShotSpeed.getVelocity());
+        System.out.println("Expected RPM: "+4/(0.05*Math.PI*2)*60);
     }
 
     /**
      * Calculates the pivot of the shooter required to shoot in the speaker from the
      * robot's current position.
      * 
-     * Should take in the robots position on the feild given by Swerve Odometry.
+     * Should take in the robots position on the field given by Swerve Odometry.
      * @return
      */
     public void calcPivot() {
         desiredPivotAngle = Degrees.of(0.0);
+        System.out.println(desiredPivotAngle);
     }
 
     /**
@@ -209,13 +229,17 @@ public class Shooter extends SubsystemBase {
     public void speakerMode() {
         calcPivot();
         calcShotSpeed();
-        // Add a line here to angle the pivot.
-        Measure<Velocity<Distance>> lSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)
-                - wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond));
-        Measure<Velocity<Distance>> rSpeed = MetersPerSecond.of(desiredShotSpeed.in(MetersPerSecond)
-                + wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond));
-        spinShooterLinear(lSpeed, rSpeed);
+        //System.out.println(leftShotSpeed.getVelocity());
+        //System.out.println(rightShotSpeed.getVelocity());
+        m_shooterRightPIDController.setReference(Math.pow(Math.PI*2,2)*desiredShotSpeed.in(MetersPerSecond), CANSparkFlex.ControlType.kVelocity);
+        //m_shooterRightPIDController.setReference(wheelSpeedToRotation(desiredShotSpeed,Inches.of(2)).in(RPM), CANSparkFlex.ControlType.kVelocity);
+        //setShootSpeed(desiredShotSpeed, desiredRotationSpeed);
     }
+
+    /*public void speakerMode(){
+        m_shooterLeftPIDController.setReference(120, CANSparkFlex.ControlType.kVelocity);
+        //m_shooterRightPIDController.setReference(120, CANSparkFlex.ControlType.kVelocity);
+    }*/
 
     /**
      * Returns true if the current position of the pivot of the shooter is within

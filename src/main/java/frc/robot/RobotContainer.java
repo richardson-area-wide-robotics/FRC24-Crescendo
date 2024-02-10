@@ -60,8 +60,8 @@ public class RobotContainer {
     m_driverController
         .b()
         .whileTrue(Commands.run(() -> {
-          m_shooter.speakerMode();
-        }, m_shooter));
+          m_shooter.speakerMode();}
+        , m_shooter));
 
     // Temporary pivot button bindings for testing
     m_driverController
