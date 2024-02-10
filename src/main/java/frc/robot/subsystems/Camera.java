@@ -26,15 +26,19 @@ public class Camera extends SubsystemBase {
   PhotonCamera camera;
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
   PhotonPoseEstimator photonPoseEstimator; 
-  final double cameraOffsetX = 0.254;
-  final double cameraOffsetY = 0;
-  final double cameraOffsetZ = 1.0922;
-  final double cameraPitch = 0.0872;
+  //meters
+  final double cameraOffsetX = -0.33655;
+  final double cameraOffsetY = -0.01016;
+  final double cameraOffsetZ = 0.0889;
+  //radians
+  final double cameraRoll = 0;
+  final double cameraPitch = 0;
+  final double cameraYaw = 0;
   Transform3d cameraToRobot;
 
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
-    this.cameraToRobot = new Transform3d(new Translation3d(cameraOffsetX, cameraOffsetY, cameraOffsetZ), new Rotation3d(0, cameraPitch, 0));
+    this.cameraToRobot = new Transform3d(new Translation3d(cameraOffsetX, cameraOffsetY, cameraOffsetZ), new Rotation3d(cameraRoll, cameraPitch, cameraYaw));
     this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, cameraToRobot);
   }
 
@@ -45,7 +49,7 @@ public class Camera extends SubsystemBase {
     //System.out.println(getEstimatedGlobalPose());
 
     final Optional<EstimatedRobotPose> robotPose = getEstimatedGlobalPose();
-    if(robotPose.isPresent()) {
+    if (robotPose.isPresent()) {
     System.out.println(robotPose.get().estimatedPose);
   }
 }
