@@ -1,10 +1,11 @@
 package frc.lib.swerve;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import frc.lib.controller.FFGains;
@@ -22,8 +23,8 @@ public class SwerveTurnConfig {
             FFGains FFValues,
             int currentLimit) {
 
-        turnMotor = new CANSparkMax(turnMotorID, CANSparkMax.MotorType.kBrushless);
-        SparkMaxAbsoluteEncoder enc = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
+        SparkAbsoluteEncoder enc = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
         turnMotor.restoreFactoryDefaults();
@@ -55,7 +56,7 @@ public class SwerveTurnConfig {
         enc.setVelocityConversionFactor(Constants.ModuleConstants.kTurningEncoderVelocityFactor);
 
         // Set the PID gains for the driving motor.
-        SparkMaxPIDController controller = turnMotor.getPIDController();
+        SparkPIDController controller = turnMotor.getPIDController();
         controller.setFeedbackDevice(enc);
         controller.setOutputRange(Constants.ModuleConstants.kTurningMinOutput,
                 Constants.ModuleConstants.kTurningMaxOutput);

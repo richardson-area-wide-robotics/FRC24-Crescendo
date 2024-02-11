@@ -1,8 +1,9 @@
 package frc.lib.swerve;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.lib.controller.FFGains;
@@ -11,7 +12,7 @@ import frc.robot.Constants;
 
 public class SwerveDriveConfig {
 
-    public CANSparkMax m_driveMotor;
+    public CANSparkFlex m_driveMotor;
     public SimpleMotorFeedforward m_driveFFController;
 
     /**
@@ -25,7 +26,7 @@ public class SwerveDriveConfig {
             PIDGains PIDValues,
             FFGains FFValues) {
 
-        m_driveMotor = new CANSparkMax(sparkId, CANSparkMax.MotorType.kBrushless);
+        m_driveMotor = new CANSparkFlex(sparkId, MotorType.kBrushless);
         RelativeEncoder enc = m_driveMotor.getEncoder();
 
         // Factory reset, so we get the SPARKS MAX to a known state before configuring
@@ -50,7 +51,7 @@ public class SwerveDriveConfig {
         enc.setVelocityConversionFactor(Constants.ModuleConstants.kDrivingEncoderVelocityFactor);
 
         // Set the PID gains for the driving motor.
-        SparkMaxPIDController controller = m_driveMotor.getPIDController();
+        SparkPIDController controller = m_driveMotor.getPIDController();
         controller.setFeedbackDevice(enc);
         controller.setP(PIDValues.P);
         controller.setI(PIDValues.I);
