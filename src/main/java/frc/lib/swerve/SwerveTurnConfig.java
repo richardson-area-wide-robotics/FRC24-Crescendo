@@ -14,16 +14,16 @@ import frc.robot.Constants;
 
 public class SwerveTurnConfig {
 
-    public CANSparkMax turnMotor;
+//     public CANSparkMax turnMotor;
     public ArmFeedforward FFController;
 
     public SwerveTurnConfig(
-            int turnMotorID,
+            CANSparkMax turnMotor,
             PIDGains PIDValues,
             FFGains FFValues,
             int currentLimit) {
 
-        turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
+        // turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         SparkAbsoluteEncoder enc = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
         // Factory reset, so we get the SPARKS MAX to a known state before configuring

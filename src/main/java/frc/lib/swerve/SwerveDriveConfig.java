@@ -12,7 +12,7 @@ import frc.robot.Constants;
 
 public class SwerveDriveConfig {
 
-    public CANSparkFlex m_driveMotor;
+//     public CANSparkFlex m_driveMotor;
     public SimpleMotorFeedforward m_driveFFController;
 
     /**
@@ -22,11 +22,11 @@ public class SwerveDriveConfig {
      * @param FFGains   Feed Forward controller values
      */
     public SwerveDriveConfig(
-            int sparkId,
+            CANSparkFlex m_driveMotor,
             PIDGains PIDValues,
             FFGains FFValues) {
 
-        m_driveMotor = new CANSparkFlex(sparkId, MotorType.kBrushless);
+        // m_driveMotor = new CANSparkFlex(sparkId, MotorType.kBrushless);
         RelativeEncoder enc = m_driveMotor.getEncoder();
 
         // Factory reset, so we get the SPARKS MAX to a known state before configuring

@@ -44,12 +44,12 @@ public class MAXSwerveModule implements SwerveModule {
     m_drivingMotor = new CANSparkFlex(constants.driveMotorID, MotorType.kBrushless);
     m_drivingEncoder = m_drivingMotor.getEncoder();
     m_drivingPIDController = m_drivingMotor.getPIDController();
-    driveConfig = new SwerveDriveConfig(constants.driveMotorID, Constants.ModuleConstants.kDrivingPIDGains, Constants.ModuleConstants.kDrivingFFGains);
+    driveConfig = new SwerveDriveConfig(m_drivingMotor, Constants.ModuleConstants.kDrivingPIDGains, Constants.ModuleConstants.kDrivingFFGains);
 
     m_turningMotor = new CANSparkMax(constants.angleMotorID, MotorType.kBrushless);
     m_turningEncoder = m_turningMotor.getAbsoluteEncoder(Type.kDutyCycle);
     m_turningPIDController = m_turningMotor.getPIDController();
-    turningConfig = new SwerveTurnConfig(constants.angleMotorID, Constants.ModuleConstants.kTurningPIDGains, Constants.ModuleConstants.kTurningFFGains, Constants.ModuleConstants.kTurningMotorCurrentLimit);
+    turningConfig = new SwerveTurnConfig(m_turningMotor, Constants.ModuleConstants.kTurningPIDGains, Constants.ModuleConstants.kTurningFFGains, Constants.ModuleConstants.kTurningMotorCurrentLimit);
 
     m_chassisAngularOffset = constants.angleOffset;
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
