@@ -166,7 +166,7 @@ public final class Constants {
     public static final double kDrivingMaxOutput = 1.0;
 
     public static final PIDGains kTurningPIDGains =
-        new PIDGains(3.75, 0, 0.35); // TODO: tune values for the turning motor
+        new PIDGains(3.15, 0, 0.35); // TODO: tune values for the turning motor
     public static final FFGains kTurningFFGains = new FFGains(0,0, 0);
     public static final double kTurningFF = 0.0; // TODO: tune values for Feed Forward
     public static final double kTurningMinOutput = -1.0;
@@ -200,8 +200,9 @@ public final class Constants {
     public static final PIDController kPThetaController = new PIDController(8.0, 0, 0.75);
 
     // PID constants for new Pathplanner code
-    public static final PIDConstants kTranslationGains = new PIDConstants(0.0, 0.0, 0.0);
-    public static final PIDConstants kRotationGains = new PIDConstants(0.0, 0.0, 0.0);
+    // TODO: tune these values
+    public static final PIDConstants kTranslationGains = new PIDConstants(.05, 0.0, 0.0);
+    public static final PIDConstants kRotationGains = new PIDConstants(3, 0.0, .35);
 
     public static final double kDriveBaseRadius = 0.48; // Drive base radius in meters. Distance from robot center to furthest module.
 
