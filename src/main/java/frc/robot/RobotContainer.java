@@ -5,7 +5,9 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import java.util.function.DoubleSupplier;
@@ -125,7 +127,9 @@ public class RobotContainer {
   public Command getAutonomousCommand(){
     // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
     // return AutoChooser.getAuton();
-    return new PathPlannerAuto("test");
+    PathPlannerPath path = PathPlannerPath.fromPathFile("example");
+    return AutoBuilder.followPath(path);
+    // return new PathPlannerAuto("test");
   }
 
   /**

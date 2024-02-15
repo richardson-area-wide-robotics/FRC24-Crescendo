@@ -4,8 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
-
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -203,6 +204,10 @@ public final class Constants {
     // TODO: tune these values
     public static final PIDConstants kTranslationGains = new PIDConstants(.05, 0.0, 0.0);
     public static final PIDConstants kRotationGains = new PIDConstants(3, 0.0, .35);
+
+    public static final HolonomicPathFollowerConfig kPathFollowerConfig =
+        new HolonomicPathFollowerConfig(
+          kTranslationGains, kRotationGains , kMaxSpeedMetersPerSecond, SwerveDriveConstants.kDriveRadius, new ReplanningConfig());
 
     public static final double kDriveBaseRadius = 0.48; // Drive base radius in meters. Distance from robot center to furthest module.
 
