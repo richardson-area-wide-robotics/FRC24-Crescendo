@@ -36,6 +36,7 @@ public final class Constants {
     public static final int pivotRightCANID = 9;
     public static final int pivotLeftCANID = 10;
 
+    public static final Measure<Distance> horizontalNoteCompression = Inches.of(12.0);
     public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
     public static final Measure<Velocity<Angle>> kickerSpeed = RPM.of(300.0);
 
@@ -54,5 +55,24 @@ public final class Constants {
       // highest angle (between hardstop and shooter) that the shooter can pivot to
       public static final Measure<Angle> maxAngle = Degrees.of(45.0); // TBD
     }
+
+    public static class Feeder {
+      public static final double P = 0;
+      public static final double I = 0;
+      public static final double D = 0;
+    }
+
+    public static class Kicker {
+      public static final double P = 0;
+      public static final double I = 0;
+      public static final double D = 0;
+    }
+    
+    public static class Shooter {
+      public static final double P = 0.0007;
+      public static final double I = 0.0;
+      public static final double D = 0.001;
+    }
+
   }
 }
