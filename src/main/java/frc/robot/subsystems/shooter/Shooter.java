@@ -1,20 +1,27 @@
 package frc.robot.subsystems.shooter;
 
-import com.revrobotics.RelativeEncoder;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkPIDController;
 
-import frc.robot.Constants;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
-import static edu.wpi.first.units.Units.*;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
     private CANSparkMax m_feederMotor;
@@ -25,9 +32,9 @@ public class Shooter extends SubsystemBase {
     private CANSparkMax m_pivotLeftMotor;
     private CANSparkMax m_pivotRightMotor;
 
-    private AbsoluteEncoder pivotEncoder;
-    private RelativeEncoder leftShotSpeed;
-    private RelativeEncoder rightShotSpeed;
+    private AbsoluteEncoder m_pivotEncoder;
+    private RelativeEncoder m_shooterLeftEncoder;
+    private RelativeEncoder m_shooterRightEncoder;
 
     private SparkPIDController m_feederPIDController;
     private SparkPIDController m_kickerPIDController;
@@ -69,12 +76,12 @@ public class Shooter extends SubsystemBase {
         m_feederPIDController = m_feederMotor.getPIDController();
         m_pivotPIDController = m_pivotRightMotor.getPIDController();
 
-        rightShotSpeed = m_shooterRightMotor.getEncoder();
-        leftShotSpeed = m_shooterLeftMotor.getEncoder();
-        pivotEncoder = m_pivotRightMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+        m_shooterRightEncoder = m_shooterRightMotor.getEncoder();
+        m_shooterLeftEncoder = m_shooterLeftMotor.getEncoder();
+        m_pivotEncoder = m_pivotRightMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-        //leftShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
-        //rightShotSpeed.setVelocityConversionFactor(1 / (120 * Math.PI));
+        //m_shooterLeftEncoder.setVelocityConversionFactor(1 / (120 * Math.PI));
+        //m_shooterRightEncoder.setVelocityConversionFactor(1 / (120 * Math.PI));
 
         desiredPivotAngle = Degrees.of(0);
         desiredShotSpeed = MetersPerSecond.of(0.0);
@@ -135,19 +142,27 @@ public class Shooter extends SubsystemBase {
     
     private void setPIDValues()
     {
-        m_pivotPIDController.setFeedbackDevice(pivotEncoder);
+        m_pivotPIDController.setFeedbackDevice(m_pivotEncoder);
         m_pivotPIDController.setPositionPIDWrappingEnabled(false); // Based on 2023 Code, not sure if needed
         m_pivotPIDController.setP(Constants.ShooterConstants.Pivot.P);
         m_pivotPIDController.setI(Constants.ShooterConstants.Pivot.I);
         m_pivotPIDController.setD(Constants.ShooterConstants.Pivot.D);
 
-        m_shooterRightPIDController.setP(Constants.ShooterConstants.Pivot.P);
-        m_shooterRightPIDController.setI(Constants.ShooterConstants.Pivot.I);
-        m_shooterRightPIDController.setD(Constants.ShooterConstants.Pivot.D);
+        m_shooterRightPIDController.setP(Constants.ShooterConstants.Shooter.P);
+        m_shooterRightPIDController.setI(Constants.ShooterConstants.Shooter.I);
+        m_shooterRightPIDController.setD(Constants.ShooterConstants.Shooter.D);
 
-        m_shooterLeftPIDController.setP(Constants.ShooterConstants.Pivot.P);
-        m_shooterLeftPIDController.setI(Constants.ShooterConstants.Pivot.I);
-        m_shooterLeftPIDController.setD(Constants.ShooterConstants.Pivot.D);
+        m_shooterLeftPIDController.setP(Constants.ShooterConstants.Shooter.P);
+        m_shooterLeftPIDController.setI(Constants.ShooterConstants.Shooter.I);
+        m_shooterLeftPIDController.setD(Constants.ShooterConstants.Shooter.D);
+
+        m_feederPIDController.setP(Constants.ShooterConstants.Feeder.P);
+        m_feederPIDController.setI(Constants.ShooterConstants.Feeder.I);
+        m_feederPIDController.setD(Constants.ShooterConstants.Feeder.D);
+
+        m_kickerPIDController.setP(Constants.ShooterConstants.Kicker.P);
+        m_kickerPIDController.setI(Constants.ShooterConstants.Kicker.I);
+        m_kickerPIDController.setD(Constants.ShooterConstants.Kicker.D);
     }
     
 
@@ -206,7 +221,7 @@ public class Shooter extends SubsystemBase {
         desiredShotSpeed = MetersPerSecond.of(4);
         System.out.println(desiredShotSpeed);
         System.out.println("Rotations per second: "+4/Math.pow(0.05*Math.PI,2));
-        System.out.println("Actual RPM: "+rightShotSpeed.getVelocity());
+        System.out.println("Actual RPM: "+m_shooterRightEncoder.getVelocity());
         System.out.println("Expected RPM: "+4/(0.05*Math.PI*2)*60);
     }
 
@@ -229,11 +244,11 @@ public class Shooter extends SubsystemBase {
     public void speakerMode() {
         calcPivot();
         calcShotSpeed();
-        //System.out.println(leftShotSpeed.getVelocity());
-        //System.out.println(rightShotSpeed.getVelocity());
-        m_shooterRightPIDController.setReference(Math.pow(Math.PI*2,2)*desiredShotSpeed.in(MetersPerSecond), CANSparkFlex.ControlType.kVelocity);
+        //System.out.println(m_shooterLeftEncoder.getVelocity());
+        //System.out.println(m_shooterRightEncoder.getVelocity());
+        // m_shooterRightPIDController.setReference(Math.pow(Math.PI*2,2)*desiredShotSpeed.in(MetersPerSecond), CANSparkFlex.ControlType.kVelocity);
         //m_shooterRightPIDController.setReference(wheelSpeedToRotation(desiredShotSpeed,Inches.of(2)).in(RPM), CANSparkFlex.ControlType.kVelocity);
-        //setShootSpeed(desiredShotSpeed, desiredRotationSpeed);
+        setShootSpeed(desiredShotSpeed, desiredRotationSpeed);
     }
 
     /*public void speakerMode(){
@@ -244,48 +259,62 @@ public class Shooter extends SubsystemBase {
     /**
      * Returns true if the current position of the pivot of the shooter is within
      * the tolerance of the desired pivot angle.
-     * Tolerance in degrees is defined in ShooterConstants.
+     * Tolerance in degrees is defined in Constants.ShooterConstants.
      * 
      * @return
      */
     private boolean getIsAtDesiredPivotAngle() {
-        Measure<Angle> currentAngle = Rotations.of(pivotEncoder.getPosition());
+        Measure<Angle> currentAngle = Rotations.of(m_pivotEncoder.getPosition());
         Measure<Angle> toleranceAngle = Constants.ShooterConstants.Pivot.toleranceAngle;
         
         return Math.abs(currentAngle.in(Degrees) - desiredPivotAngle.in(Degrees)) <= toleranceAngle.in(Degrees);
     }
 
     private boolean getIsAtLeftShooterSpeed() {
-        double desired = desiredShotSpeed.in(MetersPerSecond)
-                - wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond);
-        double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
-        // Current speed of the left wheel
-        double speed = wheelRotationToSpeed(RadiansPerSecond.of(leftShotSpeed.getVelocity()),
-                Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
-        if (speed <= desired + tol && speed >= desired - tol) {
-            return true;
-        }
-        return false;
+        // double desired = desiredShotSpeed.in(MetersPerSecond)
+        //         - wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond);
+        // double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
+        // // Current speed of the left wheel
+        // double speed = wheelRotationToSpeed(RPM.of(m_shooterLeftEncoder.getVelocity()),
+        //         Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
+        // if (speed <= desired + tol && speed >= desired - tol) {
+        //     return true;
+        // }
+        // return false;
+
+
+        Measure<Velocity<Distance>> desiredWheelSpeedLinear = 
+            desiredShotSpeed.minus(wheelRotationToSpeed(desiredRotationSpeed, Constants.ShooterConstants.horizontalNoteCompression));
+        Measure<Velocity<Distance>> currentWheelSpeedLinear =
+            wheelRotationToSpeed(RPM.of(m_shooterLeftEncoder.getVelocity()), Constants.ShooterConstants.shooterWheelRadius);
+
+        return Math.abs(desiredWheelSpeedLinear.minus(currentWheelSpeedLinear).in(MetersPerSecond)) 
+            <= Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
     }
 
     private boolean getIsAtRightShooterSpeed() {
-        double desired = desiredShotSpeed.in(MetersPerSecond)
-                + wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond);
-        double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
-        // Current speed of the right wheel
-        double speed = wheelRotationToSpeed(RadiansPerSecond.of(rightShotSpeed.getVelocity()),
-                Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
-        if (speed <= desired + tol && speed >= desired - tol) {
-            return true;
-        }
-        return false;
+        // double desired = desiredShotSpeed.in(MetersPerSecond)
+        //         + wheelRotationToSpeed(desiredRotationSpeed, Inches.of(12)).in(MetersPerSecond);
+        // double tol = Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
+        // // Current speed of the right wheel
+        // double speed = wheelRotationToSpeed(RPM.of(m_shooterRightEncoder.getVelocity()),
+        //         Constants.ShooterConstants.shooterWheelRadius).in(MetersPerSecond);
+        // if (speed <= desired + tol && speed >= desired - tol) {
+        //     return true;
+        // }
+        // return false;
+
+        Measure<Velocity<Distance>> desiredWheelSpeedLinear = 
+            desiredShotSpeed.plus(wheelRotationToSpeed(desiredRotationSpeed, Constants.ShooterConstants.horizontalNoteCompression));
+        Measure<Velocity<Distance>> currentWheelSpeedLinear =
+            wheelRotationToSpeed(RPM.of(m_shooterLeftEncoder.getVelocity()), Constants.ShooterConstants.shooterWheelRadius);
+
+        return Math.abs(desiredWheelSpeedLinear.minus(currentWheelSpeedLinear).in(MetersPerSecond)) 
+            <= Constants.ShooterConstants.launchSpeedTolerance.in(MetersPerSecond);
     }
 
     private boolean getIsAtShooterSpeed() {
-        if (getIsAtLeftShooterSpeed() && getIsAtRightShooterSpeed()) {
-            return true;
-        }
-        return false;
+        return getIsAtLeftShooterSpeed() && getIsAtRightShooterSpeed();
     }
 
     /**
@@ -300,6 +329,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public Measure<Angle> getCurrentPivotAngle() {
-        return Rotations.of(pivotEncoder.getPosition());
+        return Rotations.of(m_pivotEncoder.getPosition());
     }
 }
