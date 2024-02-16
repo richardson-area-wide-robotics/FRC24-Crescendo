@@ -225,11 +225,13 @@ public class Swerve extends SubsystemBase {
   }
 
 public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
-    var states = m_kinematics.toSwerveModuleStates(getChassisSpeeds());
+    // var states = m_kinematics.toSwerveModuleStates(getChassisSpeeds());
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.SwerveDriveConstants.kMaxSpeedMetersPerSecond);
+    // SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.SwerveDriveConstants.kMaxSpeedMetersPerSecond);
 
-    setModuleStates(states);
+    // setModuleStates(states);
+
+    drive(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond, false);
 }
 
 public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds){
