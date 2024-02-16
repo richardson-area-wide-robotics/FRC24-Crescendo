@@ -22,7 +22,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.IOConstants;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.drive.DriveSubsystem;
+
+import frc.robot.commands.Lock;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -38,11 +41,16 @@ public class RobotContainer {
   private double speed = -0.1;
   private double intakeSpeed = 1.0;
   private double outtakingSpeed = -1.0;
+  
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
   XboxController m_driverControllerSP = new XboxController(IOConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(IOConstants.kOperatorControllerPort);
+  
+  private final Camera m_camera = new Camera("camera");
+  
+  private Lock lockMode = new Lock(m_robotDrive, m_camera, null, null);
 
   {
     // AutoChooser.setDefaultAuton(new PathTester(m_robotDrive));
@@ -100,6 +108,8 @@ public class RobotContainer {
 
        m_driverController.rightStick().onTrue(new InstantCommand(()-> m_robotDrive.zeroHeading()));
        m_driverController.leftStick().onTrue(new InstantCommand(()-> m_robotDrive.setX()));
+
+       m_driverController.rightBumper().onTrue(lockMode);
   }
 
   private void configureOperatorBindings(){

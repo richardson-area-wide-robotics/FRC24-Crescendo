@@ -17,6 +17,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -93,5 +94,21 @@ public class Camera extends SubsystemBase {
    */
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
     return photonPoseEstimator.update();
+  }
+
+  public double GetAngleToSpeaker()
+  {
+    
+    final Optional<EstimatedRobotPose> robotPose = getEstimatedGlobalPose();
+    if (robotPose.isPresent()) {
+    
+    Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(3).get();
+      Transform3d speakerToRobot = speakerPose3d.minus(robotPose.get().estimatedPose);
+
+      // speakerToRobot.getRotation().getY
+    }
+
+    return 0.0;
+  
   }
 }
