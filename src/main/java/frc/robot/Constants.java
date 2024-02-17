@@ -36,6 +36,15 @@ public final class Constants {
     public static final int pivotRightCANID = 9;
     public static final int pivotLeftCANID = 10;
 
+    public static final int feederMotorCurrentLimit = 40;
+    public static final int kickerMotorCurrentLimit = 40;
+    public static final int shooterRightMotorCurrentLimit = 40;
+    public static final int shooterLeftMotorCurrentLimit = 40;
+    public static final int pivotRightMotorCurrentLimit = 40;
+    public static final int pivotLeftMotorCurrentLimit = 40;
+
+    public static final boolean pivotRightMotorInverted = true;
+
     public static final Measure<Distance> horizontalNoteCompression = Inches.of(12.0);
     public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
     public static final Measure<Velocity<Angle>> kickerSpeed = RPM.of(300.0);

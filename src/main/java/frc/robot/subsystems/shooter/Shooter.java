@@ -61,12 +61,18 @@ public class Shooter extends SubsystemBase {
         m_pivotLeftMotor.restoreFactoryDefaults();
         m_pivotRightMotor.restoreFactoryDefaults();
 
-        m_pivotRightMotor.setInverted( true );
-        m_pivotRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        m_pivotRightMotor.setSmartCurrentLimit(0);
+        m_feederMotor.setSmartCurrentLimit(Constants.ShooterConstants.feederMotorCurrentLimit);
+        m_kickerMotor.setSmartCurrentLimit(Constants.ShooterConstants.kickerMotorCurrentLimit);
+        m_shooterLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterLeftMotorCurrentLimit);
+        m_shooterRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterRightMotorCurrentLimit);
+        m_pivotLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotLeftMotorCurrentLimit);
+        m_pivotRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotRightMotorCurrentLimit);
 
-        m_pivotLeftMotor.follow(m_pivotRightMotor);
-        m_pivotLeftMotor.setInverted(true);
+        m_pivotRightMotor.setInverted(Constants.ShooterConstants.pivotRightMotorInverted);
+        m_pivotRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+        m_pivotLeftMotor.follow(m_pivotRightMotor, true);
+        // m_pivotLeftMotor.setInverted(true); - This is the same as what is being done above; This line can be removed
 
         m_shooterLeftMotor.setInverted(true);
 
