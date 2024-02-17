@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -202,5 +203,13 @@ public final class Constants {
       public static final double D = 0.001;
     }
 
+  }
+}
+  public static final class Intake {
+    public static final int kIntakeMotorPort = 9;
+    public static final boolean kIntakeMotorInverted = false;
+    public static final int kIntakeCurrennLimit = 30;
+    public static final int kIntakeSensorPort = 0;
+    public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;    
   }
 }
