@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Camera;
@@ -53,7 +54,9 @@ public class Lock extends Command{
     @Override
     public  void execute() {
         double angularOffset = camera.getAngleToSpeaker();
-        double yawRate = yawRateController.calculate(angularOffset, 0);
+        double yawRate = yawRateController.calculate(angularOffset, 0.0) * 0.1;
+
+        SmartDashboard.putNumber("yawRate", yawRate);
 
         //limits robot max speed while in locked-on mode
         double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);

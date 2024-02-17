@@ -21,6 +21,8 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Camera extends SubsystemBase {
@@ -36,6 +38,7 @@ public class Camera extends SubsystemBase {
   final double cameraPitch = 0;
   final double cameraYaw = 0;
   Transform3d cameraToRobot;
+  private Pose3d currentRobotPose3d;
 
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
@@ -51,7 +54,32 @@ public class Camera extends SubsystemBase {
 
     final Optional<EstimatedRobotPose> robotPose = getEstimatedGlobalPose();
     if (robotPose.isPresent()) {
-    System.out.println(robotPose.get().estimatedPose);
+    // System.out.println(robotPose.get().estimatedPose);
+
+      currentRobotPose3d = robotPose.get().estimatedPose;
+        Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(3).get();
+      Transform3d speakerToRobot = speakerPose3d.minus(robotPose.get().estimatedPose);
+      Transform3d robotToSpeaker = currentRobotPose3d.minus(speakerPose3d);
+
+
+      // // System.out.println("x " + speakerToRobot.getTranslation().getX());
+      SmartDashboard.putNumber("x", speakerToRobot.getTranslation().getX());
+      
+      SmartDashboard.putNumber("y", speakerToRobot.getTranslation().getY());
+      SmartDashboard.putNumber("z", speakerToRobot.getTranslation().getZ());
+      SmartDashboard.putNumber("x2", robotToSpeaker.getTranslation().getX());
+
+      
+      double angle = Math.atan2(speakerToRobot.getTranslation().getY(), speakerToRobot.getTranslation().getX());
+      // Translation3d t3;
+      SmartDashboard.putNumber("angle", angle);
+
+      
+      SmartDashboard.putNumber("y2", robotToSpeaker.getTranslation().getY());
+      SmartDashboard.putNumber("z2", robotToSpeaker.getTranslation().getZ());
+      // System.out.println("y " + speakerToRobot.getTranslation().getY());
+      // System.out.println("z " + speakerToRobot.getTranslation().getZ());
+
   }
 }
 
@@ -96,19 +124,17 @@ public class Camera extends SubsystemBase {
     return photonPoseEstimator.update();
   }
 
-  public double GetAngleToSpeaker()
+  public double getAngleToSpeaker()
   {
     
-    final Optional<EstimatedRobotPose> robotPose = getEstimatedGlobalPose();
-    if (robotPose.isPresent()) {
     
-    Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(3).get();
-      Transform3d speakerToRobot = speakerPose3d.minus(robotPose.get().estimatedPose);
+    Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(4).get();
+      Transform3d speakerToRobot = speakerPose3d.minus(currentRobotPose3d);
 
-      // speakerToRobot.getRotation().getY
-    }
 
-    return 0.0;
+      return -1.0 * speakerToRobot.getTranslation().getY();
+    
+
   
   }
 }

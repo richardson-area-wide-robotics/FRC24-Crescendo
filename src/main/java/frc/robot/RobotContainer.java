@@ -111,7 +111,7 @@ public class RobotContainer {
        m_driverController.rightStick().onTrue(new InstantCommand(()-> m_robotDrive.zeroHeading()));
        m_driverController.leftStick().onTrue(new InstantCommand(()-> m_robotDrive.setX()));
 
-       m_driverController.rightBumper().onTrue(lockMode);
+       m_driverController.rightBumper().whileTrue(lockMode);
   }
 
   private void configureOperatorBindings(){
