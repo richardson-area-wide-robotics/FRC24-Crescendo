@@ -40,7 +40,7 @@ public class Camera extends SubsystemBase {
   final double cameraPitch = 0;
   final double cameraYaw = 0;
   Transform3d cameraToRobot;
-  private Pose3d currentRobotPose3d;
+  private PhotonPipelineResult result = new PhotonPipelineResult();
 
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
@@ -52,56 +52,7 @@ public class Camera extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // System.out.println(getTagID());
-    // System.out.println(getTransforms());
-    // System.out.println(getEstimatedGlobalPose());
-
-    final Optional<EstimatedRobotPose> robotPose = getEstimatedGlobalPose();
-    if (robotPose.isPresent()) {
-      // System.out.println(robotPose.get().estimatedPose);
-
-      currentRobotPose3d = robotPose.get().estimatedPose;
-      double rad_to_target = getAngleToSpeaker(currentRobotPose3d).in(Units.Radians);
-      SmartDashboard.putNumber("angle", rad_to_target);
-    }
-  }
-
-  /**
-   * Returns a list of the fiducial IDs of all the AprilTags currently being
-   * detected, in an arbitrary order
-   * Returns an empty list if no targets are found
-   * 
-   * @return
-   */
-  public List<Integer> getTagID() {
-    PhotonPipelineResult result = camera.getLatestResult();
-    ArrayList<Integer> targetIds = new ArrayList<Integer>();
-    if (result.hasTargets()) {
-      List<PhotonTrackedTarget> targets = result.getTargets();
-      for (int i = 0; i < targets.size(); i++) {
-        targetIds.add(targets.get(i).getFiducialId());
-      }
-    }
-    return targetIds;
-  }
-
-  /**
-   * Returns a list of the distances of all visible AprilTags from the camera in
-   * meters
-   * Returns an empty list if no targets are found
-   * 
-   * @return
-   */
-  public List<Transform3d> getTransforms() {
-    PhotonPipelineResult result = camera.getLatestResult();
-    ArrayList<Transform3d> targetTransforms = new ArrayList<Transform3d>();
-    if (result.hasTargets()) {
-      List<PhotonTrackedTarget> targets = result.getTargets();
-      for (int i = 0; i < targets.size(); i++) {
-        targetTransforms.add(targets.get(i).getBestCameraToTarget());
-      }
-    }
-    return targetTransforms;
+    result = camera.getLatestResult();
   }
 
   /**
@@ -110,7 +61,15 @@ public class Camera extends SubsystemBase {
    * @return
    */
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    return photonPoseEstimator.update();
+    return photonPoseEstimator.update(result);
+  }
+
+  public Optional<Double> getPoseTimeStamp() {
+    if (result.getTimestampSeconds() == -1) {
+      return Optional.empty();
+    } else {
+      return Optional.of(result.getTimestampSeconds());
+    }
   }
 
   public Measure<Angle> getAngleToSpeaker(Pose3d currentRobotPoseField) {
@@ -119,7 +78,7 @@ public class Camera extends SubsystemBase {
     Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
 
     double angle_rad = Math.atan2(robotToSpeaker.getY(), robotToSpeaker.getX());
-
     return Units.Radians.of(angle_rad);
   }
+
 }

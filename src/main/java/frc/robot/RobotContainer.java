@@ -4,28 +4,29 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 
-import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.IOConstants;
+import frc.robot.commands.Lock;
+import frc.robot.commands.PoseFuser;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.drive.DriveSubsystem;
-
-import frc.robot.commands.Lock;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,6 +62,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureDriverBindings(); 
     configureOperatorBindings();   
+    launchCommands();
   }
   
   /**
@@ -168,5 +170,9 @@ public class RobotContainer {
 public void autonPeriodic(){
   SmartDashboard.putNumber("Auton Time", Timer.getFPGATimestamp());
 
+}
+public void launchCommands() {
+  PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
+  CommandScheduler.getInstance().schedule(m_poseFuser);
 }
 }
