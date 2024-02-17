@@ -1,7 +1,14 @@
 package frc.robot.commands;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
+
+import org.photonvision.EstimatedRobotPose;
+
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -53,19 +60,21 @@ public class Lock extends Command{
     //This sets the yawRate to circle the desired object while maintaning driver controll of motion
     @Override
     public  void execute() {
-        double angularOffset = camera.getAngleToSpeaker();
-        double yawRate = yawRateController.calculate(angularOffset, 0.0) * 0.1;
+        Optional<EstimatedRobotPose> robotPose = camera.getEstimatedGlobalPose();
+        if(robotPose.isPresent()){
+            Measure<Angle> angularOffset = camera.getAngleToSpeaker(robotPose.get().estimatedPose);
+            double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.1;
 
-        SmartDashboard.putNumber("yawRate", yawRate);
+            SmartDashboard.putNumber("yawRate", yawRate);
 
-        //limits robot max speed while in locked-on mode
-        double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
-        limitedForward = Math.min(limitedForward, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
-        double limitedSideways = Math.max(sideways.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
-        limitedSideways = Math.min(limitedSideways, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+            //limits robot max speed while in locked-on mode
+            double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+            limitedForward = Math.min(limitedForward, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+            double limitedSideways = Math.max(sideways.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+            limitedSideways = Math.min(limitedSideways, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
 
-        drive.drive(limitedForward, limitedSideways, yawRate, true);
-
+            drive.drive(limitedForward, limitedSideways, yawRate, true);
+        }
     }
  
 }
