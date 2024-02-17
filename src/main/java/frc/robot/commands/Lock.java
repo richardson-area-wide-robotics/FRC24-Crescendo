@@ -52,7 +52,7 @@ public class Lock extends Command{
     //This sets the yawRate to circle the desired object while maintaning driver controll of motion
     @Override
     public  void execute() {
-        double angularOffset = camera.getAngle();
+        double angularOffset = camera.getAngleToSpeaker();
         double yawRate = yawRateController.calculate(angularOffset, 0);
 
         //limits robot max speed while in locked-on mode

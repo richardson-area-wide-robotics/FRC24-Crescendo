@@ -50,7 +50,6 @@ public class RobotContainer {
   
   private final Camera m_camera = new Camera("camera");
   
-  private Lock lockMode = new Lock(m_robotDrive, m_camera, null, null);
 
   {
     // AutoChooser.setDefaultAuton(new PathTester(m_robotDrive));
@@ -83,6 +82,9 @@ public class RobotContainer {
       -m_driverController.getLeftY(), Constants.IOConstants.kControllerDeadband);
      DoubleSupplier moveSideways = () -> MathUtil.applyDeadband(
       -m_driverController.getLeftX(), Constants.IOConstants.kControllerDeadband);
+
+      
+   Lock lockMode = new Lock(m_robotDrive, m_camera, moveForward, moveSideways);
     
     // Configure default commands
     /* 
