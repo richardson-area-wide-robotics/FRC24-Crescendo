@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.shooter.Shooter;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -44,20 +43,19 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  //XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
+    // Configure the button bindings
+    configureButtonBindings();
 
     m_shooter.setDefaultCommand(Commands.run(() -> {
       m_shooter.idle();
     }, m_shooter));
-    // Configure the button bindings
-    configureButtonBindings();
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -81,11 +79,10 @@ public class RobotContainer {
    * passing it to a
    * {@link JoystickButton}.
    */
-  private void configureBindings() {
-    // Reset button bindings
+  private void configureButtonBindings() {
+
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
-    
-    // Temporary shooter button bindings
+
     m_driverController
         .a()
         .onTrue(Commands.run(() -> {
@@ -110,11 +107,19 @@ public class RobotContainer {
         .onTrue(Commands.run(() -> {
           m_shooter.pivotTo(Degrees.of(45.0));
         }, m_shooter));
-  private void configureButtonBindings() {
+
+    /*
     new JoystickButton(m_driverController, Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+    */
+
+    m_driverController
+        .x()
+        .whileTrue(Commands.run(() -> {
+          m_robotDrive.setX();
+        }, m_robotDrive));
   }
 
   /**
