@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -14,7 +13,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -98,14 +96,12 @@ public class RobotContainer {
     m_driverController.rightStick().onTrue(Commands.runOnce(() -> m_robotDrive.zeroHeading()));
     m_driverController.leftStick().onTrue(Commands.runOnce(() -> m_robotDrive.setX()));
 
-
     /**
      * SHOOTER
      */
     m_shooter.setDefaultCommand(Commands.run(() -> {
       m_shooter.idle();
     }, m_shooter));
-
 
     m_driverController
         .a()
@@ -116,8 +112,8 @@ public class RobotContainer {
     m_driverController
         .b()
         .whileTrue(Commands.run(() -> {
-          m_shooter.speakerMode();}
-        , m_shooter));
+          m_shooter.speakerMode();
+        }, m_shooter));
 
     // Temporary pivot button bindings for testing
     m_driverController
