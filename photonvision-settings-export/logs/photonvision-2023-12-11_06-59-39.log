@@ -1,0 +1,214 @@
+[2023-12-11 06:59:41] [General - Main] [INFO] Native libraries loaded.
+[2023-12-11 06:59:42] [Camera - LibCameraJNILoader] [INFO] Successfully loaded shared object libphotonlibcamera.so
+[2023-12-11 06:59:42] [General - Main] [ERROR] Platform does not support RKNN based machine learning!
+[2023-12-11 06:59:42] [Camera - MrCalJNILoader] [INFO] Successfully loaded shared object libmrcal_jni.so
+[2023-12-11 06:59:42] [General - Main] [INFO] Logging initialized in debug mode.
+[2023-12-11 06:59:42] [General - ShellExec] [DEBUG] Executing "cat /proc/device-tree/model"
+[2023-12-11 06:59:42] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:42] [General - Main] [INFO] Starting PhotonVision version v2024.2.2 on Linux Raspbian 64-bit (Pi PI_4)
+[2023-12-11 06:59:42] [General - Main] [DEBUG] Loading ConfigManager...
+[2023-12-11 06:59:42] [Config - SqlConfigProvider] [DEBUG] Using database /opt/photonvision/photonvision_config/photon.sqlite
+[2023-12-11 06:59:42] [Config - SqlConfigProvider] [INFO] Using correct database version: 2
+[2023-12-11 06:59:42] [Config - SqlConfigProvider] [DEBUG] Loading config...
+[2023-12-11 06:59:42] [Config - SqlConfigProvider] [ERROR] Could not deserialize apriltag layout! Loading defaults
+[2023-12-11 06:59:43] [Camera - CameraConfiguration] [DEBUG] Creating camera configuration for ZeroCopyPicam Camera Module v1 (AKA Camera_Module_v1) at /base/soc/i2c0mux/i2c@1/ov5647@36
+[2023-12-11 06:59:43] [Camera - CameraConfiguration] [DEBUG] Creating camera configuration for ZeroCopyPicam OV9281 (AKA OV9281) at /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 06:59:43] [General - Main] [DEBUG] Loading HardwareManager...
+[2023-12-11 06:59:43] [General - NetworkTablesManager] [INFO] Starting NT Client, server team is 8874
+[2023-12-11 06:59:43] [General - NetworkTablesManager] [ERROR] [NetworkTablesManager] Could not connect to the robot! Will retry in the background...
+[2023-12-11 06:59:43] [General - Main] [DEBUG] Loading NetworkManager...
+[2023-12-11 06:59:43] [General - NetworkManager] [INFO] Setting STATIC with team 8874
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Executing "cat /etc/hostname | tr -d " \t\n\r""
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Executing "echo photonvision > /etc/hostname"
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Executing "hostnamectl set-hostname photonvision"
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Executing "sed -i "s/127.0.1.1.*photonvision/127.0.1.1\tphotonvision/g" /etc/hosts"
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:43] [General - ShellExec] [DEBUG] Executing "sudo service avahi-daemon restart"
+[2023-12-11 06:59:44] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:44] [General - NetworkManager] [INFO] Set hostname to photonvision
+[2023-12-11 06:59:44] [General - ShellExec] [DEBUG] Executing "nmcli con mod "Wired connection 1" ipv4.addresses 10.88.74.225/8 ipv4.method "manual" ipv6.method "disabled""
+[2023-12-11 06:59:44] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:44] [General - ShellExec] [DEBUG] Executing "sh -c 'nmcli con down "Wired connection 1"; nmcli con up "Wired connection 1"'"
+[2023-12-11 06:59:44] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:44] [General - Main] [DEBUG] Loading NetworkTablesManager...
+[2023-12-11 06:59:44] [General - Main] [INFO] Loading ML models
+[2023-12-11 06:59:44] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/note-640-640-yolov5s.rknn already exists. Skipping extraction.
+[2023-12-11 06:59:44] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/labels.txt already exists. Skipping extraction.
+[2023-12-11 06:59:44] [General - Main] [DEBUG] Loading VisionSourceManager...
+[2023-12-11 06:59:44] [General - Main] [INFO] Starting server...
+[2023-12-11 06:59:44] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_WEBSERVER
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Matching 1 new cameras!
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [INFO] Adding local video device - "Camera Module v1" at "/base/soc/i2c0mux/i2c@1/ov5647@36"
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Trying to match 2 unmatched configs...
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera Camera Module v1 with path /base/soc/i2c0mux/i2c@1/ov5647@36
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Matched the config for Camera Module v1 to a physical camera!
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera OV9281 with path /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera with name OV9281
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Matched or created 1 camera configs!
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [WARN] After matching, 1 configs remained unmatched. Is your camera disconnected?
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [WARN] Unloaded configs: OV9281
+[2023-12-11 06:59:44] [Camera - VisionSourceManager] [DEBUG] Creating VisionSource for CameraConfiguration [baseName=Camera Module v1, uniqueName=Camera_Module_v1, nickname=Camera_Module_v1, path=/base/soc/i2c0mux/i2c@1/ov5647@36, otherPaths=[], cameraType=ZeroCopyPicam, cameraQuirks=null, FOV=70.0, calibrations=[], currentPipelineIndex=-1, streamIndex=0, pipelineSettings=[CVPipelineSettings{pipelineIndex=0, pipelineType=AprilTag, inputImageRotationMode=DEG_0, pipelineNickname='New Pipeline', cameraExposure=20.0, cameraBrightness=50, cameraGain=75, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=0, streamingFrameDivisor=NONE, ledMode=false, inputShouldShow=true, outputShouldShow=true}], driveModeSettings=CVPipelineSettings{pipelineIndex=-1, pipelineType=DriverMode, inputImageRotationMode=DEG_0, pipelineNickname='Driver Mode', cameraExposure=20.0, cameraBrightness=50, cameraGain=75, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=0, streamingFrameDivisor=NONE, ledMode=false, inputShouldShow=true, outputShouldShow=true}]
+[2023-12-11 06:59:44] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 90 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 06:59:44] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 06:59:44] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 06:59:44] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 06:59:45] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_UI
+[2023-12-11 06:59:45] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, Destinations: DCD_GENSETTINGS
+[2023-12-11 06:59:46] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 06:59:46] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 06:59:47] [Camera - VisionSourceManager] [DEBUG] Matched config for camera "AcceleratedPicamFrameProvider" and loaded 1 pipelines
+[2023-12-11 06:59:47] [Camera - VisionSourceManager] [INFO] Adding 1 configs to VMM.
+[2023-12-11 06:59:47] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_ACTIVEMODULE, DCD_ACTIVEPIPELINESETTINGS, DCD_GENSETTINGS, DCD_UI, DCD_WEBSERVER, DCD_OTHER
+[2023-12-11 06:59:47] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Setting pipeline to -1
+[2023-12-11 06:59:47] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Pipeline name: Driver Mode
+[2023-12-11 06:59:47] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:59:47] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:59:47] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 06:59:47] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 90 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 06:59:47] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 06:59:47] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 06:59:47] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 06:59:48] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 06:59:49] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 06:59:49] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 06:59:49] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 07:00:11] [General - NetworkTablesManager] [INFO] NT connected to 10.88.74.2:5810! (NT version 1025)
+[2023-12-11 07:00:11] [General - ScriptManager] [INFO] Queued event: kNTConnected
+[2023-12-11 07:00:34] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.88.74.182 in 38.851776 ms
+[2023-12-11 07:00:34] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.88.74.182 in 107.93404 ms
+[2023-12-11 07:00:34] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.88.74.182 in 3.09974 ms
+[2023-12-11 07:00:34] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.88.74.182 in 30.403852 ms
+[2023-12-11 07:00:34] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.88.74.182:64510
+[2023-12-11 07:00:34] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.88.74.182 in 3.779722 ms
+[2023-12-11 07:00:34] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.88.74.182 in 4.048852 ms
+[2023-12-11 07:00:35] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 07:00:35] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:35] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 07:00:35] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.88.74.182 in 4.609871 ms
+[2023-12-11 07:00:35] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.88.74.182 in 4.32237 ms
+[2023-12-11 07:00:35] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.88.74.182 in 4.906278 ms
+[2023-12-11 07:00:49] [General - MetricsManager] [DEBUG] Publishing Metrics...
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "sed 's/.\{3\}$/.&/' /sys/class/thermal/thermal_zone0/temp"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}'"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "free -m | awk 'FNR == 2 {print $2}'"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "if   ((  $(( $(vcgencmd get_throttled | grep -Eo 0x[0-9a-fA-F]*) & 0x01 )) != 0x00 )); then echo "LOW VOLTAGE";  elif ((  $(( $(vcgencmd get_throttled | grep -Eo 0x[0-9a-fA-F]*) & 0x08 )) != 0x00 )); then echo "HIGH TEMP";  elif ((  $(( $(vcgencmd get_throttled | grep -Eo 0x[0-9a-fA-F]*) & 0x10000 )) != 0x00 )); then echo "Prev. Low Voltage";  elif ((  $(( $(vcgencmd get_throttled | grep -Eo 0x[0-9a-fA-F]*) & 0x80000 )) != 0x00 )); then echo "Prev. High Temp";  else echo "None"; fi"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "uptime -p | cut -c 4-"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "vcgencmd get_mem gpu | grep -Eo '[0-9]+'"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "free -m | awk 'FNR == 2 {print $3}'"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "vcgencmd get_mem malloc | grep -Eo '[0-9]+'"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Executing "df ./ --output=pcent | tail -n +2"
+[2023-12-11 07:00:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:00:49] [WebServer - Server] [DEBUG] Handled HTTP request of type POST from endpoint /api/utils/publishMetrics for host 10.88.74.182 in 394.56046 ms
+[2023-12-11 07:01:00] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 45 Width: 960 Height: 720 Pixel Format: kUnknown
+[2023-12-11 07:01:00] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 07:01:00] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 07:01:00] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 07:01:01] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 07:01:01] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Starting calibration at resolution index 2 and settings UICalibrationData{videoModeIndex=2, count=0, minCount=12, hasEnough=false, squareSizeIn=1.0, patternWidth=8, patternHeight=8, boardType=CHESSBOARD}
+[2023-12-11 07:01:01] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Setting pipeline to -2
+[2023-12-11 07:01:01] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Pipeline name: New Pipeline
+[2023-12-11 07:01:01] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 07:01:01] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:01:01] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 07:01:01] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 45 Width: 960 Height: 720 Pixel Format: kUnknown
+[2023-12-11 07:01:01] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 07:01:01] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 07:01:01] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 07:01:01] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 07:01:03] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 07:01:03] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 07:01:03] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 07:09:08] [WebServer - RequestHandler] [INFO] Calibrating camera! This will take a long time...
+[2023-12-11 07:09:08] [General - Calibrate3dPipe] [DEBUG] Calibrating with mrcal!
+[2023-12-11 07:09:09] [General - Calibrate3dPipe] [INFO] CALIBRATION SUCCESS for res 960x720 in 1149.369963ms! camMatrix: 
+[671.4620426951877, 0.0, 483.30026081687845, 0.0, 673.6599194333991, 387.2027388800678, 0.0, 0.0, 1.0]
+distortionCoeffs:
+[0.14570994045200766, -0.4640734273248106, 0.0019240495564505384, 0.0021021783761231336, 0.43806542202709764, 0.007131765463626937, 0.04883699465367483, 0.0018825170950227577]
+
+[2023-12-11 07:09:09] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 07:09:09] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 07:09:09] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:09:09] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 07:09:09] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Setting pipeline to 0
+[2023-12-11 07:09:09] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Pipeline name: New Pipeline
+[2023-12-11 07:09:09] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 07:09:09] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 90 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 07:09:09] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 07:09:09] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 07:09:10] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 07:09:10] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 07:09:10] [VisionModule - VisionModule - Camera_Module_v1] [DEBUG] Saving calibration...
+[2023-12-11 07:09:10] [Camera - CameraConfiguration] [INFO] adding calibration 960x720
+[2023-12-11 07:09:10] [WebServer - RequestHandler] [INFO] Camera calibration successfully completed!
+[2023-12-11 07:09:10] [WebServer - Server] [DEBUG] Handled HTTP request of type POST from endpoint /api/calibration/end for host 10.88.74.182 in 2261.8018 ms
+[2023-12-11 07:09:11] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 07:09:11] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 07:09:13] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 07:12:46] [General - NetworkTablesManager] [ERROR] NT lost connection to 10.88.74.2:5810! (NT version 1025). Will retry in background.
+[2023-12-11 07:12:58] [General - NetworkTablesManager] [INFO] NT connected to 10.88.74.2:5810! (NT version 1025)
+[2023-12-11 07:12:58] [General - ScriptManager] [INFO] Queued event: kNTConnected
+[2023-12-11 07:15:25] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 07:15:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:15:25] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 07:15:25] [WebServer - RequestHandler] [INFO] Successfully changed the camera name to: camera
+[2023-12-11 07:15:25] [WebServer - Server] [DEBUG] Handled HTTP request of type POST from endpoint /api/settings/camera/setNickname for host 10.88.74.182 in 108.72474 ms
+[2023-12-11 07:15:27] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 07:15:27] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 07:15:28] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 07:15:36] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.88.74.182 in 1.687426 ms
+[2023-12-11 07:15:36] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.88.74.182 in 5.084556 ms
+[2023-12-11 07:15:36] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.88.74.182 in 3.837778 ms
+[2023-12-11 07:15:36] [WebServer - DataChangeService] [ERROR] Exception when dispatching event!: org.eclipse.jetty.util.StaticException: Closed
+[2023-12-11 07:15:36] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.88.74.182 in 13.50287 ms
+[2023-12-11 07:15:36] [WebServer - DataChangeService] [ERROR] java.io.IOException: org.eclipse.jetty.util.StaticException: Closed
+	at org.eclipse.jetty.util.FutureCallback.block(FutureCallback.java:163)
+	at org.eclipse.jetty.util.FutureCallback.block(FutureCallback.java:139)
+	at org.eclipse.jetty.websocket.common.JettyWebSocketRemoteEndpoint.sendBlocking(JettyWebSocketRemoteEndpoint.java:191)
+	at org.eclipse.jetty.websocket.common.JettyWebSocketRemoteEndpoint.sendBytes(JettyWebSocketRemoteEndpoint.java:65)
+	at io.javalin.websocket.WsContext.send(WsContext.kt:52)
+	at org.photonvision.server.DataSocketHandler.sendMessage(DataSocketHandler.java:356)
+	at org.photonvision.server.DataSocketHandler.broadcastMessage(DataSocketHandler.java:364)
+	at org.photonvision.server.UIOutboundSubscriber.onDataChangeEvent(UIOutboundSubscriber.java:52)
+	at org.photonvision.common.dataflow.DataChangeService.dispatchFromQueue(DataChangeService.java:65)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.eclipse.jetty.util.StaticException: Closed
+
+[2023-12-11 07:15:36] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.88.74.182:64510 for reason: Connection closed by client
+[2023-12-11 07:15:37] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.88.74.182 in 2.634685 ms
+[2023-12-11 07:15:37] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.88.74.182:50991
+[2023-12-11 07:15:37] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 07:15:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 07:15:37] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 07:15:37] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.88.74.182 in 2.666889 ms
+[2023-12-11 07:15:37] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.88.74.182 in 2.552796 ms
+[2023-12-11 07:15:37] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.88.74.182 in 6.199759 ms
+[2023-12-11 07:15:37] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.88.74.182 in 2.915019 ms
+[2023-12-11 07:15:47] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 07:15:47] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 07:15:48] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 07:15:53] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 45 Width: 960 Height: 720 Pixel Format: kUnknown
+[2023-12-11 07:15:53] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 07:15:53] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 07:15:53] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 07:15:53] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 07:15:54] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 07:15:54] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 07:15:56] [Config - SqlConfigProvider] [INFO] Settings saved!
+                                                                                                                                                                                                                             

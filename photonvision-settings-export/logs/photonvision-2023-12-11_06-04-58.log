@@ -1,0 +1,142 @@
+[2023-12-11 06:05:01] [General - Main] [INFO] Native libraries loaded.
+[2023-12-11 06:05:02] [Camera - LibCameraJNILoader] [INFO] Successfully loaded shared object libphotonlibcamera.so
+[2023-12-11 06:05:02] [General - Main] [ERROR] Platform does not support RKNN based machine learning!
+[2023-12-11 06:05:02] [Camera - MrCalJNILoader] [INFO] Successfully loaded shared object libmrcal_jni.so
+[2023-12-11 06:05:02] [General - Main] [INFO] Logging initialized in debug mode.
+[2023-12-11 06:05:02] [General - ShellExec] [DEBUG] Executing "cat /proc/device-tree/model"
+[2023-12-11 06:05:02] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:02] [General - Main] [INFO] Starting PhotonVision version v2024.2.2 on Linux Raspbian 64-bit (Pi PI_3)
+[2023-12-11 06:05:02] [General - Main] [DEBUG] Loading ConfigManager...
+[2023-12-11 06:05:02] [Config - SqlConfigProvider] [DEBUG] Using database /opt/photonvision/photonvision_config/photon.sqlite
+[2023-12-11 06:05:03] [Config - SqlConfigProvider] [INFO] Using correct database version: 2
+[2023-12-11 06:05:03] [Config - SqlConfigProvider] [DEBUG] Loading config...
+[2023-12-11 06:05:04] [Config - SqlConfigProvider] [ERROR] Could not deserialize apriltag layout! Loading defaults
+[2023-12-11 06:05:04] [Camera - CameraConfiguration] [DEBUG] Creating camera configuration for ZeroCopyPicam OV9281 (AKA OV9281) at /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 06:05:05] [General - Main] [DEBUG] Loading HardwareManager...
+[2023-12-11 06:05:05] [General - NetworkTablesManager] [INFO] Starting NT Client, server team is 0
+[2023-12-11 06:05:05] [General - NetworkTablesManager] [ERROR] [NetworkTablesManager] Could not connect to the robot! Will retry in the background...
+[2023-12-11 06:05:05] [General - Main] [DEBUG] Loading NetworkManager...
+[2023-12-11 06:05:05] [General - NetworkManager] [INFO] Setting DHCP with team 0
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "cat /etc/hostname | tr -d " \t\n\r""
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "echo photonvision > /etc/hostname"
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "hostnamectl set-hostname photonvision"
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "sed -i "s/127.0.1.1.*photonvision/127.0.1.1\tphotonvision/g" /etc/hosts"
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "sudo service avahi-daemon restart"
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:05] [General - NetworkManager] [INFO] Set hostname to photonvision
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "nmcli con mod "Wired connection 1" ipv4.method "auto" ipv6.method "disabled""
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:05] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:05:06] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:06] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 06:05:06] [General - ShellExec] [DEBUG] Executing "dhclient eth0"
+[2023-12-11 06:05:06] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:06] [General - Main] [DEBUG] Loading NetworkTablesManager...
+[2023-12-11 06:05:06] [General - Main] [INFO] Loading ML models
+[2023-12-11 06:05:06] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/note-640-640-yolov5s.rknn already exists. Skipping extraction.
+[2023-12-11 06:05:06] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/labels.txt already exists. Skipping extraction.
+[2023-12-11 06:05:06] [General - Main] [DEBUG] Loading VisionSourceManager...
+[2023-12-11 06:05:06] [General - Main] [INFO] Starting server...
+[2023-12-11 06:05:06] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_WEBSERVER
+[2023-12-11 06:05:06] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 06:05:06] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 06:05:07] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_UI
+[2023-12-11 06:05:07] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, Destinations: DCD_GENSETTINGS
+[2023-12-11 06:05:07] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 06:05:23] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 44.982395 ms
+[2023-12-11 06:05:23] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 137.46385 ms
+[2023-12-11 06:05:23] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 8.66677 ms
+[2023-12-11 06:05:23] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 41.044006 ms
+[2023-12-11 06:05:24] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 8.13599 ms
+[2023-12-11 06:05:24] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 8.90151 ms
+[2023-12-11 06:05:24] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 7.76849 ms
+[2023-12-11 06:05:24] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 7.527813 ms
+[2023-12-11 06:05:24] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 5.715834 ms
+[2023-12-11 06:05:24] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49432
+[2023-12-11 06:05:24] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:05:24] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:24] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 06:05:35] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49433
+[2023-12-11 06:05:35] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:05:35] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:05:35] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 7.621927 ms
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 21.357084 ms
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 7.737968 ms
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 25.95073 ms
+[2023-12-11 06:06:43] [WebServer - DataSocketHandler] [INFO] Closing websockets for user 094282a0-5220-4a08-a5b3-7e7449b4e0ad
+[2023-12-11 06:06:43] [WebServer - DataChangeService] [ERROR] Exception when dispatching event!: org.eclipse.jetty.util.StaticException: Closed
+[2023-12-11 06:06:43] [WebServer - DataChangeService] [ERROR] java.io.IOException: org.eclipse.jetty.util.StaticException: Closed
+	at org.eclipse.jetty.util.FutureCallback.block(FutureCallback.java:163)
+	at org.eclipse.jetty.util.FutureCallback.block(FutureCallback.java:139)
+	at org.eclipse.jetty.websocket.common.JettyWebSocketRemoteEndpoint.sendBlocking(JettyWebSocketRemoteEndpoint.java:191)
+	at org.eclipse.jetty.websocket.common.JettyWebSocketRemoteEndpoint.sendBytes(JettyWebSocketRemoteEndpoint.java:65)
+	at io.javalin.websocket.WsContext.send(WsContext.kt:52)
+	at org.photonvision.server.DataSocketHandler.sendMessage(DataSocketHandler.java:356)
+	at org.photonvision.server.DataSocketHandler.broadcastMessage(DataSocketHandler.java:364)
+	at org.photonvision.server.UIOutboundSubscriber.onDataChangeEvent(UIOutboundSubscriber.java:52)
+	at org.photonvision.common.dataflow.DataChangeService.dispatchFromQueue(DataChangeService.java:65)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.eclipse.jetty.util.StaticException: Closed
+
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 6.231042 ms
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 6.599792 ms
+[2023-12-11 06:06:43] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49436
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 5.617656 ms
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 5.635 ms
+[2023-12-11 06:06:43] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:06:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 4.662344 ms
+[2023-12-11 06:06:43] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:06:43] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 06:06:45] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 4.427343 ms
+[2023-12-11 06:06:45] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 11.1675 ms
+[2023-12-11 06:06:45] [WebServer - DataSocketHandler] [INFO] Closing websockets for user 701ad495-c2a7-47c7-8d71-f076e30fd309
+[2023-12-11 06:06:45] [WebServer - DataChangeService] [ERROR] Exception when dispatching event!: org.eclipse.jetty.util.StaticException: Closed
+[2023-12-11 06:06:45] [WebServer - DataChangeService] [ERROR] java.io.IOException: org.eclipse.jetty.util.StaticException: Closed
+	at org.eclipse.jetty.util.FutureCallback.block(FutureCallback.java:163)
+	at org.eclipse.jetty.util.FutureCallback.block(FutureCallback.java:139)
+	at org.eclipse.jetty.websocket.common.JettyWebSocketRemoteEndpoint.sendBlocking(JettyWebSocketRemoteEndpoint.java:191)
+	at org.eclipse.jetty.websocket.common.JettyWebSocketRemoteEndpoint.sendBytes(JettyWebSocketRemoteEndpoint.java:65)
+	at io.javalin.websocket.WsContext.send(WsContext.kt:52)
+	at org.photonvision.server.DataSocketHandler.sendMessage(DataSocketHandler.java:356)
+	at org.photonvision.server.DataSocketHandler.broadcastMessage(DataSocketHandler.java:364)
+	at org.photonvision.server.UIOutboundSubscriber.onDataChangeEvent(UIOutboundSubscriber.java:52)
+	at org.photonvision.common.dataflow.DataChangeService.dispatchFromQueue(DataChangeService.java:65)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.eclipse.jetty.util.StaticException: Closed
+
+[2023-12-11 06:06:45] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 5.584219 ms
+[2023-12-11 06:06:45] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 6.647396 ms
+[2023-12-11 06:06:46] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 5.489115 ms
+[2023-12-11 06:06:46] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 6.792761 ms
+[2023-12-11 06:06:46] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49437
+[2023-12-11 06:06:46] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 5.994063 ms
+[2023-12-11 06:06:46] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 5.989167 ms
+[2023-12-11 06:06:46] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 5.853125 ms
+[2023-12-11 06:06:49] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.99.99.216:49437 for reason: Connection closed by client
+[2023-12-11 06:06:50] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.99.99.216:49433 for reason: Connection closed by client
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 7.078854 ms
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 14.685312 ms
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 8.219583 ms
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 8.230521 ms
+[2023-12-11 06:06:52] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49438
+[2023-12-11 06:06:52] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 6.691145 ms
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 6.691198 ms
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 4.958438 ms
+[2023-12-11 06:06:52] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 11.597084 ms
+[2023-12-11 06:06:52] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:06:52] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 06:07:43] [General - HardwareManager] [INFO] Shutting down LEDs...
+[2023-12-11 06:07:43] [Config - ConfigManager] [INFO] Force-flushing settings...
+[2023-12-11 06:07:43] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 06:07:43] [Config - SqlConfigProvider] [INFO] Settings saved!
