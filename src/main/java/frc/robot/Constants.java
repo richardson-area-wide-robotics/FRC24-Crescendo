@@ -36,9 +36,8 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
     public static final double kControllerDeadband = 0.1;
-    
   }
-  
+
   public static final class SwerveDriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
@@ -53,14 +52,14 @@ public final class Constants {
     // Distance between front and back wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(23.5);
     // The kinematics for the robot drivetrain
-    public static final SwerveDriveKinematics kDriveKinematics =
-        new SwerveDriveKinematics(
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
-    public static final double kDriveRadius = Math.sqrt(Math.pow(kWheelBase, 2) + Math.pow(kTrackWidth, 2)); // TODO: DO NOT RUN WITHOUT CHECKING THIS
+    // DO NOT RUN WITHOUT CHECKING THIS
+    public static final double kDriveRadius = Math.sqrt(Math.pow(kWheelBase, 2) + Math.pow(kTrackWidth, 2)); 
 
     /*
      * Spark Max and encoder constents for MAXSwerve modules
@@ -73,9 +72,8 @@ public final class Constants {
       // The Angular offset in radians for the steer encoder in radians
       public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
       // creating the swerve module constants for the front left module
-      public static final SwerveModuleConstants S_MODULE_CONSTANTS =
-          new SwerveModuleConstants(
-              kDriveMotorCANID, kSteerMotorCANID, kFrontLeftChassisAngularOffset);
+      public static final SwerveModuleConstants S_MODULE_CONSTANTS = new SwerveModuleConstants(
+          kDriveMotorCANID, kSteerMotorCANID, kFrontLeftChassisAngularOffset);
     }
 
     public static final class FrontRightModule {
@@ -86,9 +84,8 @@ public final class Constants {
       // The Angular offsets in radians for the steer encoder
       public static final double kFrontRightChassisAngularOffset = 0;
       // creating the swerve module constants for the front right module
-      public static final SwerveModuleConstants S_MODULE_CONSTANTS =
-          new SwerveModuleConstants(
-              kDriveMotorCANID, kSteerMotorCANID, kFrontRightChassisAngularOffset);
+      public static final SwerveModuleConstants S_MODULE_CONSTANTS = new SwerveModuleConstants(
+          kDriveMotorCANID, kSteerMotorCANID, kFrontRightChassisAngularOffset);
     }
 
     /* Back Left Module - Module 2 */
@@ -100,9 +97,8 @@ public final class Constants {
       // The Angular offsets in radians for the steer encoder
       public static final double kBackLeftChassisAngularOffset = Math.PI;
       // creating the swerve module constants for the back left module
-      public static final SwerveModuleConstants S_MODULE_CONSTANTS =
-          new SwerveModuleConstants(
-              kDriveMotorCANID, kSteerMotorCANID, kBackLeftChassisAngularOffset);
+      public static final SwerveModuleConstants S_MODULE_CONSTANTS = new SwerveModuleConstants(
+          kDriveMotorCANID, kSteerMotorCANID, kBackLeftChassisAngularOffset);
     }
 
     /* Back Right Module - Module 3 */
@@ -114,9 +110,8 @@ public final class Constants {
       // The Angular offsets in radians for the steer encoder
       public static final double kBackRightChassisAngularOffset = Math.PI / 2;
       // creating the swerve module constants for the back right module
-      public static final SwerveModuleConstants S_MODULE_CONSTANTS =
-          new SwerveModuleConstants(
-              kDriveMotorCANID, kSteerMotorCANID, kBackRightChassisAngularOffset);
+      public static final SwerveModuleConstants S_MODULE_CONSTANTS = new SwerveModuleConstants(
+          kDriveMotorCANID, kSteerMotorCANID, kBackRightChassisAngularOffset);
     }
 
     public static final boolean kGyroReversed = true;
@@ -141,60 +136,56 @@ public final class Constants {
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the
     // bevel pinion
-    public static final double kDrivingMotorReduction =
-        (45.0 * 22) / (kDrivingMotorPinionTeeth * 15.0);
-    public static final double kDriveWheelFreeSpeedRps =
-        (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
+    public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15.0);
+    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
+        / kDrivingMotorReduction;
 
-    public static final double kDrivingEncoderPositionFactor =
-        (kWheelDiameterMeters * Math.PI) / kDrivingMotorReduction; // meters
-    public static final double kDrivingEncoderVelocityFactor =
-        ((kWheelDiameterMeters * Math.PI) / kDrivingMotorReduction) / 60.0; // meters per second
+    public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
+        / kDrivingMotorReduction; // meters
+    public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
+        / kDrivingMotorReduction) / 60.0; // meters per second
 
     public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-    public static final double kTurningEncoderVelocityFactor =
-        (2 * Math.PI) / 60.0; // radians per second
+    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
     public static final double kTurningEncoderPositionPIDMinInput = 0.0; // radians
-    public static final double kTurningEncoderPositionPIDMaxInput =
-        kTurningEncoderPositionFactor; // radians
+    public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final PIDGains kDrivingPIDGains =
-        new PIDGains(0.04, 0, 0); // TODO: tune values for the driving motor
-    public static final FFGains kDrivingFFGains = new FFGains(0,0, 0);
+    public static final PIDGains kDrivingPIDGains = new PIDGains(0.04, 0, 0); // TODO: tune values for the driving motor
+    public static final FFGains kDrivingFFGains = new FFGains(0, 0, 0);
     public static final double kDrivingFF = 1.0 / kDriveWheelFreeSpeedRps;
     public static final double kDrivingMinOutput = -1.0;
     public static final double kDrivingMaxOutput = 1.0;
 
-    public static final PIDGains kTurningPIDGains =
-        new PIDGains(3.15, 0, 0.35); // TODO: tune values for the turning motor
-    public static final FFGains kTurningFFGains = new FFGains(0,0, 0);
-    public static final double kTurningFF = 0.0; // TODO: tune values for Feed Forward
+    // TODO: tune values for the turning motor
+    public static final PIDGains kTurningPIDGains = new PIDGains(3.15, 0, 0.35);
+    public static final FFGains kTurningFFGains = new FFGains(0, 0, 0);
+    // TODO: tune values for Feed Forward
+    public static final double kTurningFF = 0.0;
     public static final double kTurningMinOutput = -1.0;
     public static final double kTurningMaxOutput = 1.0;
 
-    
-    public static final PIDGains kVisionTurningPIDGains =
-        new PIDGains(1.0, 0, 0.01); // TODO: tune values for Vision auto-turning
+    // TODO: tune values for Vision auto-turning
+    public static final PIDGains kVisionTurningPIDGains = new PIDGains(1.0, 0, 0.01);
 
     public static final double MAX_LOCKED_ON_SPEED = 0.33;
-    
+
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
     public static final int kTurningMotorCurrentLimit = 10; // amps
   }
+
   public static final class AutoConstants {
-     public static final double kMaxSpeedMetersPerSecond = 3.0;
+    public static final double kMaxSpeedMetersPerSecond = 3.0;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3.0;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;    
-    
+    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+
     // Constraint for the motion profiled robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
     public static final PIDController kPXController = new PIDController(1.0, 0, 0.35);
     public static final PIDController kPYController = new PIDController(0.001, 0, 0.00075);
@@ -205,17 +196,17 @@ public final class Constants {
     public static final PIDConstants kTranslationGains = new PIDConstants(.05, 0.0, 0.0);
     public static final PIDConstants kRotationGains = new PIDConstants(3, 0.0, .35);
 
-    public static final HolonomicPathFollowerConfig kPathFollowerConfig =
-        new HolonomicPathFollowerConfig(
-          kTranslationGains, kRotationGains , kMaxSpeedMetersPerSecond, SwerveDriveConstants.kDriveRadius, new ReplanningConfig());
+    public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
+        kTranslationGains, kRotationGains, kMaxSpeedMetersPerSecond, SwerveDriveConstants.kDriveRadius,
+        new ReplanningConfig());
 
-    public static final double kDriveBaseRadius = 0.48; // Drive base radius in meters. Distance from robot center to furthest module.
+    // Drive base radius in meters. Distance from robot center to furthest module.
+    public static final double kDriveBaseRadius = 0.48; 
 
-    public static final PIDGains kMovingPIDGains =
-        new PIDGains(0.3,0, 0.01);
+    public static final PIDGains kMovingPIDGains = new PIDGains(0.3, 0, 0.01);
     public static final double offset = 0.00315;
   }
 
-public static final boolean kCompetitionMode = false;
+  public static final boolean kCompetitionMode = false;
 
-  }
+}
