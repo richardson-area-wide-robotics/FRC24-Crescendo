@@ -78,7 +78,7 @@ public class Climber extends SubsystemBase {
                 if (useLeft) {
                     m_climberLeftMotor.set(-ClimberConstants.kLevelSpeed);
                 } else {
-                    m_climberRightMotor.set(-ClimberConstants.kLevelSpeed);
+                    m_climberRightMotor.set(ClimberConstants.kLevelSpeed);
                 }
             }
         }
