@@ -9,8 +9,12 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ClimberConstants.ClimberDirection;
+import frc.robot.subsystems.climber.Climber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Climber m_climber = new Climber();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -28,8 +33,11 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     // Configure the trigger bindings
-    configureBindings();
+    CommandScheduler.getInstance().getActiveButtonLoop().clear();
+    configureDriverBindings();
+    configureOperatorBindings();
   }
 
   /**
@@ -41,14 +49,25 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+  private void configureDriverBindings() {
+    /**
+     * CLIMBER
+     */
+    m_driverController
+      .povUp()
+      .whileTrue(Commands.run(() -> {
+        m_climber.setDirection(ClimberDirection.UP);
+      }, m_climber));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController
+      .povDown()
+      .whileTrue(Commands.run(() -> {
+        m_climber.setDirection(ClimberDirection.DOWN);
+      }, m_climber));
+  }
+  
+  private void configureOperatorBindings() {
+
   }
 
   /**
