@@ -10,10 +10,10 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
+import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -22,7 +22,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IOConstants;
+import frc.robot.Constants.ShooterConstants.PivotDirection;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import java.util.function.DoubleSupplier;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final AHRS m_gyro = new AHRS();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro);
@@ -90,11 +93,28 @@ public class RobotContainer {
     /*
      * ---Reset button and X mode button
      * left stick button on controller controls the re-zeroing of the heading
-     * right stick button on controller controls the X mode of the robot
      */
 
-    m_driverController.rightStick().onTrue(Commands.runOnce(() -> m_robotDrive.zeroHeading()));
-    m_driverController.leftStick().onTrue(Commands.runOnce(() -> m_robotDrive.setX()));
+    m_driverController
+        .leftStick()
+        .onTrue(Commands.runOnce(() -> {
+          m_robotDrive.zeroHeading();
+        }, m_robotDrive));
+
+    /**
+     * INTAKE
+     */
+    m_driverController
+        .rightBumper()
+        .whileTrue(Commands.run(() -> {
+          m_intake.intake();
+        }, m_intake));
+
+    m_driverController
+        .leftBumper()
+        .whileTrue(Commands.run(() -> {
+          m_intake.outtake();
+        }, m_intake));
 
     /**
      * SHOOTER
@@ -103,29 +123,45 @@ public class RobotContainer {
       m_shooter.idle();
     }, m_shooter));
 
+    m_intake.setDefaultCommand(Commands.run(() -> {
+      m_intake.idle();
+    }, m_intake));
+
     m_driverController
         .a()
         .onTrue(Commands.run(() -> {
-          m_shooter.speakerFire();
+          m_shooter.fire(m_intake);
+        }, m_shooter).withTimeout(1.5));
+
+    m_driverController
+        .y()
+        .onTrue(Commands.run(() -> {
+          m_shooter.toggleSpeakerMode();
         }, m_shooter));
+
 
     m_driverController
         .b()
+        .onTrue(Commands.run(() -> {
+          m_shooter.toggleAmpMode();
+        }, m_shooter));
+
+    m_driverController
+        .rightStick()
+        .onTrue(Commands.run(() -> {
+          m_shooter.toggleOff();
+        }, m_shooter));
+
+    m_driverController
+        .rightTrigger()
         .whileTrue(Commands.run(() -> {
-          m_shooter.speakerMode();
-        }, m_shooter));
-
-    // Temporary pivot button bindings for testing
-    m_driverController
-        .leftBumper()
-        .onTrue(Commands.run(() -> {
-          m_shooter.pivotTo(Degrees.of(10.0));
+          m_shooter.pivot(PivotDirection.UP);
         }, m_shooter));
 
     m_driverController
-        .rightBumper()
-        .onTrue(Commands.run(() -> {
-          m_shooter.pivotTo(Degrees.of(45.0));
+        .leftTrigger()
+        .whileTrue(Commands.run(() -> {
+          m_shooter.pivot(PivotDirection.DOWN);
         }, m_shooter));
   }
 

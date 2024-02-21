@@ -41,28 +41,53 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final int feederMotorCANID = 11;
     public static final int kickerMotorCANID = 12;
     public static final int shooterRightCANID = 13;
     public static final int shooterLeftCANID = 14;
 
-    public static final int pivotRightCANID = 9;
-    public static final int pivotLeftCANID = 10;
+    public static final int pivotRightCANID = 10;
+    public static final int pivotLeftCANID = 9;
 
-    public static final int feederMotorCurrentLimit = 40;
+    
     public static final int kickerMotorCurrentLimit = 40;
     public static final int shooterRightMotorCurrentLimit = 40;
     public static final int shooterLeftMotorCurrentLimit = 40;
     public static final int pivotRightMotorCurrentLimit = 40;
     public static final int pivotLeftMotorCurrentLimit = 40;
 
+    public static final double kPivotP = 0.0007;
+    public static final double kPivotI = 0.0;
+    public static final double kPivotD = 0.001;
+
+    public static final double kShooterP = 0.0007;
+    public static final double kShooterI = 0.0;
+    public static final double kShooterD = 0.001;
+
+    public static final double kKickerP = 0.0;
+    public static final double kKickerI = 0.0;
+    public static final double kKickerD = 0.0;
+
     public static final boolean pivotRightMotorInverted = true;
 
-    public static final Measure<Distance> horizontalNoteCompression = Inches.of(12.0);
-    public static final Measure<Distance> shooterWheelRadius = Inches.of(2.0);
-    public static final Measure<Velocity<Angle>> kickerSpeed = RPM.of(300.0);
+    public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
 
-    public static final Measure<Velocity<Distance>> launchSpeedTolerance = MetersPerSecond.of(0.01);
+    // smallest angle (between hardstop and shooter) that the shooter can pivot to
+    public static final Measure<Angle> kPivotMinAngle = Degrees.of(5.0); // TBD
+
+    // highest angle (between hardstop and shooter) that the shooter can pivot to
+    public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
+    public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
+    public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
+    public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
+
+    public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
+
+    public static final double kPivotSpeed = 0.15;
+
+    public static enum PivotDirection {
+      UP, 
+      DOWN
+    }
 
     public static class Pivot {
       public static final double P = 0.0007;
@@ -76,34 +101,24 @@ public final class Constants {
 
       // highest angle (between hardstop and shooter) that the shooter can pivot to
       public static final Measure<Angle> maxAngle = Degrees.of(45.0); // TBD
-    }
 
-    public static class Feeder {
-      public static final double P = 0;
-      public static final double I = 0;
-      public static final double D = 0;
+      public static final int ampAngleDegrees = 90;
     }
-
-    public static class Kicker {
-      public static final double P = 0;
-      public static final double I = 0;
-      public static final double D = 0;
-    }
-
-    public static class Shooter {
-      public static final double P = 0.0007;
-      public static final double I = 0.0;
-      public static final double D = 0.001;
-    }
-
   }
 
   public static final class Intake {
     public static final int kIntakeMotorPort = 9;
     public static final boolean kIntakeMotorInverted = false;
-    public static final int kIntakeCurrennLimit = 30;
+    public static final int kIntakeCurrennLimit = 60;
     public static final int kIntakeSensorPort = 0;
     public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
+    public static final int kFeederCurrentLimit = 60;
+
+    public static final int intakeCANID = 15;
+    public static final int feederCANID = 11;
+
+    public static final double intakeSpeed = 1;
+    public static final double feederSpeed = 1;
   }
 
   public static final class IOConstants {
