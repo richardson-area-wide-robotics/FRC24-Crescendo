@@ -9,6 +9,8 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
@@ -57,23 +59,33 @@ public class Shooter extends SubsystemBase {
         m_pivotRightMotor = new CANSparkMax(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
 
         m_kickerMotor.restoreFactoryDefaults();
-        m_shooterLeftMotor.restoreFactoryDefaults();
-        m_shooterRightMotor.restoreFactoryDefaults();
-        m_pivotLeftMotor.restoreFactoryDefaults();
-        m_pivotRightMotor.restoreFactoryDefaults();
-
         m_kickerMotor.setSmartCurrentLimit(Constants.ShooterConstants.kickerMotorCurrentLimit);
+        m_kickerMotor.burnFlash();
+
+        m_shooterLeftMotor.restoreFactoryDefaults();
+        m_shooterLeftMotor.setIdleMode(IdleMode.kCoast);
+        m_shooterLeftMotor.setInverted(true); // TODO: change to constant
         m_shooterLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterLeftMotorCurrentLimit);
+        m_shooterLeftMotor.burnFlash();
+
+        m_shooterRightMotor.restoreFactoryDefaults();
+        m_shooterRightMotor.setIdleMode(IdleMode.kCoast);
+        m_shooterRightMotor.setInverted(false); // TODO: change to constant
         m_shooterRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterRightMotorCurrentLimit);
+        m_shooterRightMotor.burnFlash();
+
+        m_pivotLeftMotor.restoreFactoryDefaults();
         m_pivotLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotLeftMotorCurrentLimit);
-        m_pivotRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotRightMotorCurrentLimit);
-
-        m_pivotRightMotor.setInverted(Constants.ShooterConstants.pivotRightMotorInverted);
-        m_pivotRightMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
         m_pivotLeftMotor.follow(m_pivotRightMotor, true);
+        m_pivotLeftMotor.burnFlash();
 
-        m_shooterLeftMotor.setInverted(true);
+        m_pivotRightMotor.restoreFactoryDefaults();
+        m_pivotRightMotor.setIdleMode(IdleMode.kBrake);
+        m_pivotRightMotor.setInverted(Constants.ShooterConstants.pivotRightMotorInverted);
+        m_pivotRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotRightMotorCurrentLimit);
+        m_pivotRightMotor.burnFlash();
+
+
 
         m_shooterLeftPIDController = m_shooterLeftMotor.getPIDController();
         m_shooterRightPIDController = m_shooterRightMotor.getPIDController();
@@ -88,13 +100,9 @@ public class Shooter extends SubsystemBase {
         desiredShotSpeed = MetersPerSecond.of(0.0);
         desiredRotationSpeed = RadiansPerSecond.of(0.0);
 
+
         setPIDValues();
 
-        m_kickerMotor.burnFlash();
-        m_shooterLeftMotor.burnFlash();
-        m_shooterRightMotor.burnFlash();
-        m_pivotLeftMotor.burnFlash();
-        m_pivotRightMotor.burnFlash();
     }
 
     private void spinKicker(Measure<Velocity<Angle>> speed) {
@@ -270,15 +278,18 @@ public class Shooter extends SubsystemBase {
      * to score from the bot's distance from the shooter. However, does not shoot the note. 
      */
     private void speakerMode() {
-        calcPivot();
-        calcShotSpeed();
-        pivotTo(desiredPivotAngle);
-        //System.out.println(m_shooterLeftEncoder.getVelocity());
-        //System.out.println(m_shooterRightEncoder.getVelocity());
-        // m_shooterRightPIDController.setReference(Math.pow(Math.PI*2,2)*desiredShotSpeed.in(MetersPerSecond), CANSparkFlex.ControlType.kVelocity);
-        //m_shooterRightPIDController.setReference(wheelSpeedToRotation(desiredShotSpeed,Inches.of(2)).in(RPM), CANSparkFlex.ControlType.kVelocity);
-        spinKicker(RPM.of(240));
-        setShootSpeed(desiredShotSpeed, desiredRotationSpeed);
+        // calcPivot();
+        // calcShotSpeed();
+        // pivotTo(desiredPivotAngle);
+        // //System.out.println(m_shooterLeftEncoder.getVelocity());
+        // //System.out.println(m_shooterRightEncoder.getVelocity());
+        // // m_shooterRightPIDController.setReference(Math.pow(Math.PI*2,2)*desiredShotSpeed.in(MetersPerSecond), CANSparkFlex.ControlType.kVelocity);
+        // //m_shooterRightPIDController.setReference(wheelSpeedToRotation(desiredShotSpeed,Inches.of(2)).in(RPM), CANSparkFlex.ControlType.kVelocity);
+        // spinKicker(RPM.of(240));
+        // setShootSpeed(desiredShotSpeed, desiredRotationSpeed);
+
+        setLeftShooterSpeed(1);
+        setRightShooterSpeed(0.9);
     }
     
     private void ampMode()
@@ -336,5 +347,13 @@ public class Shooter extends SubsystemBase {
 
     public Measure<Angle> getCurrentPivotAngle() {
         return Rotations.of(m_pivotEncoder.getPosition());
+    }
+
+    public void setLeftShooterSpeed(double speed) {
+        m_shooterLeftMotor.set(speed);
+    }
+
+    public void setRightShooterSpeed(double speed) {
+        m_shooterRightMotor.set(speed);
     }
 }

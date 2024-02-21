@@ -49,11 +49,11 @@ public final class Constants {
     public static final int pivotLeftCANID = 9;
 
     
-    public static final int kickerMotorCurrentLimit = 40;
-    public static final int shooterRightMotorCurrentLimit = 40;
-    public static final int shooterLeftMotorCurrentLimit = 40;
-    public static final int pivotRightMotorCurrentLimit = 40;
-    public static final int pivotLeftMotorCurrentLimit = 40;
+    public static final int kickerMotorCurrentLimit = 60;
+    public static final int shooterRightMotorCurrentLimit = 60;
+    public static final int shooterLeftMotorCurrentLimit = 60;
+    public static final int pivotRightMotorCurrentLimit = 60;
+    public static final int pivotLeftMotorCurrentLimit = 60;
 
     public static final double kPivotP = 0.0007;
     public static final double kPivotI = 0.0;
