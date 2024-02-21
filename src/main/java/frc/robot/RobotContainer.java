@@ -123,20 +123,29 @@ public class RobotContainer {
     m_shooter.setDefaultCommand(Commands.run(() -> {
       m_shooter.idle();
     }, m_shooter));
-
-    m_intake.setDefaultCommand(Commands.run(() -> {
-      m_intake.idle();
-    }, m_intake));
+ 
+    m_intake.setDefaultCommand(
+      Commands.run(() -> {
+        m_intake.idle(() -> m_shooter.getFiring());
+      }, m_intake));
 
     m_driverController
         .a()
         .onTrue(Commands.run(() -> {
           m_shooter.fire(m_intake);
-        }, m_shooter).withTimeout(1.5));
+        }, m_shooter)
+        .withTimeout(1.5)
+        .andThen(Commands.runOnce(() -> 
+        m_shooter.setFiring(false)))
+        );
+
+    m_driverController
+        .x()
+        .onTrue(Commands.runOnce(() -> m_shooter.toggleReverseShooterWheels()));
 
     m_driverController
         .y()
-        .onTrue(Commands.run(() -> {
+        .onTrue(Commands.runOnce(() -> {
           m_shooter.toggleSpeakerMode();
         }, m_shooter));
 

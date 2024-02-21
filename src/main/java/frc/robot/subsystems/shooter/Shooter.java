@@ -41,6 +41,8 @@ public class Shooter extends SubsystemBase {
 
     private boolean speakerMode;
     private boolean ampMode;
+    private boolean firing;
+    private boolean reverseShooterWheels;
 
     private SparkPIDController m_kickerPIDController;
     private SparkPIDController m_shooterLeftPIDController;
@@ -64,13 +66,13 @@ public class Shooter extends SubsystemBase {
 
         m_shooterLeftMotor.restoreFactoryDefaults();
         m_shooterLeftMotor.setIdleMode(IdleMode.kCoast);
-        m_shooterLeftMotor.setInverted(true); // TODO: change to constant
+        m_shooterLeftMotor.setInverted(false); // TODO: change to constant
         m_shooterLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterLeftMotorCurrentLimit);
         m_shooterLeftMotor.burnFlash();
 
         m_shooterRightMotor.restoreFactoryDefaults();
         m_shooterRightMotor.setIdleMode(IdleMode.kCoast);
-        m_shooterRightMotor.setInverted(false); // TODO: change to constant
+        m_shooterRightMotor.setInverted(true); // TODO: change to constant
         m_shooterRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterRightMotorCurrentLimit);
         m_shooterRightMotor.burnFlash();
 
@@ -100,6 +102,9 @@ public class Shooter extends SubsystemBase {
         desiredShotSpeed = MetersPerSecond.of(0.0);
         desiredRotationSpeed = RadiansPerSecond.of(0.0);
 
+        speakerMode = false;
+        firing = false;
+        reverseShooterWheels = false;
 
         setPIDValues();
 
@@ -123,6 +128,10 @@ public class Shooter extends SubsystemBase {
      */
     private void pivotTo(Measure<Angle> angle) {
         m_pivotPIDController.setReference(angle.in(Rotations), CANSparkFlex.ControlType.kPosition);
+    }
+
+    public void pivotTo(double angle) {
+        m_pivotPIDController.setReference(angle, CANSparkFlex.ControlType.kPosition);
     }
 
 
@@ -187,13 +196,15 @@ public class Shooter extends SubsystemBase {
     }
 
     public void idle() {
-        if(speakerMode) {
-          speakerMode();
-        } else if(ampMode) {
-          ampMode();
-        } else {
-        stopAll();
-        }
+        // if(speakerMode) {
+        //   speakerMode();
+        // } else if(ampMode) {
+        //   ampMode();
+        // } else {
+        // stopAll();
+        // }
+        m_pivotLeftMotor.stopMotor();
+        m_pivotRightMotor.stopMotor();
     }
 
     public void stopAll() {
@@ -263,8 +274,15 @@ public class Shooter extends SubsystemBase {
 
     public void toggleSpeakerMode()
     {
-        speakerMode = true;
-        ampMode = false;
+        // speakerMode = true;
+        // ampMode = false;
+
+        speakerMode = !speakerMode;
+        if (speakerMode) {
+            speakerMode();
+        } else {
+            stopAll();
+        }
     }
 
     public void toggleOff()
@@ -290,6 +308,7 @@ public class Shooter extends SubsystemBase {
 
         setLeftShooterSpeed(1);
         setRightShooterSpeed(0.9);
+        m_kickerMotor.set(0.75); // TODO: change to constant
     }
     
     private void ampMode()
@@ -341,8 +360,13 @@ public class Shooter extends SubsystemBase {
      * Spins the kicker enough to fire only when the shooter is at the neccissary launch speed and pivot angle.
      */
     public void fire(Intake m_intake) {
-        spinKicker(RPM.of(240));
-        m_intake.spinFeeder();
+        // spinKicker(RPM.of(240));
+        // firing = !firing;
+        // if (firing) {
+            m_intake.spinFeeder();
+        // } else {
+        //     m_intake.stopFeeder();
+        // }
     }
 
     public Measure<Angle> getCurrentPivotAngle() {
@@ -355,5 +379,25 @@ public class Shooter extends SubsystemBase {
 
     public void setRightShooterSpeed(double speed) {
         m_shooterRightMotor.set(speed);
+    }
+
+    public void setFiring(boolean value) {
+        firing = value;
+    }
+
+    public boolean getFiring() {
+        return firing;
+    }
+
+    public void toggleReverseShooterWheels() {
+        reverseShooterWheels = !reverseShooterWheels;
+
+        if (reverseShooterWheels) {
+            m_shooterLeftMotor.set(-0.1);
+            m_shooterRightMotor.set(-0.1);
+        } else {
+            m_shooterLeftMotor.set(0);
+            m_shooterRightMotor.set(0);
+        }
     }
 }

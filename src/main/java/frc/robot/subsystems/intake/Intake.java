@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkFlex;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import java.util.function.Supplier;
 
 public class Intake extends SubsystemBase {
 
@@ -33,10 +34,13 @@ public class Intake extends SubsystemBase {
     m_intakeMotor.burnFlash();
   }
   
-  public void idle()
+  public void idle(Supplier<Boolean> firingSupplier)
   {
     m_intakeMotor.stopMotor();
-    m_feederMotor.stopMotor();
+    // m_feederMotor.stopMotor();
+    if (!firingSupplier.get()) {
+      m_feederMotor.stopMotor();
+    }
   }
 
   public void intake()
@@ -54,6 +58,10 @@ public class Intake extends SubsystemBase {
   public void spinFeeder()
   {
     m_feederMotor.set(1);
+  }
+
+  public void stopFeeder() {
+    m_feederMotor.set(0);
   }
 
 }
