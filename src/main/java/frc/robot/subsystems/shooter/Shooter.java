@@ -172,7 +172,7 @@ public class Shooter extends SubsystemBase {
     }
 
     private void ampMode() {
-        pivotTo(Degrees.of(Constants.ShooterConstants.Pivot.ampAngleDegrees));
+        pivotTo(Degrees.of(Constants.ShooterConstants.kAmpAngleDegrees));
         m_shooterRightPIDController.setReference(-240,ControlType.kVelocity);
         m_shooterLeftPIDController.setReference(-240,ControlType.kVelocity);
     }
@@ -352,7 +352,7 @@ public class Shooter extends SubsystemBase {
      */
     private boolean getIsAtDesiredPivotAngle() {
         Measure<Angle> currentAngle = Rotations.of(m_pivotEncoder.getPosition());
-        Measure<Angle> toleranceAngle = Constants.ShooterConstants.Pivot.toleranceAngle;
+        Measure<Angle> toleranceAngle = Constants.ShooterConstants.kPivotToleranceAngle;
         
         return Math.abs(currentAngle.in(Degrees) - desiredPivotAngle.in(Degrees)) <= toleranceAngle.in(Degrees);
     }

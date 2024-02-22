@@ -89,21 +89,7 @@ public final class Constants {
       DOWN
     }
 
-    public static class Pivot {
-      public static final double P = 0.0007;
-      public static final double I = 0.0;
-      public static final double D = 0.001;
-
-      public static final Measure<Angle> toleranceAngle = Degrees.of(3.6);
-
-      // smallest angle (between hardstop and shooter) that the shooter can pivot to
-      public static final Measure<Angle> minAngle = Degrees.of(5.0); // TBD
-
-      // highest angle (between hardstop and shooter) that the shooter can pivot to
-      public static final Measure<Angle> maxAngle = Degrees.of(45.0); // TBD
-
-      public static final int ampAngleDegrees = 90;
-    }
+    public static final int kAmpAngleDegrees = 90;
 
     public static double PIVOT_PRESET_SUBWOOFER = 0.0;
   }
