@@ -1,0 +1,78 @@
+[2023-12-11 06:38:31] [General - Main] [INFO] Native libraries loaded.
+[2023-12-11 06:38:32] [Camera - LibCameraJNILoader] [INFO] Successfully loaded shared object libphotonlibcamera.so
+[2023-12-11 06:38:32] [General - Main] [ERROR] Platform does not support RKNN based machine learning!
+[2023-12-11 06:38:32] [Camera - MrCalJNILoader] [INFO] Successfully loaded shared object libmrcal_jni.so
+[2023-12-11 06:38:32] [General - Main] [INFO] Logging initialized in debug mode.
+[2023-12-11 06:38:32] [General - ShellExec] [DEBUG] Executing "cat /proc/device-tree/model"
+[2023-12-11 06:38:32] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:32] [General - Main] [INFO] Starting PhotonVision version v2024.2.2 on Linux Raspbian 64-bit (Pi PI_4)
+[2023-12-11 06:38:32] [General - Main] [DEBUG] Loading ConfigManager...
+[2023-12-11 06:38:32] [Config - SqlConfigProvider] [DEBUG] Using database /opt/photonvision/photonvision_config/photon.sqlite
+[2023-12-11 06:38:32] [Config - SqlConfigProvider] [INFO] Using correct database version: 2
+[2023-12-11 06:38:32] [Config - SqlConfigProvider] [DEBUG] Loading config...
+[2023-12-11 06:38:33] [Config - SqlConfigProvider] [ERROR] Could not deserialize apriltag layout! Loading defaults
+[2023-12-11 06:38:33] [Camera - CameraConfiguration] [DEBUG] Creating camera configuration for ZeroCopyPicam Camera Module v1 (AKA Camera_Module_v1) at /base/soc/i2c0mux/i2c@1/ov5647@36
+[2023-12-11 06:38:33] [Camera - CameraConfiguration] [DEBUG] Creating camera configuration for ZeroCopyPicam OV9281 (AKA OV9281) at /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 06:38:33] [General - Main] [DEBUG] Loading HardwareManager...
+[2023-12-11 06:38:33] [General - NetworkTablesManager] [INFO] Starting NT Client, server team is 0
+[2023-12-11 06:38:33] [General - NetworkTablesManager] [ERROR] [NetworkTablesManager] Could not connect to the robot! Will retry in the background...
+[2023-12-11 06:38:33] [General - Main] [DEBUG] Loading NetworkManager...
+[2023-12-11 06:38:33] [General - NetworkManager] [INFO] Setting DHCP with team 0
+[2023-12-11 06:38:33] [General - ShellExec] [DEBUG] Executing "cat /etc/hostname | tr -d " \t\n\r""
+[2023-12-11 06:38:33] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:33] [General - ShellExec] [DEBUG] Executing "echo photonvision > /etc/hostname"
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Executing "hostnamectl set-hostname photonvision"
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Executing "sed -i "s/127.0.1.1.*photonvision/127.0.1.1\tphotonvision/g" /etc/hosts"
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Executing "sudo service avahi-daemon restart"
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:34] [General - NetworkManager] [INFO] Set hostname to photonvision
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Executing "nmcli con mod "Wired connection 1" ipv4.method "auto" ipv6.method "disabled""
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 06:38:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 06:38:34] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN], NMDeviceInfo [connName=, devName=eth0, nmType=NMTYPE_ETHERNET]]
+[2023-12-11 06:38:34] [General - NetworkManager] [ERROR] Exception while setting DHCP!
+[2023-12-11 06:38:34] [General - Main] [DEBUG] Loading NetworkTablesManager...
+[2023-12-11 06:38:34] [General - Main] [INFO] Loading ML models
+[2023-12-11 06:38:34] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/note-640-640-yolov5s.rknn already exists. Skipping extraction.
+[2023-12-11 06:38:34] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/labels.txt already exists. Skipping extraction.
+[2023-12-11 06:38:34] [General - Main] [DEBUG] Loading VisionSourceManager...
+[2023-12-11 06:38:34] [General - Main] [INFO] Starting server...
+[2023-12-11 06:38:34] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_WEBSERVER
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Matching 1 new cameras!
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [INFO] Adding local video device - "Camera Module v1" at "/base/soc/i2c0mux/i2c@1/ov5647@36"
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Trying to match 2 unmatched configs...
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera Camera Module v1 with path /base/soc/i2c0mux/i2c@1/ov5647@36
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Matched the config for Camera Module v1 to a physical camera!
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera OV9281 with path /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera with name OV9281
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Matched or created 1 camera configs!
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [WARN] After matching, 1 configs remained unmatched. Is your camera disconnected?
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [WARN] Unloaded configs: OV9281
+[2023-12-11 06:38:34] [Camera - VisionSourceManager] [DEBUG] Creating VisionSource for CameraConfiguration [baseName=Camera Module v1, uniqueName=Camera_Module_v1, nickname=Camera_Module_v1, path=/base/soc/i2c0mux/i2c@1/ov5647@36, otherPaths=[], cameraType=ZeroCopyPicam, cameraQuirks=null, FOV=70.0, calibrations=[], currentPipelineIndex=0, streamIndex=0, pipelineSettings=[CVPipelineSettings{pipelineIndex=0, pipelineType=AprilTag, inputImageRotationMode=DEG_0, pipelineNickname='New Pipeline', cameraExposure=20.0, cameraBrightness=50, cameraGain=75, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=0, streamingFrameDivisor=NONE, ledMode=false, inputShouldShow=true, outputShouldShow=true}], driveModeSettings=CVPipelineSettings{pipelineIndex=-1, pipelineType=DriverMode, inputImageRotationMode=DEG_0, pipelineNickname='Driver Mode', cameraExposure=20.0, cameraBrightness=50, cameraGain=75, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=0, streamingFrameDivisor=NONE, ledMode=false, inputShouldShow=true, outputShouldShow=true}]
+[2023-12-11 06:38:34] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 90 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 06:38:34] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 06:38:34] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 06:38:34] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 06:38:35] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_UI
+[2023-12-11 06:38:35] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, Destinations: DCD_GENSETTINGS
+[2023-12-11 06:38:36] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 06:38:36] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 06:38:37] [Camera - VisionSourceManager] [DEBUG] Matched config for camera "AcceleratedPicamFrameProvider" and loaded 1 pipelines
+[2023-12-11 06:38:37] [Camera - VisionSourceManager] [INFO] Adding 1 configs to VMM.
+[2023-12-11 06:38:37] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_ACTIVEMODULE, DCD_ACTIVEPIPELINESETTINGS, DCD_GENSETTINGS, DCD_UI, DCD_WEBSERVER, DCD_OTHER
+[2023-12-11 06:38:37] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Setting pipeline to 0
+[2023-12-11 06:38:37] [VisionModule - VisionModule - Camera_Module_v1] [INFO] Pipeline name: New Pipeline
+[2023-12-11 06:38:37] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 06:38:37] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 90 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 06:38:37] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 06:38:37] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 06:38:37] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 06:38:38] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 06:38:39] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 06:38:39] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 06:38:39] [Config - SqlConfigProvider] [INFO] Settings saved!

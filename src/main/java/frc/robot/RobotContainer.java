@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.MathUtil;
 import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj.Timer;
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
@@ -28,12 +32,16 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import java.util.function.DoubleSupplier;
 import java.util.List;
+import frc.robot.commands.Lock;
+import frc.robot.commands.PoseFuser;
+import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
-/*
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
+/**
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
@@ -46,6 +54,9 @@ public class RobotContainer {
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
   XboxController m_driverControllerSP = new XboxController(IOConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(IOConstants.kOperatorControllerPort);
+  
+  private final Camera m_camera = new Camera("camera");
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -59,13 +70,13 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
-   * subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
-   * passing it to a
-   * {@link JoystickButton}.
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
    */
   private void configureDriverBindings() {
     // set up for driving controls
@@ -74,6 +85,10 @@ public class RobotContainer {
     DoubleSupplier moveSideways = () -> MathUtil.applyDeadband(
         -m_driverController.getLeftX(), Constants.IOConstants.kControllerDeadband);
 
+
+      
+   Lock lockMode = new Lock(m_robotDrive, m_camera, moveForward, moveSideways);
+    
     // Configure default commands
     /**
      * ---Driving Controls for the driver
@@ -173,6 +188,8 @@ public class RobotContainer {
         .whileTrue(Commands.run(() -> {
           m_shooter.pivot(PivotDirection.DOWN);
         }, m_shooter));
+
+        m_driverController.rightBumper().whileTrue(lockMode);
   }
 
   private void configureOperatorBindings() {
@@ -230,5 +247,9 @@ public class RobotContainer {
   public void autonPeriodic() {
     SmartDashboard.putNumber("Auton Time", Timer.getFPGATimestamp());
 
-  }
+}
+public void launchCommands() {
+  PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
+  CommandScheduler.getInstance().schedule(m_poseFuser);
+}
 }

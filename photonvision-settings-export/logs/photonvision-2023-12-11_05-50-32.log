@@ -1,0 +1,934 @@
+[2023-12-11 05:50:34] [General - Main] [INFO] Native libraries loaded.
+[2023-12-11 05:50:34] [Camera - LibCameraJNILoader] [INFO] Successfully loaded shared object libphotonlibcamera.so
+[2023-12-11 05:50:34] [General - Main] [ERROR] Platform does not support RKNN based machine learning!
+[2023-12-11 05:50:34] [Camera - MrCalJNILoader] [INFO] Successfully loaded shared object libmrcal_jni.so
+[2023-12-11 05:50:34] [General - Main] [INFO] Logging initialized in debug mode.
+[2023-12-11 05:50:34] [General - ShellExec] [DEBUG] Executing "cat /proc/device-tree/model"
+[2023-12-11 05:50:34] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:34] [General - Main] [INFO] Starting PhotonVision version v2024.2.2 on Linux Raspbian 64-bit (Pi PI_3)
+[2023-12-11 05:50:34] [General - Main] [DEBUG] Loading ConfigManager...
+[2023-12-11 05:50:34] [Config - SqlConfigProvider] [DEBUG] Using database /opt/photonvision/photonvision_config/photon.sqlite
+[2023-12-11 05:50:35] [Config - SqlConfigProvider] [INFO] Using correct database version: 2
+[2023-12-11 05:50:35] [Config - SqlConfigProvider] [DEBUG] Loading config...
+[2023-12-11 05:50:35] [Config - SqlConfigProvider] [ERROR] Could not deserialize apriltag layout! Loading defaults
+[2023-12-11 05:50:36] [Camera - CameraConfiguration] [DEBUG] Creating camera configuration for ZeroCopyPicam OV9281 (AKA OV9281) at /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 05:50:36] [General - Main] [DEBUG] Loading HardwareManager...
+[2023-12-11 05:50:36] [General - NetworkTablesManager] [INFO] Starting NT Client, server team is 0
+[2023-12-11 05:50:36] [General - NetworkTablesManager] [ERROR] [NetworkTablesManager] Could not connect to the robot! Will retry in the background...
+[2023-12-11 05:50:36] [General - Main] [DEBUG] Loading NetworkManager...
+[2023-12-11 05:50:36] [General - NetworkManager] [INFO] Setting DHCP with team 0
+[2023-12-11 05:50:36] [General - ShellExec] [DEBUG] Executing "cat /etc/hostname | tr -d " \t\n\r""
+[2023-12-11 05:50:36] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:36] [General - ShellExec] [DEBUG] Executing "echo photonvision > /etc/hostname"
+[2023-12-11 05:50:36] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:36] [General - ShellExec] [DEBUG] Executing "hostnamectl set-hostname photonvision"
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Executing "sed -i "s/127.0.1.1.*photonvision/127.0.1.1\tphotonvision/g" /etc/hosts"
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Executing "sudo service avahi-daemon restart"
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:37] [General - NetworkManager] [INFO] Set hostname to photonvision
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Executing "nmcli con mod "Wired connection 1" ipv4.method "auto" ipv6.method "disabled""
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:37] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Executing "dhclient eth0"
+[2023-12-11 05:50:37] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:37] [General - Main] [DEBUG] Loading NetworkTablesManager...
+[2023-12-11 05:50:37] [General - Main] [INFO] Loading ML models
+[2023-12-11 05:50:37] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/note-640-640-yolov5s.rknn already exists. Skipping extraction.
+[2023-12-11 05:50:37] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/labels.txt already exists. Skipping extraction.
+[2023-12-11 05:50:37] [General - Main] [DEBUG] Loading VisionSourceManager...
+[2023-12-11 05:50:37] [General - Main] [INFO] Starting server...
+[2023-12-11 05:50:37] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_WEBSERVER
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [DEBUG] Matching 1 new cameras!
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [INFO] Adding local video device - "OV9281" at "/base/soc/i2c0mux/i2c@1/ov9281@60"
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [DEBUG] Trying to match 1 unmatched configs...
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [DEBUG] Trying to find a match for loaded camera OV9281 with path /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [DEBUG] Matched the config for OV9281 to a physical camera!
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [DEBUG] Skipping matchByName no configs or cameras left to match
+[2023-12-11 05:50:37] [Camera - VisionSourceManager] [DEBUG] Matched or created 1 camera configs!
+[2023-12-11 05:50:38] [Camera - VisionSourceManager] [DEBUG] Creating VisionSource for CameraConfiguration [baseName=OV9281, uniqueName=OV9281, nickname=OV9281, path=/base/soc/i2c0mux/i2c@1/ov9281@60, otherPaths=[], cameraType=ZeroCopyPicam, cameraQuirks=null, FOV=70.0, calibrations=[], currentPipelineIndex=0, streamIndex=0, pipelineSettings=[CVPipelineSettings{pipelineIndex=0, pipelineType=Reflective, inputImageRotationMode=DEG_0, pipelineNickname='New Pipeline', cameraExposure=6.0, cameraBrightness=50, cameraGain=20, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=3, streamingFrameDivisor=QUARTER, ledMode=true, inputShouldShow=true, outputShouldShow=false}], driveModeSettings=CVPipelineSettings{pipelineIndex=-1, pipelineType=DriverMode, inputImageRotationMode=DEG_0, pipelineNickname='Driver Mode', cameraExposure=20.0, cameraBrightness=50, cameraGain=75, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=0, streamingFrameDivisor=NONE, ledMode=false, inputShouldShow=true, outputShouldShow=true}]
+[2023-12-11 05:50:38] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:50:38] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:50:38] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:50:38] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:50:38] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:50:38] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_UI
+[2023-12-11 05:50:38] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, Destinations: DCD_GENSETTINGS
+[2023-12-11 05:50:39] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:50:39] [Camera - VisionSourceManager] [DEBUG] Matched config for camera "AcceleratedPicamFrameProvider" and loaded 1 pipelines
+[2023-12-11 05:50:39] [Camera - VisionSourceManager] [INFO] Adding 1 configs to VMM.
+[2023-12-11 05:50:39] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_ACTIVEMODULE, DCD_ACTIVEPIPELINESETTINGS, DCD_GENSETTINGS, DCD_UI, DCD_WEBSERVER, DCD_OTHER
+[2023-12-11 05:50:39] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to 0
+[2023-12-11 05:50:39] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: New Pipeline
+[2023-12-11 05:50:39] [VisionModule - PipelineManager] [DEBUG] Creating Reflective pipeline
+[2023-12-11 05:50:39] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 60 Width: 1280 Height: 800 Pixel Format: kUnknown
+[2023-12-11 05:50:40] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:50:40] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:50:40] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:50:40] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:50:42] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:50:42] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 97.880104 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 451.60562 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 87.20755 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 452.39236 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 11.15526 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 159.89037 ms
+[2023-12-11 05:50:42] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 11.144271 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 15.949427 ms
+[2023-12-11 05:50:42] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 10.310937 ms
+[2023-12-11 05:50:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 33.06526 ms
+[2023-12-11 05:50:43] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 31.947449 ms
+[2023-12-11 05:50:43] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49304
+[2023-12-11 05:50:44] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:50:44] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:44] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:51:00] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:00] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:02] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:51:07] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:07] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:07] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:51:10] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoSmall-685f762a.svg for host 10.99.99.216 in 20.534897 ms
+[2023-12-11 05:51:12] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 22.364948 ms
+[2023-12-11 05:51:14] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:51:14] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:51:14] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:51:14] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:51:14] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:51:16] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:16] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:16] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:51:21] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:21] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:22] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 6.863177 ms
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 17.182083 ms
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 9.358854 ms
+[2023-12-11 05:51:22] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.99.99.216:49304 for reason: Connection closed by client
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 30.42724 ms
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 7.395625 ms
+[2023-12-11 05:51:22] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49308
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 8.031875 ms
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 6.171979 ms
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 26.146406 ms
+[2023-12-11 05:51:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 122.078384 ms
+[2023-12-11 05:51:22] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:51:23] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:51:23] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:51:27] [VisionModule - PipelineManager] [INFO] Adding new pipe of type AprilTag at idx 0
+[2023-12-11 05:51:27] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 05:51:28] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:51:28] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:51:28] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:51:28] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to 0
+[2023-12-11 05:51:28] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: New Pipeline
+[2023-12-11 05:51:28] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 05:51:28] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:51:28] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:51:28] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:51:28] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:51:29] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:51:31] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:31] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:31] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:51:37] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoSmall-685f762a.svg for host 10.99.99.216 in 6.940313 ms
+[2023-12-11 05:51:39] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 4.600573 ms
+[2023-12-11 05:51:46] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:46] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:46] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:51:53] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:51:53] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:51:53] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:52:04] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:52:04] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:52:05] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:52:11] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:52:11] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:52:11] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:52:15] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:52:15] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:52:15] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:52:27] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:52:27] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:52:27] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:52:38] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:52:38] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:52:38] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:52:42] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:52:42] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:52:43] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:53:12] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:15] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:15] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:15] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:15] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:15] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:16] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:17] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:19] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:19] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:19] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:19] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:19] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:19] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:19] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:20] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:21] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:23] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:23] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:23] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:23] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:23] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:25] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:26] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:28] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:28] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:28] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:28] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:28] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:28] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:28] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:29] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:30] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:32] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:32] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:32] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:32] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:32] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:32] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:32] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:33] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:34] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:36] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:36] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:36] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:36] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:36] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:37] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:38] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:40] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:40] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:40] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:40] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:40] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:40] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:41] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:42] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:43] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:45] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:45] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:45] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:45] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:45] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:45] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:45] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:46] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:47] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:48] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:49] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:49] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:49] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:49] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:49] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:49] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:49] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:50] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:51] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:52] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:53] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:53] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:53] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:53] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:53] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:53] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:53] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:54] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:55] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:56] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:57] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:53:57] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:53:57] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:53:57] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:53:57] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:53:57] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:53:58] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:53:59] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:00] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:02] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:02] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:02] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:02] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:02] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:02] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:02] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:03] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:04] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:06] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:06] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:06] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:06] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:06] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:06] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:06] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:07] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:08] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:09] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:10] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:10] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:10] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:10] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:10] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:10] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:10] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:12] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 7.062083 ms
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 15.617344 ms
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 5.064219 ms
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 4.729739 ms
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 6.664271 ms
+[2023-12-11 05:54:13] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49318
+[2023-12-11 05:54:13] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 9.521927 ms
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 9.526666 ms
+[2023-12-11 05:54:13] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 7.738125 ms
+[2023-12-11 05:54:13] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:54:13] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:54:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:15] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:15] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:15] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:15] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:15] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:16] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:17] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:19] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:19] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:19] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:19] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:19] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:19] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:19] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:20] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:21] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:23] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:23] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:23] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:23] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:23] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:24] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:25] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:54:25] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:54:25] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:54:25] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:26] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:27] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:27] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:27] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:27] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:27] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:28] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:29] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:30] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:31] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:31] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:31] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:32] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:32] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:33] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:34] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:36] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:36] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:36] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:36] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:36] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:37] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:38] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:40] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:40] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:40] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:40] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:40] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:40] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:40] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:41] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:42] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:43] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:44] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:44] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:44] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:44] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:44] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:46] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:47] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:48] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:49] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:49] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:49] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:49] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:49] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:49] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:49] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:50] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:51] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:52] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:53] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:53] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:53] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:53] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:53] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:53] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:53] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:54] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 3.766511 ms
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 8.396666 ms
+[2023-12-11 05:54:54] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.99.99.216:49318 for reason: Connection closed by client
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 4.858333 ms
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 4.33125 ms
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 5.159114 ms
+[2023-12-11 05:54:54] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49328
+[2023-12-11 05:54:54] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 5.76125 ms
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 5.761146 ms
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 4.681198 ms
+[2023-12-11 05:54:54] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 3.095678 ms
+[2023-12-11 05:54:54] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:54:54] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:54:55] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:56] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:57] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:57] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:54:57] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:54:57] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:54:57] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:54:57] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:54:57] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:54:58] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:54:59] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:54:59] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:54:59] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:54:59] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:00] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:01] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:01] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:01] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:01] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:01] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:02] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:55:02] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:55:02] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:55:02] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:03] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:04] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:05] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:05] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:05] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:05] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:06] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:07] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:08] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:09] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:10] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:10] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:10] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:10] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:10] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:10] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:10] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:11] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:12] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:14] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:14] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:14] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:14] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:14] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:16] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:17] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:18] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:18] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:18] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:18] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:18] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:19] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:20] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:21] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:22] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:22] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:22] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:22] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:23] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:24] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:25] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:26] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:27] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:27] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:27] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:27] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:27] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:28] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:29] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:30] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:31] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:31] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:31] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:31] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:31] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:32] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:33] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:34] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:35] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:35] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:35] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:35] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:35] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:37] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:38] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:39] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:39] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:39] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:39] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:39] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:41] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:42] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:43] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:44] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:44] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:44] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:44] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:44] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:45] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:46] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:47] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:48] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:48] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:48] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:48] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:48] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:48] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:48] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:49] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:50] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:51] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:52] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:52] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:52] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:52] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:52] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:52] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:52] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:53] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:54] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:55] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:56] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:56] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:55:56] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:55:56] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:55:56] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:55:56] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:55:57] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:55:58] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:55:59] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:00] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:01] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:01] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:01] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:01] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:01] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:02] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:03] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:04] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:05] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:05] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:05] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:05] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:05] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:06] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:07] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:08] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:09] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:09] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:09] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:09] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:09] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:09] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:09] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:10] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:11] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:12] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:13] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:13] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:13] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:13] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:14] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:16] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:17] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:18] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:18] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:18] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:18] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:18] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:19] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:20] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:21] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:22] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:22] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:22] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:22] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:22] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:24] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:25] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:26] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:26] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:26] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:26] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:26] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:26] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:26] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:28] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:29] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 6.557188 ms
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 13.870833 ms
+[2023-12-11 05:56:30] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.99.99.216:49328 for reason: Connection closed by client
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 7.674479 ms
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 5.965573 ms
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 3.867604 ms
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 4.610052 ms
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 4.993073 ms
+[2023-12-11 05:56:30] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49338
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 6.605417 ms
+[2023-12-11 05:56:30] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:56:30] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 4.352709 ms
+[2023-12-11 05:56:30] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:56:30] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:56:30] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:30] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:30] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:30] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:30] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:30] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:31] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:32] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:33] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:33] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to -1
+[2023-12-11 05:56:33] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: Driver Mode
+[2023-12-11 05:56:33] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:34] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:34] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:34] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:34] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:34] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:34] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to 0
+[2023-12-11 05:56:34] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: New Pipeline
+[2023-12-11 05:56:34] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 05:56:34] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:35] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:35] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:56:36] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:56:36] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:56:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:37] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:56:37] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:56:37] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:56:38] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:40] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:40] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:40] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:40] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:40] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:40] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:40] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:41] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:41] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:56:41] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:56:41] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:56:42] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:43] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:44] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:44] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:44] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:44] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:44] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:45] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:46] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:47] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:48] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:48] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:48] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:48] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:48] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:48] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:48] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:49] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:50] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:51] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:52] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:52] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:52] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:52] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:52] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:52] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:52] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:54] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:55] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:56] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:57] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:57] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:56:57] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:56:57] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:56:57] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:56:57] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:56:57] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:56:58] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:56:59] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:00] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:01] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:01] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:01] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:01] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:01] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:01] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:02] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:03] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:04] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:05] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:05] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:05] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:05] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:05] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:05] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:57:05] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:57:05] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:05] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:57:06] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:07] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:57:07] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:57:07] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:07] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:57:08] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to -1
+[2023-12-11 05:57:08] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: Driver Mode
+[2023-12-11 05:57:08] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:57:08] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:57:08] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:57:08] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:08] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:08] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:08] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:08] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:08] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:09] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to 0
+[2023-12-11 05:57:09] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: New Pipeline
+[2023-12-11 05:57:09] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 05:57:09] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:09] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:09] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:09] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:09] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:09] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:09] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:10] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:10] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:10] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:10] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:10] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:11] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:11] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:57:11] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:57:11] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:57:12] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:14] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:14] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:14] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:14] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:14] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:16] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:17] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:18] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:18] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:18] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:18] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:18] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:18] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:20] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:21] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:22] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:23] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:23] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:23] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:23] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:23] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:23] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:24] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 5.298907 ms
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 10.841927 ms
+[2023-12-11 05:57:25] [WebServer - DataSocketHandler] [INFO] Closing websocket connection from /10.99.99.216:49308 for reason: Connection closed by client
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 6.758385 ms
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 5.746302 ms
+[2023-12-11 05:57:25] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 4.345885 ms
+[2023-12-11 05:57:25] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49345
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 5.943333 ms
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 7.32599 ms
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 6.078958 ms
+[2023-12-11 05:57:25] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:57:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 3.943542 ms
+[2023-12-11 05:57:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:57:25] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:57:26] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:27] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:27] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:27] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:27] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:27] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:27] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:28] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:29] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:30] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:31] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:31] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:31] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:31] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:31] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:31] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:32] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:33] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:34] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:35] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:35] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:35] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:35] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:35] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:35] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:36] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:37] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:38] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:39] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:39] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:39] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:39] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:39] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:40] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:41] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:42] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:43] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:44] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:57:44] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:57:44] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:57:44] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:57:44] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:57:44] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:57:45] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:46] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:57:46] [General - HardwareManager] [INFO] Shutting down LEDs...
+[2023-12-11 05:57:46] [Config - ConfigManager] [INFO] Force-flushing settings...
+[2023-12-11 05:57:46] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:57:47] [Config - SqlConfigProvider] [INFO] Settings saved!
