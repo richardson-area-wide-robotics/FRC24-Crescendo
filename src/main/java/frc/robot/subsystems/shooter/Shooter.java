@@ -66,13 +66,13 @@ public class Shooter extends SubsystemBase {
 
         m_shooterLeftMotor.restoreFactoryDefaults();
         m_shooterLeftMotor.setIdleMode(IdleMode.kCoast);
-        m_shooterLeftMotor.setInverted(false); // TODO: change to constant
+        m_shooterLeftMotor.setInverted(true); // TODO: change to constant
         m_shooterLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterLeftMotorCurrentLimit);
         m_shooterLeftMotor.burnFlash();
 
         m_shooterRightMotor.restoreFactoryDefaults();
         m_shooterRightMotor.setIdleMode(IdleMode.kCoast);
-        m_shooterRightMotor.setInverted(true); // TODO: change to constant
+        m_shooterRightMotor.setInverted(false); // TODO: change to constant
         m_shooterRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.shooterRightMotorCurrentLimit);
         m_shooterRightMotor.burnFlash();
 
