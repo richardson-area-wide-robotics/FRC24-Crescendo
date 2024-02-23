@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.swerve.Swerve;
 import frc.robot.subsystems.Camera;
@@ -41,6 +42,8 @@ public class PoseFuser extends Command {
     if (pose.isPresent() && time.isPresent()) {
       m_swerve.addPoseEstimate(pose.get().estimatedPose.toPose2d(), time.get());
     }
+
+    SmartDashboard.putString("pose" , m_swerve.getPose().toString());
   }
 
   // Called once the command ends or is interrupted.

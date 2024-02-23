@@ -1,80 +1,109 @@
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
+
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import org.photonvision.EstimatedRobotPose;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.swerve.Swerve;
 import frc.robot.Constants;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.shooter.Shooter;
 
+public class Lock extends Command {
 
-
-public class Lock extends Command{
-
-    DriveSubsystem drive;
+    DriveSubsystem m_drive;
     DoubleSupplier sideways;
     DoubleSupplier forward;
-    Camera camera;
+    Shooter m_shooter;
 
-    //PID controller for yawRate
+    // PID controller for yawRate
     final PIDController yawRateController = new PIDController(
-        Constants.ModuleConstants.kVisionTurningPIDGains.P,
-        Constants.ModuleConstants.kVisionTurningPIDGains.I,
-        Constants.ModuleConstants.kVisionTurningPIDGains.D);
+            Constants.ModuleConstants.kVisionTurningPIDGains.P,
+            Constants.ModuleConstants.kVisionTurningPIDGains.I,
+            Constants.ModuleConstants.kVisionTurningPIDGains.D);
+    AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
     /**
      *
-     @param drive passes controller
-     @param camera passes camera
-     @param forward passes y translation
-     @param sideways passes x translation
-    */
-    public Lock(DriveSubsystem drive, Camera camera, DoubleSupplier forward, DoubleSupplier sideways ) {
-        this.drive = drive;
+     * @param drive    passes controller
+     * @param camera   passes camera
+     * @param forward  passes y translation
+     * @param sideways passes x translation
+     */
+    public Lock(DriveSubsystem drive, Shooter shooter, DoubleSupplier forward, DoubleSupplier sideways) {
+        this.m_drive = drive;
         this.forward = forward;
         this.sideways = sideways;
-        this.camera = camera;
-        this.addRequirements(camera, drive);
+        this.m_shooter = shooter;
+        this.addRequirements(m_drive, m_shooter);
     }
-    
-    
+
     @Override
     public void initialize() {
-        
+
         yawRateController.reset();
-    }  
+    }
 
     @Override
     public boolean isFinished() {
         return false;
     }
-        
-    //This sets the yawRate to circle the desired object while maintaning driver controll of motion
+
+    // This sets the yawRate to circle the desired object while maintaning driver
+    // controll of motion
     @Override
-    public  void execute() {
-        Optional<EstimatedRobotPose> robotPose = camera.getEstimatedGlobalPose();
-        if(robotPose.isPresent()){
-            Measure<Angle> angularOffset = camera.getAngleToSpeaker(robotPose.get().estimatedPose);
-            double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.1;
+    public void execute() {
 
-            SmartDashboard.putNumber("yawRate", yawRate);
+        int aprilTagId = 4;
+        Pose3d robotPose = new Pose3d(m_drive.getPose());
+        Measure<Angle> angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
+        double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.1;
 
-            //limits robot max speed while in locked-on mode
-            double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
-            limitedForward = Math.min(limitedForward, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
-            double limitedSideways = Math.max(sideways.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
-            limitedSideways = Math.min(limitedSideways, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+        SmartDashboard.putNumber("yawRate", yawRate);
 
-            drive.drive(limitedForward, limitedSideways, yawRate, true);
-        }
+        // limits robot max speed while in locked-on mode
+        double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+        limitedForward = Math.min(limitedForward, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+        double limitedSideways = Math.max(sideways.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+        limitedSideways = Math.min(limitedSideways, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
+
+        m_drive.drive(limitedForward, limitedSideways, yawRate, true);
+
+        SmartDashboard.putNumber("pitch angle", getPitchAngleToAprilTag(robotPose, aprilTagId).in(Degrees));
+        // m_shooter.set
     }
- 
+
+    public Measure<Angle> getYawAngleToAprilTag(Pose3d currentRobotPoseField, int tagId) {
+
+        Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
+        Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
+
+        double angle_rad = Math.atan2(robotToSpeaker.getY(), robotToSpeaker.getX());
+        return Units.Radians.of(angle_rad);
+    }
+
+    public Measure<Angle> getPitchAngleToAprilTag(Pose3d currentRobotPoseField, int tagId) {
+
+        Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
+        Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
+
+        double angle_rad = Math.atan2(Constants.ShooterConstants.Pivot.speakerHeight.in(Meters), robotToSpeaker.getX());
+        return Units.Radians.of(angle_rad);
+    }
+
 }

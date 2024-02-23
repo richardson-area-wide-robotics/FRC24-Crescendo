@@ -87,7 +87,7 @@ public class RobotContainer {
 
 
       
-   Lock lockMode = new Lock(m_robotDrive, m_camera, moveForward, moveSideways);
+   Lock lockMode = new Lock(m_robotDrive, m_shooter, moveForward, moveSideways);
     
     // Configure default commands
     /**

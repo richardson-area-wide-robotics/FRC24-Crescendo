@@ -23,11 +23,15 @@ import frc.lib.controller.PIDGains;
 import frc.lib.util.SwerveModuleConstants;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 
@@ -44,7 +48,6 @@ public final class Constants {
     public static final int pivotRightCANID = 10;
     public static final int pivotLeftCANID = 9;
 
-    
     public static final int kickerMotorCurrentLimit = 60;
     public static final int shooterRightMotorCurrentLimit = 60;
     public static final int shooterLeftMotorCurrentLimit = 60;
@@ -81,7 +84,7 @@ public final class Constants {
     public static final double kPivotSpeed = 0.22;
 
     public static enum PivotDirection {
-      UP, 
+      UP,
       DOWN
     }
 
@@ -99,6 +102,7 @@ public final class Constants {
       public static final Measure<Angle> maxAngle = Degrees.of(45.0); // TBD
 
       public static final int ampAngleDegrees = 90;
+      public static final Measure<Distance> speakerHeight = Inches.of(81.0);
     }
 
     public static double PIVOT_PRESET_SUBWOOFER = 0.0;
@@ -300,4 +304,4 @@ public final class Constants {
 
   // public static final boolean kCompetitionMode = false;
 
-  }
+}
