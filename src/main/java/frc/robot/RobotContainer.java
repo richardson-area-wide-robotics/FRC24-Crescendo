@@ -21,11 +21,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.GameConstants;
 import frc.robot.Constants.IOConstants;
+import frc.robot.Constants.Intake.IntakeState;
 import frc.robot.Constants.ShooterConstants.PivotDirection;
+import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Pivot;
 import java.util.function.DoubleSupplier;
 import java.util.List;
 
@@ -38,6 +42,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Intake m_intake = new Intake();
+  private final Pivot m_pivot = new Pivot();
   private final Shooter m_shooter = new Shooter();
   private final AHRS m_gyro = new AHRS();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro);
@@ -107,72 +112,100 @@ public class RobotContainer {
      */
     m_driverController
         .rightBumper()
-        .whileTrue(Commands.run(() -> {
-          m_intake.intake();
-        }, m_intake));
+        .whileTrue(Commands.startEnd(() -> {
+          m_intake.setState(IntakeState.INTAKE);
+        }, () -> {
+          m_intake.setState(IntakeState.IDLE);
+        }, m_intake, m_shooter));
+
+    // m_driverController
+    //     .leftBumper()
+    //     .whileTrue(Commands.startEnd(() -> {
+    //       m_intake.setState(IntakeState.OUTTAKE);
+    //     }, m_intake, m_shooter));
 
     m_driverController
         .leftBumper()
-        .whileTrue(Commands.run(() -> {
-          m_intake.outtake();
+        .whileTrue(Commands.startEnd(() -> {
+          m_intake.setState(IntakeState.OUTTAKE);
+        }, () -> {
+          m_intake.setState(IntakeState.IDLE);
         }, m_intake));
 
     /**
      * SHOOTER
      */
-    m_shooter.setDefaultCommand(Commands.run(() -> {
-      m_shooter.idle();
-    }, m_shooter));
+    // m_shooter.setDefaultCommand(Commands.run(() -> {
+    //   m_shooter.idle();
+    // }, m_shooter));
  
-    m_intake.setDefaultCommand(
-      Commands.run(() -> {
-        m_intake.idle(() -> m_shooter.getFiring());
-      }, m_intake));
+    // m_intake.setDefaultCommand(
+    //   Commands.run(() -> {
+    //     m_intake.idle();
+    //   }, m_intake));
 
+    
+    // TODO: consider making a method to stop just the feeder motor
+    // also just make this better lol
     m_driverController
         .a()
         .onTrue(Commands.run(() -> {
-          m_shooter.fire(m_intake);
+          m_intake.setState(IntakeState.FIRE);
         }, m_shooter)
         .withTimeout(1.5)
-        .andThen(Commands.runOnce(() -> 
-        m_shooter.setFiring(false)))
-        );
+        .andThen(Commands.runOnce(() -> {
+          m_intake.setState(IntakeState.IDLE);
+        }, m_intake)));
 
     m_driverController
         .x()
-        .onTrue(Commands.runOnce(() -> m_shooter.toggleReverseShooterWheels()));
+        .whileTrue(Commands.startEnd(() -> {
+          m_shooter.toggleState(ShooterState.REVERSE);
+        }, () -> {
+          m_shooter.toggleState(ShooterState.IDLE);
+        }, m_shooter));
 
     m_driverController
         .y()
         .onTrue(Commands.runOnce(() -> {
-          m_shooter.toggleSpeakerMode();
+          m_shooter.toggleState(ShooterState.SPEAKER);
         }, m_shooter));
 
+    // SORRY ABOUT THIS BINDING
+    m_driverController
+        .povRight()
+        .onTrue(Commands.runOnce(() -> {
+          m_pivot.pivotTo(GameConstants.kPivotPresetSubwoofer);
+        }, m_shooter));
 
     m_driverController
         .b()
         .onTrue(Commands.run(() -> {
-          m_shooter.toggleAmpMode();
+          m_shooter.toggleState(ShooterState.AMP);
         }, m_shooter));
 
     m_driverController
         .rightStick()
         .onTrue(Commands.run(() -> {
-          m_shooter.toggleOff();
+          // m_shooter.toggleOff();
+          m_shooter.toggleState(ShooterState.IDLE);
         }, m_shooter));
 
     m_driverController
         .rightTrigger()
-        .whileTrue(Commands.run(() -> {
-          m_shooter.pivot(PivotDirection.UP);
-        }, m_shooter));
+        .whileTrue(Commands.runEnd(() -> {
+          m_pivot.pivot(PivotDirection.UP);
+        }, () -> {
+          m_pivot.pivot(PivotDirection.STOP);
+        }, m_pivot));
 
     m_driverController
         .leftTrigger()
-        .whileTrue(Commands.run(() -> {
-          m_shooter.pivot(PivotDirection.DOWN);
-        }, m_shooter));
+        .whileTrue(Commands.runEnd(() -> {
+          m_pivot.pivot(PivotDirection.DOWN);
+        }, () -> {
+          m_pivot.pivot(PivotDirection.STOP);
+        }, m_pivot));
   }
 
   private void configureOperatorBindings() {
