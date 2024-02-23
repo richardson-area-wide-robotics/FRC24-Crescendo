@@ -36,6 +36,11 @@ import frc.lib.util.SwerveModuleConstants;
  */
 
 public final class Constants {
+  public static class GameConstants {
+    public static final Measure<Angle> kPivotPresetSubwoofer = Radians.of(0.0);
+    public static final Measure<Angle> kPivotPresetAmp = Radians.of(0.0);
+  }
+
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
@@ -52,10 +57,10 @@ public final class Constants {
     public static final int kickerMotorCurrentLimit = 60;
     public static final int shooterRightMotorCurrentLimit = 60;
     public static final int shooterLeftMotorCurrentLimit = 60;
-    public static final int pivotRightMotorCurrentLimit = 60;
-    public static final int pivotLeftMotorCurrentLimit = 60;
+    public static final int pivotRightMotorCurrentLimit = 40;
+    public static final int pivotLeftMotorCurrentLimit = 40;
 
-    public static final double kPivotP = 0.0007;
+    public static final double kPivotP = 1.5;
     public static final double kPivotI = 0.0;
     public static final double kPivotD = 0.001;
 
@@ -76,6 +81,10 @@ public final class Constants {
 
     // highest angle (between hardstop and shooter) that the shooter can pivot to
     public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
+
+    public static final boolean kShooterLeftMotorInverted = true;
+    public static final boolean kShooterRightMotorInverted = false;
+
     public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
     public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
     public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
@@ -84,19 +93,31 @@ public final class Constants {
 
     public static final double kPivotSpeed = 0.22;
 
+    public static final float kPivotForwardSoftLimit = 0.3f;
+    public static final float kPivotReverseSoftLimit = 0.005f;
+
     public static enum PivotDirection {
       UP, 
-      DOWN
+      DOWN,
+      STOP
     }
 
     public static final int kAmpAngleDegrees = 90;
 
-    public static double PIVOT_PRESET_SUBWOOFER = 0.0;
+
+    public static enum ShooterState {
+      IDLE, 
+      INTAKE,
+      OUTTAKE,
+      SPEAKER,
+      AMP,
+      REVERSE
+    }
   }
 
   public static final class Intake {
     public static final int kIntakeMotorPort = 9;
-    public static final boolean kIntakeMotorInverted = false;
+    public static final boolean kIntakeMotorInverted = true;
     public static final int kIntakeCurrennLimit = 60;
     public static final int kIntakeSensorPort = 0;
     public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
@@ -107,6 +128,13 @@ public final class Constants {
 
     public static final double intakeSpeed = 1;
     public static final double feederSpeed = 1;
+
+    public static enum IntakeState {
+      IDLE, 
+      INTAKE,
+      OUTTAKE,
+      FIRE
+    }
   }
 
   public static final class IOConstants {
@@ -143,9 +171,9 @@ public final class Constants {
      */
     public static final class FrontLeftModule {
       // The CAN ID for the drive motor
-      public static final int kDriveMotorCANID = 5;
+      public static final int kDriveMotorCANID = 1;
       // The CAN ID for the steer motor
-      public static final int kSteerMotorCANID = 6;
+      public static final int kSteerMotorCANID = 2;
       // The Angular offset in radians for the steer encoder in radians
       public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
       // creating the swerve module constants for the front left module
@@ -155,9 +183,9 @@ public final class Constants {
 
     public static final class FrontRightModule {
       // The CAN ID for the drive motor
-      public static final int kDriveMotorCANID = 7;
+      public static final int kDriveMotorCANID = 3;
       // The CAN ID for the steer motor
-      public static final int kSteerMotorCANID = 8;
+      public static final int kSteerMotorCANID = 4;
       // The Angular offsets in radians for the steer encoder
       public static final double kFrontRightChassisAngularOffset = 0;
       // creating the swerve module constants for the front right module
@@ -168,9 +196,9 @@ public final class Constants {
     /* Back Left Module - Module 2 */
     public static final class BackLeftModule {
       // The CAN ID for the drive motor
-      public static final int kDriveMotorCANID = 3;
+      public static final int kDriveMotorCANID = 7;
       // The CAN ID for the steer motor
-      public static final int kSteerMotorCANID = 4;
+      public static final int kSteerMotorCANID = 8;
       // The Angular offsets in radians for the steer encoder
       public static final double kBackLeftChassisAngularOffset = Math.PI;
       // creating the swerve module constants for the back left module
@@ -181,9 +209,9 @@ public final class Constants {
     /* Back Right Module - Module 3 */
     public static final class BackRightModule {
       // The CAN ID for the drive motor
-      public static final int kDriveMotorCANID = 1;
+      public static final int kDriveMotorCANID = 5;
       // The CAN ID for the steer motor
-      public static final int kSteerMotorCANID = 2;
+      public static final int kSteerMotorCANID = 6;
       // The Angular offsets in radians for the steer encoder
       public static final double kBackRightChassisAngularOffset = Math.PI / 2;
       // creating the swerve module constants for the back right module
