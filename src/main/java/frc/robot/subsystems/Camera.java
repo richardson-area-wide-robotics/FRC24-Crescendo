@@ -41,6 +41,7 @@ public class Camera extends SubsystemBase {
   final double cameraYaw = 0;
   Transform3d cameraToRobot;
   private PhotonPipelineResult result = new PhotonPipelineResult();
+  Optional<EstimatedRobotPose> lastEstimatedPose;
 
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
@@ -48,12 +49,16 @@ public class Camera extends SubsystemBase {
         new Rotation3d(cameraRoll, cameraPitch, cameraYaw));
     this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
         camera, cameraToRobot);
-        
+
   }
 
   @Override
   public void periodic() {
     result = camera.getLatestResult();
+    Optional<EstimatedRobotPose> newPose = photonPoseEstimator.update(result);
+    if (newPose.isPresent()) {
+      lastEstimatedPose = newPose;
+    }
   }
 
   /**
@@ -62,7 +67,7 @@ public class Camera extends SubsystemBase {
    * @return
    */
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    return photonPoseEstimator.update(result);
+    return lastEstimatedPose;
   }
 
   public Optional<Double> getPoseTimeStamp() {

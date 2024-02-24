@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems.drive;
 
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -12,8 +16,10 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.swerve.Swerve;
 import frc.robot.Constants;
+import frc.robot.subsystems.Camera;
 
 public class DriveSubsystem extends Swerve {
 
@@ -29,7 +35,9 @@ public class DriveSubsystem extends Swerve {
   static final MAXSwerveModule backRight =
       new MAXSwerveModule(Constants.SwerveDriveConstants.BackRightModule.S_MODULE_CONSTANTS);
 
-  public DriveSubsystem(AHRS m_gyro) {
+  private Camera m_camera;
+
+  public DriveSubsystem(AHRS m_gyro, Camera camera) {
     super(
         frontLeft,
         frontRight,
@@ -62,6 +70,8 @@ public class DriveSubsystem extends Swerve {
               }
               return false;
           }, this);
+
+          this.m_camera = camera;
   }
 
   @Override
@@ -70,5 +80,22 @@ public class DriveSubsystem extends Swerve {
     addChild("X Controller", Constants.AutoConstants.kPXController);
     addChild("Y Controller", Constants.AutoConstants.kPYController);
     addChild("Theta Controller", Constants.AutoConstants.kPThetaController);
+  }
+    // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void periodic() {
+    SmartDashboard.putBoolean("updated Pose" , false);
+    Optional<EstimatedRobotPose> pose = m_camera.getEstimatedGlobalPose();
+    Optional<Double> time = m_camera.getPoseTimeStamp();
+    
+    SmartDashboard.putBoolean("pose.isPresent()" , pose.isPresent());
+    SmartDashboard.putBoolean("time.ispresent" , time.isPresent());
+    if (pose.isPresent() && time.isPresent()) {
+      this.addPoseEstimate(pose.get().estimatedPose.toPose2d(), time.get());
+    SmartDashboard.putBoolean("updated Pose" , true);
+    }
+
+    SmartDashboard.putString("pose" , this.getPose().toString());
+    super.periodic();
   }
 }

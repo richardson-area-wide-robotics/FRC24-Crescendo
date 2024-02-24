@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 
@@ -122,16 +123,25 @@ public class Lock extends Command {
 
         final int aprilTagId = getAprilTagForModeAndAlliance();
         Pose3d robotPose = new Pose3d(m_drive.getPose());
+        
+        SmartDashboard.putString("pose", robotPose.toString());
 
-        Optional<EstimatedRobotPose> aprilTagBasedRobotPose = m_camera.getEstimatedGlobalPose();
-        if (aprilTagBasedRobotPose.isPresent()) {
-            robotPose = aprilTagBasedRobotPose.get().estimatedPose;
-        }
+        Measure<Angle> angularOffset = Degrees.of(0.0);
+        Measure<Angle> pivotAngle =  Degrees.of(0.0);
 
-        Measure<Angle> angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
-        double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.1;
+        // Optional<EstimatedRobotPose> aprilTagBasedRobotPose = m_camera.getEstimatedGlobalPose();
+        // if (aprilTagBasedRobotPose.isPresent()) {
+            // Pose3d robotPose = aprilTagBasedRobotPose.get().estimatedPose;
+            // SmartDashboard.putBoolean("photonPose", true);
+            
+             pivotAngle = getPitchAngleToAprilTag(robotPose, aprilTagId);
+            angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
+                    double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.3;
 
         SmartDashboard.putNumber("yawRate", yawRate);
+        SmartDashboard.putNumber("angularOffset", angularOffset.in(Degrees));
+
+        SmartDashboard.putNumber("aprilTag", aprilTagId);
 
         // limits robot max speed while in locked-on mode
         double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
@@ -140,8 +150,10 @@ public class Lock extends Command {
         limitedSideways = Math.min(limitedSideways, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
 
         m_drive.drive(limitedForward, limitedSideways, yawRate, true);
-        Measure<Angle> pivotAngle = getPitchAngleToAprilTag(robotPose, aprilTagId);
         SmartDashboard.putNumber("pitch angle", pivotAngle.in(Degrees));
+        // }
+
+
         // m_pivot.pivotTo(pivotAngle);
     }
 

@@ -45,14 +45,16 @@ public class RobotContainer {
   private final Pivot m_pivot = new Pivot();
   private final Shooter m_shooter = new Shooter();
   private final AHRS m_gyro = new AHRS();
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro);
+  private final Camera m_camera = new Camera("camera");
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro, m_camera);
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
   XboxController m_driverControllerSP = new XboxController(IOConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(IOConstants.kOperatorControllerPort);
 
-  private final Camera m_camera = new Camera("camera");
+  
+    PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,6 +65,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
     configureDriverBindings();
     configureOperatorBindings();
+    launchCommands();
   }
 
   /**
@@ -128,12 +131,12 @@ public class RobotContainer {
     // }, m_intake, m_shooter));
 
     // m_driverController
-    //     .leftBumper()
-    //     .whileTrue(Commands.startEnd(() -> {
-    //       m_intake.setState(IntakeState.OUTTAKE);
-    //     }, () -> {
-    //       m_intake.setState(IntakeState.IDLE);
-    //     }, m_intake));
+    // .leftBumper()
+    // .whileTrue(Commands.startEnd(() -> {
+    // m_intake.setState(IntakeState.OUTTAKE);
+    // }, () -> {
+    // m_intake.setState(IntakeState.IDLE);
+    // }, m_intake));
 
     /**
      * SHOOTER
@@ -170,12 +173,12 @@ public class RobotContainer {
         }, m_shooter));
 
     // m_driverController
-    //     .y()
-    //     .onTrue(Commands.runOnce(() -> {
-    //       m_shooter.toggleState(ShooterState.SPEAKER);
-    //     }, m_shooter).andThen(Commands.runOnce(() -> {
-    //       lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
-    //     })).andThen(lockMode));
+    // .y()
+    // .onTrue(Commands.runOnce(() -> {
+    // m_shooter.toggleState(ShooterState.SPEAKER);
+    // }, m_shooter).andThen(Commands.runOnce(() -> {
+    // lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
+    // })).andThen(lockMode));
 
     m_driverController
         .y()
@@ -183,7 +186,7 @@ public class RobotContainer {
           m_shooter.toggleState(ShooterState.SPEAKER);
         }, m_shooter).andThen(Commands.runOnce(() -> {
           lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
-        })).andThen(lockMode));
+        })));
 
     // SORRY ABOUT THIS BINDING
     m_driverController
@@ -212,8 +215,8 @@ public class RobotContainer {
           // m_shooter.toggleOff();
           m_shooter.toggleState(ShooterState.IDLE);
         }, m_shooter).andThen(Commands.runOnce(() -> {
-              lockMode.endCommand();
-            })));
+          lockMode.endCommand();
+        })));
 
     m_driverController
         .rightTrigger()
@@ -292,7 +295,8 @@ public class RobotContainer {
   }
 
   public void launchCommands() {
-    PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
-    CommandScheduler.getInstance().schedule(m_poseFuser);
+    // SmartDashboard.putBoolean("fuse started?", true);
+    // CommandScheduler.getInstance().schedule(m_poseFuser);
   }
+  
 }

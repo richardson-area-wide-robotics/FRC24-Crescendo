@@ -37,10 +37,13 @@ public class PoseFuser extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    SmartDashboard.putBoolean("updated Pose" , false);
     Optional<EstimatedRobotPose> pose = m_camera.getEstimatedGlobalPose();
     Optional<Double> time = m_camera.getPoseTimeStamp();
     if (pose.isPresent() && time.isPresent()) {
       m_swerve.addPoseEstimate(pose.get().estimatedPose.toPose2d(), time.get());
+    SmartDashboard.putBoolean("updated Pose" , true);
     }
 
     SmartDashboard.putString("pose" , m_swerve.getPose().toString());
