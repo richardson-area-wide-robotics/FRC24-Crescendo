@@ -53,6 +53,8 @@ public class RobotContainer {
     /**
      * CLIMBER
      */
+    m_climber.setDefaultCommand(Commands.run(m_climber::idle, m_climber));
+
     m_driverController
       .povUp()
       .whileTrue(Commands.run(() -> {
