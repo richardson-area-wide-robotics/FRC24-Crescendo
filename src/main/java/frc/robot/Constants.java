@@ -59,6 +59,9 @@ public final class Constants {
     public static final int pivotRightMotorCurrentLimit = 40;
     public static final int pivotLeftMotorCurrentLimit = 40;
 
+
+    // TODO: move to separate subclass 
+    // and implement switch for 1745/8874 PID values
     public static final double kPivotP = 3;
     public static final double kPivotI = 0.00008;
     public static final double kPivotD = 0.45;
@@ -71,7 +74,7 @@ public final class Constants {
     public static final double kKickerI = 0.0;
     public static final double kKickerD = 0.0;
 
-    public static final boolean kPivotRightMotorInverted = false;
+    public static final boolean kPivotRightMotorInverted = true;
 
     public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
 
@@ -81,8 +84,8 @@ public final class Constants {
     // highest angle (between hardstop and shooter) that the shooter can pivot to
     public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
 
-    public static final boolean kShooterLeftMotorInverted = true;
-    public static final boolean kShooterRightMotorInverted = false;
+    public static final boolean kShooterLeftMotorInverted = false;
+    public static final boolean kShooterRightMotorInverted = true;
 
     public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
     public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
@@ -117,15 +120,15 @@ public final class Constants {
   public static final class Intake {
     public static final int kIntakeMotorPort = 9;
     public static final boolean kIntakeMotorInverted = true;
-    public static final int kIntakeCurrennLimit = 60;
+    public static final int kIntakeCurrentLimit = 40;
     public static final int kIntakeSensorPort = 0;
     public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
 
     public static final boolean kFeederMotorInverted = false;
     public static final int kFeederCurrentLimit = 60;
 
-    public static final int intakeCANID = 15;
-    public static final int feederCANID = 11;
+    public static final int kIntakeCANID = 15;
+    public static final int kFeederCANID = 11;
 
     public static final double intakeSpeed = 1;
     public static final double feederSpeed = 1;
