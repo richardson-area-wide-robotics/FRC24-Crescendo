@@ -50,8 +50,8 @@ public final class Constants {
     public static final int shooterRightCANID = 13;
     public static final int shooterLeftCANID = 14;
 
-    public static final int pivotRightCANID = 10;
-    public static final int pivotLeftCANID = 9;
+    public static final int pivotRightCANID = 9;
+    public static final int pivotLeftCANID = 10;
 
     public static final int kickerMotorCurrentLimit = 60;
     public static final int shooterRightMotorCurrentLimit = 60;
