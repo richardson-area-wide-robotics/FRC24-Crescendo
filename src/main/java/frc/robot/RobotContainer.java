@@ -157,7 +157,9 @@ public class RobotContainer {
             .withTimeout(1.5)
             .andThen(Commands.runOnce(() -> {
               m_intake.setState(IntakeState.IDLE);
-            }, m_intake)));
+            }, m_intake)).andThen(Commands.runOnce(() -> {
+              lockMode.endCommand();
+            })));
 
     m_driverController
         .x()
@@ -173,7 +175,7 @@ public class RobotContainer {
           m_shooter.toggleState(ShooterState.SPEAKER);
         }, m_shooter).andThen(Commands.runOnce(() -> {
           lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
-        })));
+        })).andThen(lockMode));
 
     // SORRY ABOUT THIS BINDING
     m_driverController
@@ -192,14 +194,18 @@ public class RobotContainer {
         .b()
         .onTrue(Commands.run(() -> {
           m_shooter.toggleState(ShooterState.AMP);
-        }, m_shooter));
+        }, m_shooter).andThen(Commands.runOnce(() -> {
+          lockMode.setMode(LockMode.AMP_LOCK_MODE);
+        })).andThen(lockMode));
 
     m_driverController
         .rightStick()
         .onTrue(Commands.run(() -> {
           // m_shooter.toggleOff();
           m_shooter.toggleState(ShooterState.IDLE);
-        }, m_shooter));
+        }, m_shooter).andThen(Commands.runOnce(() -> {
+              lockMode.endCommand();
+            })));
 
     m_driverController
         .rightTrigger()
@@ -217,7 +223,7 @@ public class RobotContainer {
           m_pivot.pivot(PivotDirection.STOP);
         }, m_pivot));
 
-    m_driverController.rightBumper().whileTrue(lockMode);
+    // m_driverController.rightBumper().whileTrue(lockMode);
   }
 
   private void configureOperatorBindings() {

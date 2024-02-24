@@ -37,6 +37,7 @@ public class Lock extends Command {
             Constants.ModuleConstants.kVisionTurningPIDGains.D);
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     private LockMode mode = LockMode.SPEAKER_LOCK_MODE;
+    private boolean isCanceled;
 
     /**
      *
@@ -61,11 +62,16 @@ public class Lock extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return this.isCanceled;
     }
 
     public void setMode(LockMode mode) {
         this.mode = mode;
+    }
+
+    public void endCommand()
+    {
+        this.isCanceled = false;
     }
 
     //Returns -1 when trying to intake
