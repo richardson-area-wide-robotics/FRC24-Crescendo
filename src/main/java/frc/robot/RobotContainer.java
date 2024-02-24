@@ -173,10 +173,16 @@ public class RobotContainer {
 
     // SORRY ABOUT THIS BINDING
     m_driverController
+        .povLeft()
+        .onTrue(Commands.runOnce(() -> {
+          m_pivot.pivotTo(GameConstants.kPivotPresetAmp);
+        }, m_pivot));
+
+    m_driverController
         .povRight()
         .onTrue(Commands.runOnce(() -> {
           m_pivot.pivotTo(GameConstants.kPivotPresetSubwoofer);
-        }, m_shooter));
+        }, m_pivot));
 
     m_driverController
         .b()
