@@ -157,9 +157,7 @@ public class RobotContainer {
             .withTimeout(1.5)
             .andThen(Commands.runOnce(() -> {
               m_intake.setState(IntakeState.IDLE);
-            }, m_intake)).andThen(Commands.runOnce(() -> {
-              lockMode.endCommand();
-            })));
+            }, m_intake)));
 
     m_driverController
         .x()
