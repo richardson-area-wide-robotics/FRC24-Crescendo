@@ -85,7 +85,7 @@ public class Lock extends Command {
                         return 4;
                     }
                     case AMP_LOCK_MODE: {
-                        return 1;
+                        return 5;
                     }
                     case GAMEPIECE_LOCK_MODE:
                     default: {
@@ -95,10 +95,10 @@ public class Lock extends Command {
             } else {
                 switch (this.mode) {
                     case SPEAKER_LOCK_MODE: {
-                        return 8;
+                        return 7;
                     }
                     case AMP_LOCK_MODE: {
-                        return 5;
+                        return 6;
                     }
                     case GAMEPIECE_LOCK_MODE:
                     default: {
