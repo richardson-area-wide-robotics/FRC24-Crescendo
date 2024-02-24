@@ -23,8 +23,8 @@ public final class Constants {
   }
 
   public static class ClimberConstants {
-    public static final int kClimberLeftCANID = 0;
-    public static final int kClimberRightCANID = 1;
+    public static final int kClimberLeftCANID = 16;
+    public static final int kClimberRightCANID = 17;
 
     public static final IdleMode kClimberIdleMode = IdleMode.kBrake;
 
@@ -33,8 +33,8 @@ public final class Constants {
 
     public static final int kClimberCurrentLimit = 40;
 
-    public static final boolean kClimberForwardSoftLimitEnabled = true;
-    public static final boolean kClimberReverseSoftLimitEnabled = true;
+    public static final boolean kClimberForwardSoftLimitEnabled = false;
+    public static final boolean kClimberReverseSoftLimitEnabled = false;
 
     public static final float kClimberLeftForwardSoftLimit = 0;
     public static final float kClimberRightForwardSoftLimit = 0;
@@ -50,8 +50,8 @@ public final class Constants {
     public static final double kRightI = 0.0;
     public static final double kRightD = 0.0;
     
-    public static final double kClimbSpeed = 0.5;
-    public static final double kLevelSpeed = 0.2;
+    public static final double kClimbSpeed = 0.2;
+    public static final double kLevelSpeed = 0.1;
     public static final Measure<Angle> kRollTolerance = Degrees.of(5.0);
 
     public enum ClimberDirection {
