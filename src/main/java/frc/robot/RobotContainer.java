@@ -6,11 +6,9 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
-import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.GameConstants;
 import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.Intake.IntakeState;
@@ -31,11 +28,9 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Pivot;
 import java.util.function.DoubleSupplier;
-import java.util.List;
 import frc.robot.commands.Lock;
 import frc.robot.commands.PoseFuser;
 import frc.robot.subsystems.Camera;
-import frc.robot.subsystems.drive.DriveSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -88,7 +83,7 @@ public class RobotContainer {
 
 
       
-   Lock lockMode = new Lock(m_robotDrive, m_shooter, moveForward, moveSideways);
+   Lock lockMode = new Lock(m_robotDrive, m_pivot, moveForward, moveSideways);
     
     // Configure default commands
     /**
@@ -282,5 +277,9 @@ public class RobotContainer {
   public void autonPeriodic() {
     SmartDashboard.putNumber("Auton Time", Timer.getFPGATimestamp());
 
-  }
+}
+public void launchCommands() {
+  PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
+  CommandScheduler.getInstance().schedule(m_poseFuser);
+}
 }

@@ -3,10 +3,7 @@ package frc.robot.commands;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
-
-import org.photonvision.EstimatedRobotPose;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -18,18 +15,16 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.swerve.Swerve;
 import frc.robot.Constants;
-import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Pivot;
 
 public class Lock extends Command {
 
     DriveSubsystem m_drive;
     DoubleSupplier sideways;
     DoubleSupplier forward;
-    Shooter m_shooter;
+    Pivot m_pivot;
 
     // PID controller for yawRate
     final PIDController yawRateController = new PIDController(
@@ -45,12 +40,12 @@ public class Lock extends Command {
      * @param forward  passes y translation
      * @param sideways passes x translation
      */
-    public Lock(DriveSubsystem drive, Shooter shooter, DoubleSupplier forward, DoubleSupplier sideways) {
+    public Lock(DriveSubsystem drive, Pivot pivot, DoubleSupplier forward, DoubleSupplier sideways) {
         this.m_drive = drive;
         this.forward = forward;
         this.sideways = sideways;
-        this.m_shooter = shooter;
-        this.addRequirements(m_drive, m_shooter);
+        this.m_pivot = pivot;
+        this.addRequirements(m_drive, m_pivot);
     }
 
     @Override
@@ -83,9 +78,9 @@ public class Lock extends Command {
         limitedSideways = Math.min(limitedSideways, Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
 
         m_drive.drive(limitedForward, limitedSideways, yawRate, true);
-
-        SmartDashboard.putNumber("pitch angle", getPitchAngleToAprilTag(robotPose, aprilTagId).in(Degrees));
-        // m_shooter.set
+        Measure<Angle> pivotAngle = getPitchAngleToAprilTag(robotPose, aprilTagId);
+        SmartDashboard.putNumber("pitch angle", pivotAngle.in(Degrees));
+        m_pivot.pivotTo(pivotAngle);
     }
 
     public Measure<Angle> getYawAngleToAprilTag(Pose3d currentRobotPoseField, int tagId) {
@@ -102,7 +97,7 @@ public class Lock extends Command {
         Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
         Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
 
-        double angle_rad = Math.atan2(Constants.ShooterConstants.Pivot.speakerHeight.in(Meters), robotToSpeaker.getX());
+        double angle_rad = Math.atan2(Constants.ShooterConstants.speakerHeight.in(Meters), robotToSpeaker.getX());
         return Units.Radians.of(angle_rad);
     }
 
