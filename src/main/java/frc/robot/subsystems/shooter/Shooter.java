@@ -72,6 +72,7 @@ public class Shooter extends SubsystemBase {
 
 
         m_kickerMotor.restoreFactoryDefaults();
+        m_kickerMotor.setIdleMode(IdleMode.kCoast);
         m_kickerMotor.setSmartCurrentLimit(Constants.ShooterConstants.kickerMotorCurrentLimit);
         m_kickerMotor.burnFlash();
 
@@ -137,6 +138,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        System.out.println("Shooter: " + m_shooterState);
         switch (m_shooterState) {
             case INTAKE:
                 intake();
