@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase {
 
     m_feederMotor.restoreFactoryDefaults();
     m_feederMotor.setSmartCurrentLimit(Constants.Intake.kFeederCurrentLimit);
-    m_feederMotor.setInverted(Constants.Intake.kIntakeMotorInverted);
+    m_feederMotor.setInverted(Constants.Intake.kFeederMotorInverted);
     m_feederMotor.setIdleMode(Constants.Intake.kIntakeIdleMode);
     m_feederMotor.burnFlash();
   }
