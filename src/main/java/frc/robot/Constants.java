@@ -323,4 +323,9 @@ public final class Constants {
 
   public static final boolean kCompetitionMode = false;
 
+    public static enum LockMode {
+      SPEAKER_LOCK_MODE,
+      AMP_LOCK_MODE,
+      GAMEPIECE_LOCK_MODE
+    }
 }

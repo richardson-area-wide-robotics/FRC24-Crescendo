@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.GameConstants;
 import frc.robot.Constants.IOConstants;
+import frc.robot.Constants.LockMode;
 import frc.robot.Constants.Intake.IntakeState;
 import frc.robot.Constants.ShooterConstants.PivotDirection;
 import frc.robot.Constants.ShooterConstants.ShooterState;
@@ -50,9 +51,8 @@ public class RobotContainer {
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
   XboxController m_driverControllerSP = new XboxController(IOConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(IOConstants.kOperatorControllerPort);
-  
+
   private final Camera m_camera = new Camera("camera");
-  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,10 +81,8 @@ public class RobotContainer {
     DoubleSupplier moveSideways = () -> MathUtil.applyDeadband(
         -m_driverController.getLeftX(), Constants.IOConstants.kControllerDeadband);
 
+    Lock lockMode = new Lock(m_robotDrive, m_pivot, moveForward, moveSideways);
 
-      
-   Lock lockMode = new Lock(m_robotDrive, m_pivot, moveForward, moveSideways);
-    
     // Configure default commands
     /**
      * ---Driving Controls for the driver
@@ -112,7 +110,6 @@ public class RobotContainer {
           m_robotDrive.zeroHeading();
         }, m_robotDrive));
 
-
     /**
      * INTAKE
      */
@@ -125,10 +122,10 @@ public class RobotContainer {
         }, m_intake, m_shooter));
 
     // m_driverController
-    //     .leftBumper()
-    //     .whileTrue(Commands.startEnd(() -> {
-    //       m_intake.setState(IntakeState.OUTTAKE);
-    //     }, m_intake, m_shooter));
+    // .leftBumper()
+    // .whileTrue(Commands.startEnd(() -> {
+    // m_intake.setState(IntakeState.OUTTAKE);
+    // }, m_intake, m_shooter));
 
     m_driverController
         .leftBumper()
@@ -142,15 +139,14 @@ public class RobotContainer {
      * SHOOTER
      */
     // m_shooter.setDefaultCommand(Commands.run(() -> {
-    //   m_shooter.idle();
+    // m_shooter.idle();
     // }, m_shooter));
- 
-    // m_intake.setDefaultCommand(
-    //   Commands.run(() -> {
-    //     m_intake.idle();
-    //   }, m_intake));
 
-    
+    // m_intake.setDefaultCommand(
+    // Commands.run(() -> {
+    // m_intake.idle();
+    // }, m_intake));
+
     // TODO: consider making a method to stop just the feeder motor
     // also just make this better lol
     m_driverController
@@ -158,10 +154,10 @@ public class RobotContainer {
         .onTrue(Commands.run(() -> {
           m_intake.setState(IntakeState.FIRE);
         }, m_shooter)
-        .withTimeout(1.5)
-        .andThen(Commands.runOnce(() -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake)));
+            .withTimeout(1.5)
+            .andThen(Commands.runOnce(() -> {
+              m_intake.setState(IntakeState.IDLE);
+            }, m_intake)));
 
     m_driverController
         .x()
@@ -175,7 +171,9 @@ public class RobotContainer {
         .y()
         .onTrue(Commands.runOnce(() -> {
           m_shooter.toggleState(ShooterState.SPEAKER);
-        }, m_shooter));
+        }, m_shooter).andThen(Commands.runOnce(() -> {
+          lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
+        })));
 
     // SORRY ABOUT THIS BINDING
     m_driverController
@@ -219,7 +217,7 @@ public class RobotContainer {
           m_pivot.pivot(PivotDirection.STOP);
         }, m_pivot));
 
-        m_driverController.rightBumper().whileTrue(lockMode);
+    m_driverController.rightBumper().whileTrue(lockMode);
   }
 
   private void configureOperatorBindings() {
@@ -277,9 +275,10 @@ public class RobotContainer {
   public void autonPeriodic() {
     SmartDashboard.putNumber("Auton Time", Timer.getFPGATimestamp());
 
-}
-public void launchCommands() {
-  PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
-  CommandScheduler.getInstance().schedule(m_poseFuser);
-}
+  }
+
+  public void launchCommands() {
+    PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
+    CommandScheduler.getInstance().schedule(m_poseFuser);
+  }
 }

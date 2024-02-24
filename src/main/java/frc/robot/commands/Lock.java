@@ -3,6 +3,7 @@ package frc.robot.commands;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Meters;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -13,9 +14,12 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Constants.LockMode;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.shooter.Pivot;
 
@@ -32,6 +36,7 @@ public class Lock extends Command {
             Constants.ModuleConstants.kVisionTurningPIDGains.I,
             Constants.ModuleConstants.kVisionTurningPIDGains.D);
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+    private LockMode mode = LockMode.SPEAKER_LOCK_MODE;
 
     /**
      *
@@ -59,12 +64,53 @@ public class Lock extends Command {
         return false;
     }
 
+    public void setMode(LockMode mode) {
+        this.mode = mode;
+    }
+
+    //Returns -1 when trying to intake
+    private int getAprilTagForModeAndAlliance() {
+
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                switch (this.mode) {
+                    case SPEAKER_LOCK_MODE: {
+                        return 4;
+                    }
+                    case AMP_LOCK_MODE: {
+                        return 1;
+                    }
+                    case GAMEPIECE_LOCK_MODE:
+                    default: {
+                        return -1;
+                    }
+                }
+            } else {
+                switch (this.mode) {
+                    case SPEAKER_LOCK_MODE: {
+                        return 8;
+                    }
+                    case AMP_LOCK_MODE: {
+                        return 5;
+                    }
+                    case GAMEPIECE_LOCK_MODE:
+                    default: {
+                        return -1;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
     // This sets the yawRate to circle the desired object while maintaning driver
     // controll of motion
     @Override
     public void execute() {
 
-        int aprilTagId = 4;
+        final int aprilTagId = getAprilTagForModeAndAlliance();
         Pose3d robotPose = new Pose3d(m_drive.getPose());
         Measure<Angle> angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
         double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.1;
