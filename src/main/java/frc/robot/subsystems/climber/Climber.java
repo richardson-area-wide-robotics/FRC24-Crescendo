@@ -3,7 +3,9 @@ package frc.robot.subsystems.climber;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.SparkRelativeEncoder.Type;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Angle;
 import static edu.wpi.first.units.Units.*;
@@ -19,6 +21,9 @@ public class Climber extends SubsystemBase {
     private SparkPIDController m_climberLeftPIDController;
     private SparkPIDController m_climberRightPIDController;
 
+    private RelativeEncoder m_climberLeftEncoder;
+    private RelativeEncoder m_climberRightEncoder;
+
     public Climber() {
         m_climberLeftMotor = new CANSparkMax(ClimberConstants.kClimberLeftCANID, MotorType.kBrushless);
         m_climberRightMotor = new CANSparkMax(ClimberConstants.kClimberRightCANID, MotorType.kBrushless);
@@ -31,6 +36,11 @@ public class Climber extends SubsystemBase {
         m_climberLeftMotor.enableSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberReverseSoftLimitEnabled);
         m_climberLeftMotor.setSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberLeftForwardSoftLimit);
         m_climberLeftMotor.setSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberLeftReverseSoftLimit);
+        // m_climberLeftEncoder = m_climberLeftMotor.getEncoder(Type.kHallSensor, 1);
+        m_climberLeftPIDController = m_climberLeftMotor.getPIDController();
+        m_climberLeftPIDController.setP(ClimberConstants.kLeftP);
+        m_climberLeftPIDController.setI(ClimberConstants.kLeftI);
+        m_climberLeftPIDController.setD(ClimberConstants.kLeftD);
         m_climberLeftMotor.burnFlash();
 
         m_climberRightMotor.restoreFactoryDefaults();
@@ -41,18 +51,16 @@ public class Climber extends SubsystemBase {
         m_climberRightMotor.enableSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberReverseSoftLimitEnabled);
         m_climberRightMotor.setSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberRightForwardSoftLimit);
         m_climberRightMotor.setSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberRightReverseSoftLimit);
-        m_climberRightMotor.burnFlash();
-
-        m_climberLeftPIDController = m_climberLeftMotor.getPIDController();
         m_climberRightPIDController = m_climberRightMotor.getPIDController();
-
-        m_climberLeftPIDController.setP(ClimberConstants.kLeftP);
-        m_climberLeftPIDController.setI(ClimberConstants.kLeftI);
-        m_climberLeftPIDController.setD(ClimberConstants.kLeftD);
-
         m_climberRightPIDController.setP(ClimberConstants.kRightP);
         m_climberRightPIDController.setI(ClimberConstants.kRightI);
         m_climberRightPIDController.setD(ClimberConstants.kRightD);
+        m_climberRightMotor.burnFlash();
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
     }
 
     public void idle() {
