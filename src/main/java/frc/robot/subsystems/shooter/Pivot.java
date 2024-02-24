@@ -25,22 +25,13 @@ public class Pivot extends SubsystemBase {
 
     private Measure<Angle> m_pivotAngle;
 
+    private boolean manualControl = false;
+
     public Pivot() {
         m_pivotLeftMotor = new CANSparkMax(Constants.ShooterConstants.pivotLeftCANID, MotorType.kBrushless);
         m_pivotRightMotor = new CANSparkMax(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
 
-        m_pivotLeftMotor.restoreFactoryDefaults();
-        m_pivotLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotLeftMotorCurrentLimit);
-        m_pivotLeftMotor.follow(m_pivotRightMotor, true);
-       
         m_pivotRightMotor.restoreFactoryDefaults();
-        m_pivotEncoder = m_pivotRightMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-        m_pivotPIDController = m_pivotRightMotor.getPIDController();
-        m_pivotPIDController.setFeedbackDevice(m_pivotEncoder);
-        m_pivotPIDController.setPositionPIDWrappingEnabled(false);
-        m_pivotPIDController.setP(Constants.ShooterConstants.kPivotP);
-        m_pivotPIDController.setI(Constants.ShooterConstants.kPivotI);
-        m_pivotPIDController.setD(Constants.ShooterConstants.kPivotD);
         m_pivotRightMotor.setIdleMode(IdleMode.kBrake);
         m_pivotRightMotor.setInverted(Constants.ShooterConstants.kPivotRightMotorInverted);
         m_pivotRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotRightMotorCurrentLimit);
@@ -48,6 +39,19 @@ public class Pivot extends SubsystemBase {
         m_pivotRightMotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ShooterConstants.kPivotForwardSoftLimit);
         m_pivotRightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
         m_pivotRightMotor.setSoftLimit(SoftLimitDirection.kReverse, Constants.ShooterConstants.kPivotReverseSoftLimit);
+        m_pivotEncoder = m_pivotRightMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+        m_pivotPIDController = m_pivotRightMotor.getPIDController();
+        m_pivotPIDController.setFeedbackDevice(m_pivotEncoder);
+        m_pivotPIDController.setPositionPIDWrappingEnabled(false);
+        m_pivotPIDController.setP(Constants.ShooterConstants.kPivotP);
+        m_pivotPIDController.setI(Constants.ShooterConstants.kPivotI);
+        m_pivotPIDController.setD(Constants.ShooterConstants.kPivotD);
+
+
+        m_pivotLeftMotor.restoreFactoryDefaults();
+        m_pivotLeftMotor.setIdleMode(IdleMode.kBrake);
+        m_pivotLeftMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotLeftMotorCurrentLimit);
+        m_pivotLeftMotor.follow(m_pivotRightMotor, true);
         m_pivotRightMotor.burnFlash();
         m_pivotLeftMotor.burnFlash();
 
@@ -56,29 +60,34 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        pivotTo(m_pivotAngle);
+        // System.out.println(Radians.of(m_pivotEncoder.getPosition()));
+        if (!manualControl) pivotTo(m_pivotAngle);
     }
 
     public void pivot(PivotDirection direction) {
         switch (direction) {
             case UP:
-                // pivotSpeed(Constants.ShooterConstants.kPivotSpeed);
-                m_pivotAngle = m_pivotAngle.plus(Radians.of(0.0005)); // TODO: change to constant
-                if (m_pivotAngle.in(Radians) >= Constants.ShooterConstants.kPivotForwardSoftLimit) {
-                    m_pivotAngle = Radians.of(Constants.ShooterConstants.kPivotForwardSoftLimit);
-                }
-                pivotTo(m_pivotAngle);
+                manualControl = true;
+                pivotSpeed(Constants.ShooterConstants.kPivotSpeed);
+                // m_pivotAngle = m_pivotAngle.plus(Radians.of(0.0005)); // TODO: change to constant
+                // if (m_pivotAngle.in(Radians) >= Constants.ShooterConstants.kPivotForwardSoftLimit) {
+                //     m_pivotAngle = Radians.of(Constants.ShooterConstants.kPivotForwardSoftLimit);
+                // }
+                // pivotTo(m_pivotAngle);
                 break;
             case DOWN:
-                // pivotSpeed(-Constants.ShooterConstants.kPivotSpeed);
-                m_pivotAngle = m_pivotAngle.minus(Radians.of(0.0005)); // TODO: change to constant
-                if (m_pivotAngle.in(Radians) <= Constants.ShooterConstants.kPivotReverseSoftLimit) {
-                    m_pivotAngle = Radians.of(Constants.ShooterConstants.kPivotReverseSoftLimit);
-                }
-                pivotTo(m_pivotAngle);
+                manualControl = true;
+                pivotSpeed(-Constants.ShooterConstants.kPivotSpeed);
+                // m_pivotAngle = m_pivotAngle.minus(Radians.of(0.0005)); // TODO: change to constant
+                // if (m_pivotAngle.in(Radians) <= Constants.ShooterConstants.kPivotReverseSoftLimit) {
+                //     m_pivotAngle = Radians.of(Constants.ShooterConstants.kPivotReverseSoftLimit);
+                // }
+                // pivotTo(m_pivotAngle);
                 break;
             case STOP:
             default:
+                manualControl = false;
+                m_pivotAngle = Radians.of(m_pivotEncoder.getPosition());
                 pivotSpeed(0);
         }
     }
