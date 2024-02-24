@@ -138,7 +138,6 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println("Shooter: " + m_shooterState);
         switch (m_shooterState) {
             case INTAKE:
                 intake();

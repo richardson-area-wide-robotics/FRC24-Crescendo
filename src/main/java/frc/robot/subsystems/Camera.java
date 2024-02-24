@@ -48,6 +48,7 @@ public class Camera extends SubsystemBase {
         new Rotation3d(cameraRoll, cameraPitch, cameraYaw));
     this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
         camera, cameraToRobot);
+        
   }
 
   @Override

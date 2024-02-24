@@ -37,7 +37,6 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("Intake: " + m_intakeState);
     switch (m_intakeState) {
       case IDLE:
         idle();

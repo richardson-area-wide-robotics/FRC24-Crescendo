@@ -81,7 +81,7 @@ public class RobotContainer {
     DoubleSupplier moveSideways = () -> MathUtil.applyDeadband(
         -m_driverController.getLeftX(), Constants.IOConstants.kControllerDeadband);
 
-    Lock lockMode = new Lock(m_robotDrive, m_pivot, moveForward, moveSideways);
+    Lock lockMode = new Lock(m_robotDrive, m_pivot, m_camera, moveForward, moveSideways);
 
     // Configure default commands
     /**
@@ -127,13 +127,13 @@ public class RobotContainer {
     // m_intake.setState(IntakeState.OUTTAKE);
     // }, m_intake, m_shooter));
 
-    m_driverController
-        .leftBumper()
-        .whileTrue(Commands.startEnd(() -> {
-          m_intake.setState(IntakeState.OUTTAKE);
-        }, () -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake));
+    // m_driverController
+    //     .leftBumper()
+    //     .whileTrue(Commands.startEnd(() -> {
+    //       m_intake.setState(IntakeState.OUTTAKE);
+    //     }, () -> {
+    //       m_intake.setState(IntakeState.IDLE);
+    //     }, m_intake));
 
     /**
      * SHOOTER
@@ -157,7 +157,9 @@ public class RobotContainer {
             .withTimeout(1.5)
             .andThen(Commands.runOnce(() -> {
               m_intake.setState(IntakeState.IDLE);
-            }, m_intake)));
+            }, m_intake)).andThen(Commands.runOnce(() -> {
+              lockMode.endCommand();
+            })));
 
     m_driverController
         .x()
@@ -166,6 +168,14 @@ public class RobotContainer {
         }, () -> {
           m_shooter.toggleState(ShooterState.IDLE);
         }, m_shooter));
+
+    // m_driverController
+    //     .y()
+    //     .onTrue(Commands.runOnce(() -> {
+    //       m_shooter.toggleState(ShooterState.SPEAKER);
+    //     }, m_shooter).andThen(Commands.runOnce(() -> {
+    //       lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
+    //     })).andThen(lockMode));
 
     m_driverController
         .y()
@@ -194,7 +204,7 @@ public class RobotContainer {
           m_shooter.toggleState(ShooterState.AMP);
         }, m_shooter).andThen(Commands.runOnce(() -> {
           lockMode.setMode(LockMode.AMP_LOCK_MODE);
-        })).andThen(lockMode));
+        })));
 
     m_driverController
         .rightStick()
@@ -221,7 +231,7 @@ public class RobotContainer {
           m_pivot.pivot(PivotDirection.STOP);
         }, m_pivot));
 
-    // m_driverController.rightBumper().whileTrue(lockMode);
+    m_driverController.leftBumper().whileTrue(lockMode);
   }
 
   private void configureOperatorBindings() {
