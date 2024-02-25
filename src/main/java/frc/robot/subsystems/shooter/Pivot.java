@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants.PivotDirection;
@@ -98,6 +99,7 @@ public class Pivot extends SubsystemBase{
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("encoder Position", getEncoderPosition());
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
         //     m_setPoint = PivotConstants.kPivotMaxAngle;
         // } else if (m_setPoint < PivotConstants.kPivotMinAngle) {

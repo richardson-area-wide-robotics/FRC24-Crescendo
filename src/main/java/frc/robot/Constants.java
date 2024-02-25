@@ -317,7 +317,7 @@ public final class Constants {
     public static final double kPivotMaxOutput = 1.0;
     
     // Range of values the smart controller will use as a hard stop 
-    public static final float kPivotForwardSoftLimit = 0.3f;
+    public static final float kPivotForwardSoftLimit = 0.31f;
     public static final float kPivotReverseSoftLimit = 0.01f;
 
     // Range that the driver will be allowed to move pivot to
@@ -325,9 +325,9 @@ public final class Constants {
     public static final double kPivotMinAngle = 0.01;
    
     public static final double kPivotPresetSubwoofer = 0.135;
-    public static final double kPivotPresetAmp = 0.05;
+    public static final double kPivotPresetAmp = 0.31;
 
-    public static final double kPivotSpeed = 0.22;
+    public static final double kPivotSpeed = 0.85;
     }
 
 
@@ -403,14 +403,14 @@ public final class Constants {
   }
 
   public static final class Intake {
-    public static final int kIntakeMotorPort = 9;
+    public static final int kIntakeMotorPort = 15;
     public static final boolean kIntakeMotorInverted = true;
     public static final int kIntakeCurrennLimit = 60;
     public static final int kIntakeSensorPort = 0;
     public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
     public static final int kFeederCurrentLimit = 60;
 
-    public static final int intakeCANID = 15;
+    // public static final int intakeCANID = 15;
     public static final int feederCANID = 11;
 
     public static final double intakeSpeed = 1;

@@ -109,13 +109,13 @@ public class RobotContainer {
     /**
      * INTAKE
      */
-    // m_driverController
-    //     .rightBumper()
-    //     .whileTrue(Commands.startEnd(() -> {
-    //       m_intake.setState(IntakeState.INTAKE);
-    //     }, () -> {
-    //       m_intake.setState(IntakeState.IDLE);
-    //     }, m_intake, m_shooter));
+    m_driverController
+        .a()
+        .whileTrue(Commands.startEnd(() -> {
+          m_intake.setState(IntakeState.INTAKE);
+        }, () -> {
+          m_intake.setState(IntakeState.IDLE);
+        }, m_intake, m_shooter));
     m_driverController.rightBumper().whileTrue(m_intake.receive());
 
     // m_driverController
@@ -147,15 +147,15 @@ public class RobotContainer {
     
     // TODO: consider making a method to stop just the feeder motor
     // also just make this better lol
-    m_driverController
-        .a()
-        .onTrue(Commands.run(() -> {
-          m_intake.setState(IntakeState.FIRE);
-        }, m_shooter)
-        .withTimeout(1.5)
-        .andThen(Commands.runOnce(() -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake)));
+    // m_driverController
+    //     .a()
+    //     .onTrue(Commands.run(() -> {
+    //       m_intake.setState(IntakeState.FIRE);
+    //     }, m_shooter)
+    //     .withTimeout(1.5)
+    //     .andThen(Commands.runOnce(() -> {
+    //       m_intake.setState(IntakeState.IDLE);
+    //     }, m_intake)));
 
     m_driverController
         .x()
@@ -176,6 +176,7 @@ public class RobotContainer {
         .povLeft()
         .onTrue(Commands.runOnce(() -> {
           m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetAmp);
+          m_shooter.toggleState(ShooterState.AMP);
         }, m_pivot));
 
     m_driverController
@@ -251,6 +252,7 @@ public class RobotContainer {
    * Reduces multi method use to Shuffleboard
    */
   public void putDashboard() {
+    SmartDashboard.putBoolean("sensor enabled", m_intake.sensorEnabled());
     // m_robotDrive.putNumber();
     // SmartDashboard.putNumber("filtered PoseX", m_robotDrive.getPose().getX());
     // SmartDashboard.putNumber("filtered PoseY", m_robotDrive.getPose().getY());

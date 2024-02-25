@@ -150,7 +150,7 @@ public class Shooter extends SubsystemBase {
                 speakerMode();
                 break;
             case AMP:
-                ampMode();
+                ampSpeed();
                 break;
             case REVERSE:
                 reverse();
@@ -173,7 +173,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void toggleState(ShooterState state) {
-        if (m_shooterState == state) {
+        if (m_shooterState == state || m_shooterState == ShooterState.AMP) {
             m_shooterState = ShooterState.IDLE;
         } else {
             m_shooterState = state;
@@ -261,6 +261,12 @@ public class Shooter extends SubsystemBase {
         m_shooterLeftMotor.set(0.6);
         m_shooterRightMotor.set(0.4);
         m_kickerMotor.set(0.75); // TODO: change to constant
+    }
+
+    private void ampSpeed() {
+        m_shooterLeftMotor.set(0.2);
+        m_shooterRightMotor.set(0.2);
+        m_kickerMotor.set(0.1);
     }
 
     /**

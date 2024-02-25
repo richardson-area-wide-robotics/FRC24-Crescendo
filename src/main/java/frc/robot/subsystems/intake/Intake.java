@@ -1,9 +1,11 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,14 +34,15 @@ public class Intake extends SubsystemBase {
 
     m_feederMotor.restoreFactoryDefaults();
     m_feederMotor.setSmartCurrentLimit(Constants.Intake.kFeederCurrentLimit);
-    m_feederMotor.setInverted(Constants.Intake.kIntakeMotorInverted);
-    m_feederMotor.setIdleMode(Constants.Intake.kIntakeIdleMode);
+    m_feederMotor.setInverted(false);
+    m_feederMotor.setIdleMode(IdleMode.kBrake);
     m_feederMotor.burnFlash();
   }
 
   @Override
   public void periodic() {
-    System.out.println("Intake: " + m_intakeState);
+    // System.out.println("Intake: " + m_intakeState);
+    // SmartDashboard.putBoolean("sensor enabled", sensorEnabled());
     switch (m_intakeState) {
       case IDLE:
         idle();
@@ -63,6 +66,10 @@ public class Intake extends SubsystemBase {
   {
     m_intakeMotor.stopMotor();
     m_feederMotor.stopMotor();
+  }
+
+  public boolean sensorEnabled(){
+    return sensor.get();
   }
 
   public void intake()
@@ -106,18 +113,18 @@ public class Intake extends SubsystemBase {
   public Command receive() {
     return new FunctionalCommand(
       () -> {
-        m_feederMotor.set(Constants.Intake.feederSpeed);
-        m_intakeMotor.set(Constants.Intake.intakeSpeed);
+        return;
       },
       () -> {
-        return;
+        m_feederMotor.set(Constants.Intake.feederSpeed);
+        m_intakeMotor.set(Constants.Intake.intakeSpeed);;
       },
       (end) -> {
         m_feederMotor.stopMotor();
         m_intakeMotor.stopMotor();
       },
       () -> {
-        if(sensor.get() || m_intakeState == IntakeState.IDLE) {return true;}   
+        if(!sensor.get()) {return true;}   
         else {return false;}
       },
       this
