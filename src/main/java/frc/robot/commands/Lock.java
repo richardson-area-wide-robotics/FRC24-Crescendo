@@ -153,8 +153,8 @@ public class Lock extends Command {
         angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
         double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.3;
 
-        SmartDashboard.putNumber("yawRate", yawRate);
         SmartDashboard.putNumber("angularOffset", angularOffset.in(Degrees));
+        SmartDashboard.putNumber("yawRate", yawRate);
 
         // limits robot max speed while in locked-on mode
         double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
@@ -173,7 +173,7 @@ public class Lock extends Command {
         Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
         Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
 
-        SmartDashboard.putString("pose", robotToSpeaker.toString());
+        SmartDashboard.putString("robotToSpeakerPose", robotToSpeaker.toString());
 
         double angle_rad = Math.atan2(robotToSpeaker.getY(), robotToSpeaker.getX());
         return Units.Radians.of(angle_rad);
