@@ -41,7 +41,7 @@ public class Camera extends SubsystemBase {
   final double cameraYaw = 0;
   Transform3d cameraToRobot;
   private PhotonPipelineResult result = new PhotonPipelineResult();
-  Optional<EstimatedRobotPose> lastEstimatedPose;
+  Optional<EstimatedRobotPose> lastEstimatedPose = Optional.empty();
 
   public Camera(String name) {
     this.camera = new PhotonCamera(name);
@@ -49,7 +49,6 @@ public class Camera extends SubsystemBase {
         new Rotation3d(cameraRoll, cameraPitch, cameraYaw));
     this.photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
         camera, cameraToRobot);
-
   }
 
   @Override
@@ -70,6 +69,8 @@ public class Camera extends SubsystemBase {
     return lastEstimatedPose;
   }
 
+  // This method should ONLY be called by the pose fusion portion of the drive
+  // system. Any other calls will invalidate it.
   public Optional<Double> getPoseTimeStamp() {
     if (result.getTimestampSeconds() == -1) {
       return Optional.empty();
@@ -77,14 +78,4 @@ public class Camera extends SubsystemBase {
       return Optional.of(result.getTimestampSeconds());
     }
   }
-
-  public Measure<Angle> getAngleToSpeaker(Pose3d currentRobotPoseField) {
-
-    Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(4).get();
-    Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
-
-    double angle_rad = Math.atan2(robotToSpeaker.getY(), robotToSpeaker.getX());
-    return Units.Radians.of(angle_rad);
-  }
-
 }

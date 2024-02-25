@@ -326,6 +326,9 @@ public final class Constants {
     public static enum LockMode {
       SPEAKER_LOCK_MODE,
       AMP_LOCK_MODE,
-      GAMEPIECE_LOCK_MODE
+      GAMEPIECE_LOCK_MODE,
+      TRAP_1,
+      TRAP_2,
+      TRAP_3
     }
 }

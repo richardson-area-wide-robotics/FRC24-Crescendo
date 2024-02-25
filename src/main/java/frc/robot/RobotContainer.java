@@ -30,7 +30,6 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Pivot;
 import java.util.function.DoubleSupplier;
 import frc.robot.commands.Lock;
-import frc.robot.commands.PoseFuser;
 import frc.robot.subsystems.Camera;
 
 /*
@@ -52,9 +51,6 @@ public class RobotContainer {
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
   XboxController m_driverControllerSP = new XboxController(IOConstants.kDriverControllerPort);
   CommandXboxController m_operatorController = new CommandXboxController(IOConstants.kOperatorControllerPort);
-
-  
-    PoseFuser m_poseFuser = new PoseFuser(m_camera, m_robotDrive);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -295,8 +291,6 @@ public class RobotContainer {
   }
 
   public void launchCommands() {
-    // SmartDashboard.putBoolean("fuse started?", true);
-    // CommandScheduler.getInstance().schedule(m_poseFuser);
   }
   
 }
