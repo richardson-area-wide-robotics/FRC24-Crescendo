@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.GameConstants;
 import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.Intake.IntakeState;
 import frc.robot.Constants.ShooterConstants.PivotDirection;
@@ -110,13 +109,14 @@ public class RobotContainer {
     /**
      * INTAKE
      */
-    m_driverController
-        .rightBumper()
-        .whileTrue(Commands.startEnd(() -> {
-          m_intake.setState(IntakeState.INTAKE);
-        }, () -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake, m_shooter));
+    // m_driverController
+    //     .rightBumper()
+    //     .whileTrue(Commands.startEnd(() -> {
+    //       m_intake.setState(IntakeState.INTAKE);
+    //     }, () -> {
+    //       m_intake.setState(IntakeState.IDLE);
+    //     }, m_intake, m_shooter));
+    m_driverController.rightBumper().whileTrue(m_intake.receive());
 
     // m_driverController
     //     .leftBumper()
@@ -175,13 +175,13 @@ public class RobotContainer {
     m_driverController
         .povLeft()
         .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(GameConstants.kPivotPresetAmp);
+          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetAmp);
         }, m_pivot));
 
     m_driverController
         .povRight()
         .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(GameConstants.kPivotPresetSubwoofer);
+          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetSubwoofer);
         }, m_pivot));
 
     m_driverController

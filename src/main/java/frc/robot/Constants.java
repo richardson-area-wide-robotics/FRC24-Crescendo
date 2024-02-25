@@ -37,10 +37,6 @@ import frc.lib.util.SwerveModuleConstants;
  */
 
 public final class Constants {
-  public static class GameConstants {
-    public static final Measure<Angle> kPivotPresetSubwoofer = Radians.of(0.135);
-    public static final Measure<Angle> kPivotPresetAmp = Radians.of(0.05);
-  }
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
@@ -58,10 +54,6 @@ public final class Constants {
   //   public static final double kShooterP = 0.0007;
   //   public static final double kShooterI = 0.0;
   //   public static final double kShooterD = 0.001;
-
-  //   public static final double kKickerP = 0.0;
-  //   public static final double kKickerI = 0.0;
-  //   public static final double kKickerD = 0.0;
 
   //   public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
 
@@ -304,28 +296,46 @@ public final class Constants {
 
   public static final boolean kCompetitionMode = false;
 
-   public static class ShooterConstants {
 
-    /* Pivot Constants */
-    public static final class Pivot{
+  /* Pivot Constants */
+    public static final class PivotConstants{
+    // Id's for the pivot motors
     public static final int pivotRightCANID = 9;
     public static final int pivotLeftCANID = 10;
+
+    // Controller idle mode and current
     public static final IdleMode pivotIdleMode = IdleMode.kBrake;
     public static final int pivotCurrentLimit = 40;
+    public static final boolean pivotRightMotorInverted = true;
+
     // TODO: Tune these values for the pivot please 
     public static final double kPivotP = 3.0;
     public static final double kPivotI = 0.00008;
     public static final double kPivotD = 0.45;
     public static final boolean kPivotPositionPIDWrappingEnabled = false;
-    public static final double kPivotMinOutput = 0;
-    public static final double kPivotMaxOutput = 0;
-    public static final boolean pivotRightMotorInverted = true;
+    public static final double kPivotMinOutput = -1.0;
+    public static final double kPivotMaxOutput = 1.0;
+    
+    // Range of values the smart controller will use as a hard stop 
     public static final float kPivotForwardSoftLimit = 0.3f;
     public static final float kPivotReverseSoftLimit = 0.01f;
+
+    // Range that the driver will be allowed to move pivot to
+    public static final double kPivotMaxAngle = 0.3; 
+    public static final double kPivotMinAngle = 0.01;
+   
+    public static final double kPivotPresetSubwoofer = 0.135;
+    public static final double kPivotPresetAmp = 0.05;
+
     public static final double kPivotSpeed = 0.22;
     }
 
 
+
+
+
+
+   public static class ShooterConstants {
 
 
 
@@ -372,9 +382,6 @@ public final class Constants {
     public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
 
     public static final double kPivotSpeed = 0.22;
-
-    public static final float kPivotForwardSoftLimit = 0.3f;
-    public static final float kPivotReverseSoftLimit = 0.005f;
 
     public static enum PivotDirection {
       UP, 

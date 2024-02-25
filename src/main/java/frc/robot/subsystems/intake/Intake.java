@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkFlex;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Intake.IntakeState;
@@ -89,4 +91,36 @@ public class Intake extends SubsystemBase {
     m_feederMotor.set(0);
   }
 
+//   public Command receive() {
+//     return commandBuilder()
+//         .onInitialize(() -> feedMotor.set(FeederConstants.RECEIVE_SPEED))
+//         .isFinished(() -> hasNote())
+//         .onEnd(() -> feedMotor.stopMotor())
+//         .onlyIf(() -> !hasNote())
+//         .withName("feeder.receive()");
+// }
+
+  /* make a command that only runs when a button is pressed and then runs the feeder and intake together in the positive speed
+   * and will stop the commande when the sensor is triggered or the button is released; using function command class
+   */ 
+  public Command receive() {
+    return new FunctionalCommand(
+      () -> {
+        m_feederMotor.set(Constants.Intake.feederSpeed);
+        m_intakeMotor.set(Constants.Intake.intakeSpeed);
+      },
+      () -> {
+        return;
+      },
+      (end) -> {
+        m_feederMotor.stopMotor();
+        m_intakeMotor.stopMotor();
+      },
+      () -> {
+        if(sensor.get() || m_intakeState == IntakeState.IDLE) {return true;}   
+        else {return false;}
+      },
+      this
+    );
+  }
 }
