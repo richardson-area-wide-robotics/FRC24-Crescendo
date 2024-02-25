@@ -52,7 +52,6 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final AHRS m_gyro = new AHRS();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro);
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Climber m_climber = new Climber();
 
   // The driver's controller
@@ -69,6 +68,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
     configureDriverBindings();
     configureOperatorBindings();
+    globalEventList();
   }
 
   /**
@@ -180,6 +180,7 @@ public class RobotContainer {
         }, m_shooter));
 
     // SORRY ABOUT THIS BINDING
+    /* 
     m_driverController
         .povLeft()
         .onTrue(Commands.runOnce(() -> {
@@ -190,7 +191,7 @@ public class RobotContainer {
         .povRight()
         .onTrue(Commands.runOnce(() -> {
           m_pivot.pivotTo(GameConstants.kPivotPresetSubwoofer);
-        }, m_pivot));
+        }, m_pivot));*/
 
     m_driverController
         .b()
@@ -244,20 +245,16 @@ public class RobotContainer {
     m_climber.setDefaultCommand(Commands.run(m_climber::idle, m_climber));
 
     m_driverController
-      .povUp()
+      .povDown()
       .whileTrue(Commands.run(() -> {
         m_climber.setDirection(ClimberDirection.UP);
       }, m_climber));
 
     m_driverController
-      .povDown()
+      .povUp()
       .whileTrue(Commands.run(() -> {
         m_climber.setDirection(ClimberDirection.DOWN);
       }, m_climber));
-  }
-  
-  private void configureOperatorBindings() {
-
   }
 
   /**
