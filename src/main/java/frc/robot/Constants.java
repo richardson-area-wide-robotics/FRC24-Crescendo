@@ -21,6 +21,10 @@ import edu.wpi.first.math.controller.PIDController;
 import frc.lib.controller.FFGains;
 import frc.lib.controller.PIDGains;
 import frc.lib.util.SwerveModuleConstants;
+import com.revrobotics.CANSparkBase.IdleMode;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import static edu.wpi.first.units.Units.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -322,4 +326,41 @@ public final class Constants {
 
   public static final boolean kCompetitionMode = false;
 
+  public static class ClimberConstants {
+    public static final int kClimberLeftCANID = 16;
+    public static final int kClimberRightCANID = 17;
+
+    public static final IdleMode kClimberIdleMode = IdleMode.kBrake;
+
+    public static final boolean kClimberLeftInverted = false;
+    public static final boolean kClimberRightInverted = true;
+
+    public static final int kClimberCurrentLimit = 40;
+
+    public static final boolean kClimberForwardSoftLimitEnabled = false;
+    public static final boolean kClimberReverseSoftLimitEnabled = false;
+
+    public static final float kClimberLeftForwardSoftLimit = 0;
+    public static final float kClimberRightForwardSoftLimit = 0;
+
+    public static final float kClimberLeftReverseSoftLimit = 0;
+    public static final float kClimberRightReverseSoftLimit = 0;
+
+    public static final double kLeftP = 0.1;
+    public static final double kLeftI = 0.0;
+    public static final double kLeftD = 0.0;
+
+    public static final double kRightP = 0.1;
+    public static final double kRightI = 0.0;
+    public static final double kRightD = 0.0;
+    
+    public static final double kClimbSpeed = 0.2;
+    public static final double kLevelSpeed = 0.1;
+    public static final Measure<Angle> kRollTolerance = Degrees.of(5.0);
+
+    public enum ClimberDirection {
+      UP,
+      DOWN
+    }
+  }
 }
