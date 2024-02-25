@@ -28,12 +28,12 @@ public class Pivot extends SubsystemBase {
     private boolean manualControl = false;
 
     public Pivot() {
-        m_pivotLeftMotor = new CANSparkMax(Constants.ShooterConstants.pivotLeftCANID, MotorType.kBrushless);
-        m_pivotRightMotor = new CANSparkMax(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
-
+        // m_pivotLeftMotor = new CANSparkMax(Constants.ShooterConstants.pivotLeftCANID, MotorType.kBrushless);
+        // m_pivotRightMotor = new CANSparkMax(Constants.ShooterConstants.pivotRightCANID, MotorType.kBrushless);
+       
         m_pivotRightMotor.restoreFactoryDefaults();
         m_pivotRightMotor.setIdleMode(IdleMode.kBrake);
-        m_pivotRightMotor.setInverted(Constants.ShooterConstants.kPivotRightMotorInverted);
+        // m_pivotRightMotor.setInverted(Constants.ShooterConstants.kPivotRightMotorInverted);
         m_pivotRightMotor.setSmartCurrentLimit(Constants.ShooterConstants.pivotRightMotorCurrentLimit);
         m_pivotRightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         m_pivotRightMotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ShooterConstants.kPivotForwardSoftLimit);

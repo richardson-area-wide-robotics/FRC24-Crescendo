@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -45,101 +46,82 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static class ShooterConstants {
-    public static final int kickerMotorCANID = 12;
-    public static final int shooterRightCANID = 13;
-    public static final int shooterLeftCANID = 14;
+  // public static class ShooterConstants {
+  //   public static final int kickerMotorCANID = 12;
+  //   public static final int shooterRightCANID = 13;
+  //   public static final int shooterLeftCANID = 14;
 
-    public static final int pivotRightCANID = 10;
-    public static final int pivotLeftCANID = 9;
+  //   public static final int kickerMotorCurrentLimit = 60;
+  //   public static final int shooterRightMotorCurrentLimit = 60;
+  //   public static final int shooterLeftMotorCurrentLimit = 60;
 
-    public static final int kickerMotorCurrentLimit = 60;
-    public static final int shooterRightMotorCurrentLimit = 60;
-    public static final int shooterLeftMotorCurrentLimit = 60;
-    public static final int pivotRightMotorCurrentLimit = 40;
-    public static final int pivotLeftMotorCurrentLimit = 40;
+  //   public static final double kShooterP = 0.0007;
+  //   public static final double kShooterI = 0.0;
+  //   public static final double kShooterD = 0.001;
 
+  //   public static final double kKickerP = 0.0;
+  //   public static final double kKickerI = 0.0;
+  //   public static final double kKickerD = 0.0;
 
-    // TODO: move to separate subclass 
-    // and implement switch for 1745/8874 PID values
-    public static final double kPivotP = 3;
-    public static final double kPivotI = 0.00008;
-    public static final double kPivotD = 0.45;
+  //   public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
 
-    public static final double kShooterP = 0.0007;
-    public static final double kShooterI = 0.0;
-    public static final double kShooterD = 0.001;
+  //   // smallest angle (between hardstop and shooter) that the shooter can pivot to
+  //   public static final Measure<Angle> kPivotMinAngle = Degrees.of(5.0); // TBD
 
-    public static final double kKickerP = 0.0;
-    public static final double kKickerI = 0.0;
-    public static final double kKickerD = 0.0;
+  //   // highest angle (between hardstop and shooter) that the shooter can pivot to
+  //   public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
 
-    public static final boolean kPivotRightMotorInverted = true;
+  //   public static final boolean kShooterLeftMotorInverted = false;
+  //   public static final boolean kShooterRightMotorInverted = true;
 
-    public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
+  //   public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
+  //   public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
+  //   public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
 
-    // smallest angle (between hardstop and shooter) that the shooter can pivot to
-    public static final Measure<Angle> kPivotMinAngle = Degrees.of(5.0); // TBD
+  //   public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
 
-    // highest angle (between hardstop and shooter) that the shooter can pivot to
-    public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
+  //   public static enum PivotDirection {
+  //     UP, 
+  //     DOWN,
+  //     STOP
+  //   }
 
-    public static final boolean kShooterLeftMotorInverted = false;
-    public static final boolean kShooterRightMotorInverted = true;
-
-    public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
-    public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
-    public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
-
-    public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
-
-    public static final double kPivotSpeed = 0.22;
-
-    public static final float kPivotForwardSoftLimit = 0.3f;
-    public static final float kPivotReverseSoftLimit = 0.01f;
-
-    public static enum PivotDirection {
-      UP, 
-      DOWN,
-      STOP
-    }
-
-    public static final int kAmpAngleDegrees = 90;
+  //   public static final int kAmpAngleDegrees = 90;
 
 
-    public static enum ShooterState {
-      IDLE, 
-      INTAKE,
-      OUTTAKE,
-      SPEAKER,
-      AMP,
-      REVERSE
-    }
-  }
+  //   public static enum ShooterState {
+  //     IDLE, 
+  //     INTAKE,
+  //     OUTTAKE,
+  //     SPEAKER,
+  //     AMP,
+  //     REVERSE
+  //   }
+  // }
 
-  public static final class Intake {
-    public static final int kIntakeMotorPort = 9;
-    public static final boolean kIntakeMotorInverted = true;
-    public static final int kIntakeCurrentLimit = 40;
-    public static final int kIntakeSensorPort = 0;
-    public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
+  // public static final class Intake {
+  //   public static final int kIntakeMotorPort = 9;
+  //   public static final boolean kIntakeMotorInverted = true;
+  //   public static final int kIntakeCurrentLimit = 40;
+  //   public static final int kIntakeSensorPort = 0;
+  //   public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
 
-    public static final boolean kFeederMotorInverted = false;
-    public static final int kFeederCurrentLimit = 60;
+  //   public static final boolean kFeederMotorInverted = false;
+  //   public static final int kFeederCurrentLimit = 60;
 
-    public static final int kIntakeCANID = 15;
-    public static final int kFeederCANID = 11;
+  //   public static final int kIntakeCANID = 15;
+  //   public static final int kFeederCANID = 11;
 
-    public static final double intakeSpeed = 1;
-    public static final double feederSpeed = 1;
+  //   public static final double intakeSpeed = 1;
+  //   public static final double feederSpeed = 1;
 
-    public static enum IntakeState {
-      IDLE, 
-      INTAKE,
-      OUTTAKE,
-      FIRE
-    }
-  }
+  //   public static enum IntakeState {
+  //     IDLE, 
+  //     INTAKE,
+  //     OUTTAKE,
+  //     FIRE
+  //   }
+  // }
 
   public static final class IOConstants {
     public static final int kDriverControllerPort = 0;
@@ -321,5 +303,118 @@ public final class Constants {
   }
 
   public static final boolean kCompetitionMode = false;
+
+   public static class ShooterConstants {
+
+    /* Pivot Constants */
+    public static final class Pivot{
+    public static final int pivotRightCANID = 9;
+    public static final int pivotLeftCANID = 10;
+    public static final IdleMode pivotIdleMode = IdleMode.kBrake;
+    public static final int pivotCurrentLimit = 40;
+    // TODO: Tune these values for the pivot please 
+    public static final double kPivotP = 3.0;
+    public static final double kPivotI = 0.00008;
+    public static final double kPivotD = 0.45;
+    public static final boolean kPivotPositionPIDWrappingEnabled = false;
+    public static final double kPivotMinOutput = 0;
+    public static final double kPivotMaxOutput = 0;
+    public static final boolean pivotRightMotorInverted = true;
+    public static final float kPivotForwardSoftLimit = 0.3f;
+    public static final float kPivotReverseSoftLimit = 0.01f;
+    public static final double kPivotSpeed = 0.22;
+    }
+
+
+
+
+
+
+    public static final int kickerMotorCANID = 12;
+    public static final int shooterRightCANID = 13;
+    public static final int shooterLeftCANID = 14;
+
+    public static final int kickerMotorCurrentLimit = 60;
+    public static final int shooterRightMotorCurrentLimit = 60;
+    public static final int shooterLeftMotorCurrentLimit = 60;
+    public static final int pivotRightMotorCurrentLimit = 40;
+    public static final int pivotLeftMotorCurrentLimit = 40;
+
+    public static final double kPivotP = 1.5;
+    public static final double kPivotI = 0.0;
+    public static final double kPivotD = 0.001;
+
+    public static final double kShooterP = 0.0007;
+    public static final double kShooterI = 0.0;
+    public static final double kShooterD = 0.001;
+
+    public static final double kKickerP = 0.0;
+    public static final double kKickerI = 0.0;
+    public static final double kKickerD = 0.0;
+
+    public static final boolean pivotRightMotorInverted = true;
+
+    public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
+
+    // smallest angle (between hardstop and shooter) that the shooter can pivot to
+    public static final Measure<Angle> kPivotMinAngle = Degrees.of(5.0); // TBD
+
+    // highest angle (between hardstop and shooter) that the shooter can pivot to
+    public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
+
+    public static final boolean kShooterLeftMotorInverted = true;
+    public static final boolean kShooterRightMotorInverted = false;
+
+    public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
+    public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
+    public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
+
+    public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
+
+    public static final double kPivotSpeed = 0.22;
+
+    public static final float kPivotForwardSoftLimit = 0.3f;
+    public static final float kPivotReverseSoftLimit = 0.005f;
+
+    public static enum PivotDirection {
+      UP, 
+      DOWN,
+      STOP
+    }
+
+    public static final int kAmpAngleDegrees = 90;
+
+
+    public static enum ShooterState {
+      IDLE, 
+      INTAKE,
+      OUTTAKE,
+      SPEAKER,
+      AMP,
+      REVERSE
+    }
+  }
+
+  public static final class Intake {
+    public static final int kIntakeMotorPort = 9;
+    public static final boolean kIntakeMotorInverted = true;
+    public static final int kIntakeCurrennLimit = 60;
+    public static final int kIntakeSensorPort = 0;
+    public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
+    public static final int kFeederCurrentLimit = 60;
+
+    public static final int intakeCANID = 15;
+    public static final int feederCANID = 11;
+
+    public static final double intakeSpeed = 1;
+    public static final double feederSpeed = 1;
+
+    public static enum IntakeState {
+      IDLE, 
+      INTAKE,
+      OUTTAKE,
+      FIRE
+    }
+  }
 
 }

@@ -18,19 +18,19 @@ public class Intake extends SubsystemBase {
   private IntakeState m_intakeState = IntakeState.IDLE;
 
   public Intake() {
-    m_intakeMotor = new CANSparkMax(Constants.Intake.kIntakeCANID, CANSparkMax.MotorType.kBrushless);
-    m_feederMotor = new CANSparkFlex(Constants.Intake.kFeederCANID, CANSparkMax.MotorType.kBrushless);
+    m_intakeMotor = new CANSparkMax(Constants.Intake.kIntakeMotorPort, CANSparkMax.MotorType.kBrushless);
+    m_feederMotor = new CANSparkFlex(Constants.Intake.feederCANID, CANSparkMax.MotorType.kBrushless);
     sensor = new DigitalInput(Constants.Intake.kIntakeSensorPort);
 
     m_intakeMotor.restoreFactoryDefaults();
-    m_intakeMotor.setSmartCurrentLimit(Constants.Intake.kIntakeCurrentLimit);
+    m_intakeMotor.setSmartCurrentLimit(Constants.Intake.kIntakeCurrennLimit);
     m_intakeMotor.setInverted(Constants.Intake.kIntakeMotorInverted);
     m_intakeMotor.setIdleMode(Constants.Intake.kIntakeIdleMode);
     m_intakeMotor.burnFlash();
 
     m_feederMotor.restoreFactoryDefaults();
     m_feederMotor.setSmartCurrentLimit(Constants.Intake.kFeederCurrentLimit);
-    m_feederMotor.setInverted(Constants.Intake.kFeederMotorInverted);
+    m_feederMotor.setInverted(Constants.Intake.kIntakeMotorInverted);
     m_feederMotor.setIdleMode(Constants.Intake.kIntakeIdleMode);
     m_feederMotor.burnFlash();
   }
