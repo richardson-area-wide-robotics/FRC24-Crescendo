@@ -12,6 +12,7 @@ import org.photonvision.EstimatedRobotPose;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
@@ -64,11 +65,12 @@ public class Lock extends Command {
     public void initialize() {
 
         yawRateController.reset();
+        this.isCanceled = false;
     }
 
     @Override
     public boolean isFinished() {
-        return this.isCanceled;
+        return !this.isCanceled;
     }
 
     public void setMode(LockMode mode) {
@@ -76,7 +78,7 @@ public class Lock extends Command {
     }
 
     public void endCommand() {
-        this.isCanceled = false;
+        this.isCanceled = true;
     }
 
     // Returns -1 when trying to intake
@@ -141,25 +143,18 @@ public class Lock extends Command {
 
         final int aprilTagId = getAprilTagForModeAndAlliance();
         Pose3d robotPose = new Pose3d(m_drive.getPose());
-        
+
         SmartDashboard.putString("pose", robotPose.toString());
 
         Measure<Angle> angularOffset = Degrees.of(0.0);
-        Measure<Angle> pivotAngle =  Degrees.of(0.0);
+        Measure<Angle> pivotAngle = Degrees.of(0.0);
 
-        // Optional<EstimatedRobotPose> aprilTagBasedRobotPose = m_camera.getEstimatedGlobalPose();
-        // if (aprilTagBasedRobotPose.isPresent()) {
-            // Pose3d robotPose = aprilTagBasedRobotPose.get().estimatedPose;
-            // SmartDashboard.putBoolean("photonPose", true);
-            
-             pivotAngle = getPitchAngleToAprilTag(robotPose, aprilTagId);
-            angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
-                    double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.3;
+        pivotAngle = getPitchAngleToAprilTag(robotPose, aprilTagId);
+        angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
+        double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.3;
 
         SmartDashboard.putNumber("yawRate", yawRate);
         SmartDashboard.putNumber("angularOffset", angularOffset.in(Degrees));
-
-        SmartDashboard.putNumber("aprilTag", aprilTagId);
 
         // limits robot max speed while in locked-on mode
         double limitedForward = Math.max(forward.getAsDouble(), -1.0 * Constants.ModuleConstants.MAX_LOCKED_ON_SPEED);
@@ -169,9 +164,7 @@ public class Lock extends Command {
 
         m_drive.drive(limitedForward, limitedSideways, yawRate, true);
         SmartDashboard.putNumber("pitch angle", pivotAngle.in(Degrees));
-        // }
-
-
+        
         // m_pivot.pivotTo(pivotAngle);
     }
 
@@ -179,6 +172,8 @@ public class Lock extends Command {
 
         Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
         Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
+
+        SmartDashboard.putString("pose", robotToSpeaker.toString());
 
         double angle_rad = Math.atan2(robotToSpeaker.getY(), robotToSpeaker.getX());
         return Units.Radians.of(angle_rad);
