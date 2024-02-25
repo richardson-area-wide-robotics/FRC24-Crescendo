@@ -92,6 +92,15 @@ public class Lock extends Command {
                     case AMP_LOCK_MODE: {
                         return 5;
                     }
+                    case TRAP_1: {
+                        return 11;
+                    }
+                    case TRAP_2: {
+                        return 12;
+                    }
+                    case TRAP_3: {
+                        return 13;
+                    }
                     case GAMEPIECE_LOCK_MODE:
                     default: {
                         return -1;
@@ -104,6 +113,15 @@ public class Lock extends Command {
                     }
                     case AMP_LOCK_MODE: {
                         return 6;
+                    }
+                    case TRAP_1: {
+                        return 14;
+                    }
+                    case TRAP_2: {
+                        return 15;
+                    }
+                    case TRAP_3: {
+                        return 16;
                     }
                     case GAMEPIECE_LOCK_MODE:
                     default: {
