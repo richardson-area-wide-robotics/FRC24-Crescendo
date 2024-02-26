@@ -100,6 +100,7 @@ public class Pivot extends SubsystemBase{
     @Override
     public void periodic() {
         SmartDashboard.putNumber("encoder Position", getEncoderPosition());
+        SmartDashboard.putNumber("pivot set angle", m_setPoint);
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
         //     m_setPoint = PivotConstants.kPivotMaxAngle;
         // } else if (m_setPoint < PivotConstants.kPivotMinAngle) {
