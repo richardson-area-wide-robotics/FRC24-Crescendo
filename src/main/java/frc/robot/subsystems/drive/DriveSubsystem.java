@@ -94,7 +94,7 @@ public class DriveSubsystem extends Swerve {
       this.addPoseEstimate(pose.get().estimatedPose.toPose2d(), time.get());
     }
 
-    SmartDashboard.putString("pose", this.getPose().toString());
+    SmartDashboard.putString("swervepose", this.getPose().toString());
     super.periodic();
   }
 }

@@ -14,6 +14,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Angle;
@@ -43,7 +44,7 @@ public class Lock extends Command {
             Constants.ModuleConstants.kVisionTurningPIDGains.D);
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     private LockMode mode = LockMode.SPEAKER_LOCK_MODE;
-    private boolean isCanceled;
+    private boolean isCanceled = false;
 
     /**
      *
@@ -70,7 +71,8 @@ public class Lock extends Command {
 
     @Override
     public boolean isFinished() {
-        return !this.isCanceled;
+        // return this.isCanceled;
+        return false;
     }
 
     public void setMode(LockMode mode) {
@@ -142,16 +144,14 @@ public class Lock extends Command {
     public void execute() {
 
         final int aprilTagId = getAprilTagForModeAndAlliance();
-        Pose3d robotPose = new Pose3d(m_drive.getPose());
 
-        SmartDashboard.putString("pose", robotPose.toString());
 
         Measure<Angle> angularOffset = Degrees.of(0.0);
         Measure<Angle> pivotAngle = Degrees.of(0.0);
 
-        pivotAngle = getPitchAngleToAprilTag(robotPose, aprilTagId);
-        angularOffset = getYawAngleToAprilTag(robotPose, aprilTagId);
-        double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * 0.3;
+        pivotAngle = getPitchAngleToAprilTag(m_drive.getPose(), aprilTagId);
+        angularOffset = getYawAngleToAprilTag(m_drive.getPose(), aprilTagId);
+        double yawRate = yawRateController.calculate(angularOffset.in(Units.Radians), 0.0) * -0.5;
 
         SmartDashboard.putNumber("angularOffset", angularOffset.in(Degrees));
         SmartDashboard.putNumber("yawRate", yawRate);
@@ -168,21 +168,28 @@ public class Lock extends Command {
         // m_pivot.pivotTo(pivotAngle);
     }
 
-    public Measure<Angle> getYawAngleToAprilTag(Pose3d currentRobotPoseField, int tagId) {
+    public Measure<Angle> getYawAngleToAprilTag(Pose2d currentRobotPoseField, int tagId) {
 
-        Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
-        Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
+        SmartDashboard.putString("pose", currentRobotPoseField.toString());
 
-        SmartDashboard.putString("robotToSpeakerPose", robotToSpeaker.toString());
+        Pose2d speakerPose2d = aprilTagFieldLayout.getTagPose(tagId).get().toPose2d();
 
-        double angle_rad = Math.atan2(robotToSpeaker.getY(), robotToSpeaker.getX());
+        
+       Pose2d robotToSpeakerPose = speakerPose2d.relativeTo(currentRobotPoseField);
+
+        // Translation2d robotToSpeaker = speakerPose2d.getTranslation().minus(currentRobotPoseField.getTranslation());
+
+        SmartDashboard.putString("robotToSpeakerPose", robotToSpeakerPose.toString());
+
+        double angle_rad = Math.atan2(robotToSpeakerPose.getY(), robotToSpeakerPose.getX());
         return Units.Radians.of(angle_rad);
     }
 
-    public Measure<Angle> getPitchAngleToAprilTag(Pose3d currentRobotPoseField, int tagId) {
+    public Measure<Angle> getPitchAngleToAprilTag(Pose2d currentRobotPoseField, int tagId) {
 
-        Pose3d speakerPose3d = aprilTagFieldLayout.getTagPose(tagId).get();
-        Translation3d robotToSpeaker = speakerPose3d.getTranslation().minus(currentRobotPoseField.getTranslation());
+        Pose2d speakerPose2d = aprilTagFieldLayout.getTagPose(tagId).get().toPose2d();
+        
+        Translation2d robotToSpeaker = speakerPose2d.getTranslation().minus(currentRobotPoseField.getTranslation());
 
         double distanceMeters = Math.sqrt(
                 (robotToSpeaker.getX() * robotToSpeaker.getX()) + (robotToSpeaker.getY() * robotToSpeaker.getY()));

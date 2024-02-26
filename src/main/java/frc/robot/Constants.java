@@ -280,7 +280,7 @@ public final class Constants {
     public static final double kTurningMaxOutput = 1.0;
 
     // TODO: tune values for Vision auto-turning
-    public static final PIDGains kVisionTurningPIDGains = new PIDGains(1.0, 0, 0.01);
+    public static final PIDGains kVisionTurningPIDGains = new PIDGains(1.0, 0, 0.25);
 
     public static final double MAX_LOCKED_ON_SPEED = 0.33;
 
