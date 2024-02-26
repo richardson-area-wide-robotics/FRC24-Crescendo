@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
-import frc.robot.Constants.GameConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.LockMode;
 import frc.robot.Constants.Intake.IntakeState;
@@ -113,12 +113,13 @@ public class RobotContainer {
      * INTAKE
      */
     m_driverController
-        .rightBumper()
+        .a()
         .whileTrue(Commands.startEnd(() -> {
           m_intake.setState(IntakeState.INTAKE);
         }, () -> {
           m_intake.setState(IntakeState.IDLE);
         }, m_intake, m_shooter));
+    m_driverController.rightBumper().whileTrue(m_intake.receive());
 
     // m_driverController
     // .leftBumper()
@@ -148,17 +149,15 @@ public class RobotContainer {
 
     // TODO: consider making a method to stop just the feeder motor
     // also just make this better lol
-    m_driverController
-        .a()
-        .onTrue(Commands.run(() -> {
-          m_intake.setState(IntakeState.FIRE);
-        }, m_shooter)
-            .withTimeout(1.5)
-            .andThen(Commands.runOnce(() -> {
-              m_intake.setState(IntakeState.IDLE);
-            }, m_intake)).andThen(Commands.runOnce(() -> {
-              lockMode.endCommand();
-            })));
+    // m_driverController
+    //     .a()
+    //     .onTrue(Commands.run(() -> {
+    //       m_intake.setState(IntakeState.FIRE);
+    //     }, m_shooter)
+    //     .withTimeout(1.5)
+    //     .andThen(Commands.runOnce(() -> {
+    //       m_intake.setState(IntakeState.IDLE);
+    //     }, m_intake)));
 
     m_driverController
         .x()
@@ -188,13 +187,14 @@ public class RobotContainer {
     m_driverController
         .povLeft()
         .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(GameConstants.kPivotPresetAmp);
+          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetAmp);
+          m_shooter.toggleState(ShooterState.AMP);
         }, m_pivot));
 
     m_driverController
         .povRight()
         .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(GameConstants.kPivotPresetSubwoofer);
+          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetSubwoofer);
         }, m_pivot));
 
     m_driverController
@@ -270,6 +270,7 @@ public class RobotContainer {
    * Reduces multi method use to Shuffleboard
    */
   public void putDashboard() {
+    SmartDashboard.putBoolean("sensor enabled", m_intake.sensorEnabled());
     // m_robotDrive.putNumber();
     // SmartDashboard.putNumber("filtered PoseX", m_robotDrive.getPose().getX());
     // SmartDashboard.putNumber("filtered PoseY", m_robotDrive.getPose().getY());
