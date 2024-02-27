@@ -337,7 +337,7 @@ public final class Constants {
     public static final double kPivotPresetSubwoofer = 0.135;
     public static final double kPivotPresetAmp = 0.31;
 
-    public static final double kPivotSpeed = 0.85;
+    public static final double kPivotSpeed = 0.70;
   }
 
   public static class ShooterConstants {

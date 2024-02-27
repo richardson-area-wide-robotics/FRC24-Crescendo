@@ -28,6 +28,9 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Pivot;
+
+import static edu.wpi.first.units.Units.Radians;
+
 import java.util.function.DoubleSupplier;
 import frc.robot.commands.Lock;
 import frc.robot.subsystems.Camera;
@@ -187,14 +190,14 @@ public class RobotContainer {
     m_driverController
         .povLeft()
         .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetAmp);
+          m_pivot.pivotTo(Radians.of(Constants.PivotConstants.kPivotPresetAmp));
           m_shooter.toggleState(ShooterState.AMP);
         }, m_pivot));
 
     m_driverController
         .povRight()
         .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetSubwoofer);
+          m_pivot.pivotTo(Radians.of(Constants.PivotConstants.kPivotPresetSubwoofer));
         }, m_pivot));
 
     m_driverController

@@ -165,7 +165,7 @@ public class Lock extends Command {
         m_drive.drive(limitedForward, limitedSideways, yawRate, true);
         SmartDashboard.putNumber("pitch angle", pivotAngle.in(Degrees));
         
-        // m_pivot.pivotTo(pivotAngle);
+        m_pivot.pivotTo(pivotAngle);
     }
 
     public Measure<Angle> getYawAngleToAprilTag(Pose2d currentRobotPoseField, int tagId) {

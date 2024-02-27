@@ -1,5 +1,8 @@
 package frc.robot.subsystems.shooter;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radians;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
@@ -7,6 +10,9 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,7 +25,7 @@ public class Pivot extends SubsystemBase {
     private final CANSparkMax m_PivotRightMotor;
     private final AbsoluteEncoder m_PivotEncoder;
 
-    private double m_setPoint;
+    private Measure<Angle> m_setPoint;
     private SparkPIDController m_PivotPIDController;
 
     private boolean manualControl = false;
@@ -78,7 +84,7 @@ public class Pivot extends SubsystemBase {
         m_PivotLeftMotor.burnFlash();
         m_PivotRightMotor.burnFlash();
 
-        m_setPoint = getEncoderPosition();
+        m_setPoint = Radians.of(getEncoderPosition());
 
     }
 
@@ -91,7 +97,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public double getDesiredAngle() {
-        return m_setPoint;
+        return m_setPoint.in(Radians);
     }
 
     public double getEncoderPosition() {
@@ -100,8 +106,9 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("encoder Position", getEncoderPosition());
-        SmartDashboard.putNumber("pivot set angle", m_setPoint);
+
+        SmartDashboard.putNumber("encoder Position", getEncoderPosition() * 180.0/Math.PI);
+        SmartDashboard.putNumber("pivot set angle", m_setPoint.in(Degrees));
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
         // m_setPoint = PivotConstants.kPivotMaxAngle;
         // } else if (m_setPoint < PivotConstants.kPivotMinAngle) {
@@ -139,12 +146,10 @@ public class Pivot extends SubsystemBase {
             case STOP:
             default:
                 manualControl = false;
-                m_setPoint = getEncoderPosition();
+                m_setPoint = Radians.of(getEncoderPosition());
                 pivotSpeed(0);
         }
 
-        SmartDashboard.putNumber("encoder Position", getEncoderPosition());
-        SmartDashboard.putNumber("pivot set angle", m_setPoint);
     }
 
     public void pivotSpeed(double speedPercentage) {
@@ -154,9 +159,9 @@ public class Pivot extends SubsystemBase {
     /**
      * Pivots the shooter to a given angle about the axis of the absolute encoder.
      */
-    public void pivotTo(double angle) {
+    public void pivotTo(Measure<Angle> angle) {
         m_setPoint = angle;
-        m_PivotPIDController.setReference(angle, ControlType.kPosition);
+        m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
     }
 
     @Override
