@@ -161,7 +161,7 @@ public class Pivot extends SubsystemBase {
      */
     public void pivotTo(Measure<Angle> angle) {
         m_setPoint = angle;
-        m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
+        m_PivotPIDController.setReference(angle.in(Degrees)/360, ControlType.kPosition);
     }
 
     @Override

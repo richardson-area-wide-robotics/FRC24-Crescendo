@@ -122,7 +122,15 @@ public class RobotContainer {
         }, () -> {
           m_intake.setState(IntakeState.IDLE);
         }, m_intake, m_shooter));
-    m_driverController.rightBumper().whileTrue(m_intake.receive());
+
+        m_driverController
+        .rightBumper()
+        .whileTrue(Commands.startEnd(() -> {
+          m_intake.setState(IntakeState.INTAKE);
+        }, () -> {
+          m_intake.setState(IntakeState.IDLE);
+        }, m_intake, m_shooter)); 
+    // m_driverController.rightBumper().whileTrue(m_intake.receive());
 
     // m_driverController
     // .leftBumper()
@@ -130,13 +138,13 @@ public class RobotContainer {
     // m_intake.setState(IntakeState.OUTTAKE);
     // }, m_intake, m_shooter));
 
-    // m_driverController
-    // .leftBumper()
-    // .whileTrue(Commands.startEnd(() -> {
-    // m_intake.setState(IntakeState.OUTTAKE);
-    // }, () -> {
-    // m_intake.setState(IntakeState.IDLE);
-    // }, m_intake));
+    m_driverController
+    .x()
+    .whileTrue(Commands.startEnd(() -> {
+    m_intake.setState(IntakeState.OUTTAKE);
+    }, () -> {
+    m_intake.setState(IntakeState.IDLE);
+    }, m_intake));
 
     /**
      * SHOOTER
@@ -162,13 +170,13 @@ public class RobotContainer {
     //       m_intake.setState(IntakeState.IDLE);
     //     }, m_intake)));
 
-    m_driverController
-        .x()
-        .whileTrue(Commands.startEnd(() -> {
-          m_shooter.toggleState(ShooterState.REVERSE);
-        }, () -> {
-          m_shooter.toggleState(ShooterState.IDLE);
-        }, m_shooter));
+    // m_driverController
+    //     .x()
+    //     .whileTrue(Commands.startEnd(() -> {
+    //       m_shooter.toggleState(ShooterState.REVERSE);
+    //     }, () -> {
+    //       m_shooter.toggleState(ShooterState.IDLE);
+    //     }, m_shooter));
 
     // m_driverController
     // .y()
