@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants.PivotDirection;
 
-public class Pivot extends SubsystemBase{
+public class Pivot extends SubsystemBase {
 
     private final CANSparkMax m_PivotLeftMotor;
     private final CANSparkMax m_PivotRightMotor;
@@ -26,33 +26,34 @@ public class Pivot extends SubsystemBase{
 
     /**
      * Config to set basic motor settings to avoid redundancy
+     * 
      * @param motor
      */
-    public void PivotConfig(CANSparkMax motor, AbsoluteEncoder enc, boolean leader){
+    public void PivotConfig(CANSparkMax motor, AbsoluteEncoder enc, boolean leader) {
         // Restore the motor to factory settings before any changes was made
         motor.restoreFactoryDefaults();
 
-        // Mode the motor hold when supplied with no commands 
+        // Mode the motor hold when supplied with no commands
         motor.setIdleMode(PivotConstants.pivotIdleMode);
 
         // Current Limit for motors - prevents brownouts/burnouts
         motor.setSmartCurrentLimit(PivotConstants.pivotCurrentLimit);
-        
+
         // Leader motor settings
-        if (leader){
-        motor.setInverted(PivotConstants.pivotRightMotorInverted);
-        motor.enableSoftLimit(SoftLimitDirection.kForward, true);
-        motor.setSoftLimit(SoftLimitDirection.kForward, PivotConstants.kPivotForwardSoftLimit);
-        motor.enableSoftLimit(SoftLimitDirection.kReverse, true );
-        motor.setSoftLimit(SoftLimitDirection.kReverse, PivotConstants.kPivotReverseSoftLimit);
-        // Create and set the PID controller for the motor  
-        m_PivotPIDController = motor.getPIDController();
-        m_PivotPIDController.setFeedbackDevice(enc);
-        m_PivotPIDController.setPositionPIDWrappingEnabled(PivotConstants.kPivotPositionPIDWrappingEnabled);
-        m_PivotPIDController.setP(PivotConstants.kPivotP);
-        m_PivotPIDController.setI(PivotConstants.kPivotI);
-        m_PivotPIDController.setD(PivotConstants.kPivotD);
-        m_PivotPIDController.setOutputRange(PivotConstants.kPivotMinOutput, PivotConstants.kPivotMaxOutput);
+        if (leader) {
+            motor.setInverted(PivotConstants.pivotRightMotorInverted);
+            motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+            motor.setSoftLimit(SoftLimitDirection.kForward, PivotConstants.kPivotForwardSoftLimit);
+            motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+            motor.setSoftLimit(SoftLimitDirection.kReverse, PivotConstants.kPivotReverseSoftLimit);
+            // Create and set the PID controller for the motor
+            m_PivotPIDController = motor.getPIDController();
+            m_PivotPIDController.setFeedbackDevice(enc);
+            m_PivotPIDController.setPositionPIDWrappingEnabled(PivotConstants.kPivotPositionPIDWrappingEnabled);
+            m_PivotPIDController.setP(PivotConstants.kPivotP);
+            m_PivotPIDController.setI(PivotConstants.kPivotI);
+            m_PivotPIDController.setD(PivotConstants.kPivotD);
+            m_PivotPIDController.setOutputRange(PivotConstants.kPivotMinOutput, PivotConstants.kPivotMaxOutput);
         }
 
         // Adjust frames to reduce CAN bus traffic, and reduce latency
@@ -68,7 +69,7 @@ public class Pivot extends SubsystemBase{
         m_PivotLeftMotor = new CANSparkMax(PivotConstants.pivotLeftCANID, MotorType.kBrushless);
         m_PivotRightMotor = new CANSparkMax(PivotConstants.pivotRightCANID, MotorType.kBrushless);
         m_PivotEncoder = m_PivotRightMotor.getAbsoluteEncoder();
-        
+
         PivotConfig(m_PivotRightMotor, m_PivotEncoder, true);
         PivotConfig(m_PivotLeftMotor, m_PivotEncoder, false);
 
@@ -78,22 +79,22 @@ public class Pivot extends SubsystemBase{
         m_PivotRightMotor.burnFlash();
 
         m_setPoint = getEncoderPosition();
-       
+
     }
 
-    public boolean bottomLimit(){
+    public boolean bottomLimit() {
         return m_PivotRightMotor.isSoftLimitEnabled(SoftLimitDirection.kReverse);
     }
 
-    public boolean topLimit(){
+    public boolean topLimit() {
         return m_PivotRightMotor.isSoftLimitEnabled(SoftLimitDirection.kForward);
     }
 
-    public double getDesiredAngle(){
+    public double getDesiredAngle() {
         return m_setPoint;
     }
 
-    public double getEncoderPosition(){
+    public double getEncoderPosition() {
         return m_PivotEncoder.getPosition();
     }
 
@@ -102,31 +103,36 @@ public class Pivot extends SubsystemBase{
         SmartDashboard.putNumber("encoder Position", getEncoderPosition());
         SmartDashboard.putNumber("pivot set angle", m_setPoint);
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
-        //     m_setPoint = PivotConstants.kPivotMaxAngle;
+        // m_setPoint = PivotConstants.kPivotMaxAngle;
         // } else if (m_setPoint < PivotConstants.kPivotMinAngle) {
-        //     m_setPoint = PivotConstants.kPivotMinAngle;
+        // m_setPoint = PivotConstants.kPivotMinAngle;
         // }
 
-        if(!manualControl) pivotTo(m_setPoint);
-    }   
+        if (!manualControl)
+            pivotTo(m_setPoint);
+    }
 
     public void pivot(PivotDirection direction) {
         switch (direction) {
             case UP:
                 manualControl = true;
                 pivotSpeed(PivotConstants.kPivotSpeed);
-                // m_PivotAngle = m_PivotAngle.plus(Radians.of(0.0005)); // TODO: change to constant
-                // if (m_PivotAngle.in(Radians) >= Constants.ShooterConstants.kPivotForwardSoftLimit) {
-                //     m_PivotAngle = Radians.of(Constants.ShooterConstants.kPivotForwardSoftLimit);
+                // m_PivotAngle = m_PivotAngle.plus(Radians.of(0.0005)); // TODO: change to
+                // constant
+                // if (m_PivotAngle.in(Radians) >=
+                // Constants.ShooterConstants.kPivotForwardSoftLimit) {
+                // m_PivotAngle = Radians.of(Constants.ShooterConstants.kPivotForwardSoftLimit);
                 // }
                 // PivotTo(m_PivotAngle);
                 break;
             case DOWN:
                 manualControl = true;
                 pivotSpeed(-PivotConstants.kPivotSpeed);
-                // m_PivotAngle = m_PivotAngle.minus(Radians.of(0.0005)); // TODO: change to constant
-                // if (m_PivotAngle.in(Radians) <= Constants.ShooterConstants.kPivotReverseSoftLimit) {
-                //     m_PivotAngle = Radians.of(Constants.ShooterConstants.kPivotReverseSoftLimit);
+                // m_PivotAngle = m_PivotAngle.minus(Radians.of(0.0005)); // TODO: change to
+                // constant
+                // if (m_PivotAngle.in(Radians) <=
+                // Constants.ShooterConstants.kPivotReverseSoftLimit) {
+                // m_PivotAngle = Radians.of(Constants.ShooterConstants.kPivotReverseSoftLimit);
                 // }
                 // PivotTo(m_PivotAngle);
                 break;
@@ -136,20 +142,23 @@ public class Pivot extends SubsystemBase{
                 m_setPoint = getEncoderPosition();
                 pivotSpeed(0);
         }
+
+        SmartDashboard.putNumber("encoder Position", getEncoderPosition());
+        SmartDashboard.putNumber("pivot set angle", m_setPoint);
     }
 
     public void pivotSpeed(double speedPercentage) {
         m_PivotRightMotor.set(speedPercentage);
     }
 
-    /** 
-     * Pivots the shooter to a given angle about the axis of the absolute encoder. 
+    /**
+     * Pivots the shooter to a given angle about the axis of the absolute encoder.
      */
     public void pivotTo(double angle) {
         m_setPoint = angle;
         m_PivotPIDController.setReference(angle, ControlType.kPosition);
     }
-    
+
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
@@ -158,5 +167,5 @@ public class Pivot extends SubsystemBase{
         builder.addDoubleProperty("desiredPosition", this::getDesiredAngle, null);
         builder.addDoubleProperty("encoderPosition", this::getEncoderPosition, null);
     }
-    
+
 }
