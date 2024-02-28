@@ -7,11 +7,16 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
-import frc.robot.Constants.ShooterConstants.PivotDirection;
+import frc.robot.Constants.PivotConstants.PivotDirection;
 
 public class Pivot extends SubsystemBase{
 
@@ -23,6 +28,14 @@ public class Pivot extends SubsystemBase{
     private SparkPIDController m_PivotPIDController;
 
     private boolean manualControl = false;
+
+    private ShuffleboardTab pivotTab = Shuffleboard.getTab("Pivot");
+    private GenericEntry m_setPointEntry = pivotTab.add("Set Point", 0).getEntry();
+    private GenericEntry m_encoderPositionEntry = pivotTab.add("Encoder Position", 0).getEntry();
+    private GenericEntry m_encoderPositionDegreesEntry = pivotTab.add("Encoder Position Degrees", 0).getEntry();
+    private GenericEntry m_atTopLimitEntry = pivotTab.add("At Top Limit", false).getEntry();
+    private GenericEntry m_atBottomLimitEntry = pivotTab.add("At Bottom Limit", false).getEntry();
+
 
     /**
      * Config to set basic motor settings to avoid redundancy
@@ -99,7 +112,12 @@ public class Pivot extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("encoder Position", getEncoderPosition());
+        m_setPointEntry.setDouble(m_setPoint);
+        m_encoderPositionEntry.setDouble(getEncoderPosition());
+        m_encoderPositionDegreesEntry.setDouble(getEncoderPosition() * 360);
+        m_atTopLimitEntry.setBoolean(topLimit());
+        m_atBottomLimitEntry.setBoolean(bottomLimit());
+        
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
         //     m_setPoint = PivotConstants.kPivotMaxAngle;
         // } else if (m_setPoint < PivotConstants.kPivotMinAngle) {
@@ -147,15 +165,6 @@ public class Pivot extends SubsystemBase{
     public void pivotTo(double angle) {
         m_setPoint = angle;
         m_PivotPIDController.setReference(angle, ControlType.kPosition);
-    }
-    
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-        builder.addBooleanProperty("atTopLimit", this::topLimit, null);
-        builder.addBooleanProperty("atBottomLimit", this::bottomLimit, null);
-        builder.addDoubleProperty("desiredPosition", this::getDesiredAngle, null);
-        builder.addDoubleProperty("encoderPosition", this::getEncoderPosition, null);
     }
     
 }

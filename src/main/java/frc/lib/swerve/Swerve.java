@@ -231,7 +231,7 @@ public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
 
     // setModuleStates(states);
 
-    drive(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond, false);
+    drive(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond, true);
 }
 
 public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds){

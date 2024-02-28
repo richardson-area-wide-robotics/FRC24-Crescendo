@@ -22,13 +22,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IOConstants;
-import frc.robot.Constants.Intake.IntakeState;
-import frc.robot.Constants.ShooterConstants.PivotDirection;
 import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Pivot;
+import frc.robot.subsystems.shooter.Shooter;
+
 import java.util.function.DoubleSupplier;
 import java.util.List;
 
@@ -109,14 +108,14 @@ public class RobotContainer {
     /**
      * INTAKE
      */
-    m_driverController
-        .a()
-        .whileTrue(Commands.startEnd(() -> {
-          m_intake.setState(IntakeState.INTAKE);
-        }, () -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake, m_shooter));
-    m_driverController.rightBumper().whileTrue(m_intake.receive());
+    // m_driverController
+    //     .a()
+    //     .whileTrue(Commands.startEnd(() -> {
+    //       m_intake.setState(IntakeState.INTAKE);
+    //     }, () -> {
+    //       m_intake.setState(IntakeState.IDLE);
+    //     }, m_intake, m_shooter));
+    // m_driverController.rightBumper().whileTrue(m_intake.receive());
 
     // m_driverController
     //     .leftBumper()
@@ -124,13 +123,13 @@ public class RobotContainer {
     //       m_intake.setState(IntakeState.OUTTAKE);
     //     }, m_intake, m_shooter));
 
-    m_driverController
-        .leftBumper()
-        .whileTrue(Commands.startEnd(() -> {
-          m_intake.setState(IntakeState.OUTTAKE);
-        }, () -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake));
+    // m_driverController
+    //     .leftBumper()
+    //     .whileTrue(Commands.startEnd(() -> {
+    //       m_intake.setState(IntakeState.OUTTAKE);
+    //     }, () -> {
+    //       m_intake.setState(IntakeState.IDLE);
+    //     }, m_intake));
 
     /**
      * SHOOTER
@@ -252,7 +251,6 @@ public class RobotContainer {
    * Reduces multi method use to Shuffleboard
    */
   public void putDashboard() {
-    SmartDashboard.putBoolean("sensor enabled", m_intake.sensorEnabled());
     // m_robotDrive.putNumber();
     // SmartDashboard.putNumber("filtered PoseX", m_robotDrive.getPose().getX());
     // SmartDashboard.putNumber("filtered PoseY", m_robotDrive.getPose().getY());

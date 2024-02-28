@@ -1,133 +1,103 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkFlex;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.Intake.IntakeState;
-import java.util.function.Supplier;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.IntakeConstants.IntakeState;
 
 public class Intake extends SubsystemBase {
 
-  private CANSparkMax m_intakeMotor;
-  private CANSparkFlex m_feederMotor;
-  private DigitalInput sensor;
+    private final CANSparkMax m_intakeMotor;
 
-  private IntakeState m_intakeState = IntakeState.IDLE;
+    private IntakeState m_intakeState = IntakeState.IDLE;
 
-  public Intake() {
-    m_intakeMotor = new CANSparkMax(Constants.Intake.kIntakeMotorPort, CANSparkMax.MotorType.kBrushless);
-    m_feederMotor = new CANSparkFlex(Constants.Intake.feederCANID, CANSparkMax.MotorType.kBrushless);
-    sensor = new DigitalInput(Constants.Intake.kIntakeSensorPort);
+    private ShuffleboardTab intakeTab = Shuffleboard.getTab("Intake");
+    private GenericEntry m_speedEntry = intakeTab.add("Intake Speed", 0).getEntry();
+    private GenericEntry m_currentEntry = intakeTab.add("Intake Current", 0).getEntry();
+    private GenericEntry m_stateEntry = intakeTab.add("Intake State", m_intakeState).getEntry();
+
+    public Intake() {
+    m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeCANID, CANSparkMax.MotorType.kBrushless);
 
     m_intakeMotor.restoreFactoryDefaults();
-    m_intakeMotor.setSmartCurrentLimit(Constants.Intake.kIntakeCurrennLimit);
-    m_intakeMotor.setInverted(Constants.Intake.kIntakeMotorInverted);
-    m_intakeMotor.setIdleMode(Constants.Intake.kIntakeIdleMode);
+    m_intakeMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
+    m_intakeMotor.setInverted(IntakeConstants.kIntakeMotorInverted);
+    m_intakeMotor.setIdleMode(IntakeConstants.kIntakeIdleMode);
     m_intakeMotor.burnFlash();
 
-    m_feederMotor.restoreFactoryDefaults();
-    m_feederMotor.setSmartCurrentLimit(Constants.Intake.kFeederCurrentLimit);
-    m_feederMotor.setInverted(false);
-    m_feederMotor.setIdleMode(IdleMode.kBrake);
-    m_feederMotor.burnFlash();
-  }
-
-  @Override
-  public void periodic() {
-    // System.out.println("Intake: " + m_intakeState);
-    // SmartDashboard.putBoolean("sensor enabled", sensorEnabled());
-    switch (m_intakeState) {
-      case IDLE:
-        idle();
-        break;
-      case INTAKE:
-        intake();
-        break;
-      case OUTTAKE:
-        outtake();
-        break;
-      case FIRE:
-        spinFeeder();
-        break;
-      default:
-        idle();
-        break;
+    this.setDefaultCommand();
     }
-  }
-  
-  public void idle()
-  {
-    m_intakeMotor.stopMotor();
-    m_feederMotor.stopMotor();
-  }
 
-  public boolean sensorEnabled(){
-    return sensor.get();
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        m_speedEntry.setDouble(getSpeed());
+        m_currentEntry.setDouble(getCurrent());
 
-  public void intake()
-  {
-    m_intakeMotor.set(Constants.Intake.intakeSpeed);
-    m_feederMotor.set(Constants.Intake.feederSpeed);
-  }
+        // switch (m_intakeState) {
+        //     case IDLE:
+        //       idle();
+        //       break;
+        //     case INTAKE:
+        //       intake();
+        //       break;
+        //     case OUTTAKE:
+        //       outtake();
+        //       break;
+        //     default:
+        //       break;
+        //   }
 
-  public void outtake()
-  {
-    m_intakeMotor.set(-Constants.Intake.intakeSpeed);
-    m_feederMotor.set(-Constants.Intake.feederSpeed);
-  }
+        m_stateEntry.setString(m_intakeState.toString());
+    }
 
-  public void setState(IntakeState state)
-  {
-    m_intakeState = state;
-  }
+    /**
+     * Returns the output current of the motor
+     */
+    public double getCurrent() {
+        return m_intakeMotor.getOutputCurrent();
+    }
 
-  public void spinFeeder()
-  {
-    m_feederMotor.set(1);
-  }
+    /**
+     * Returns the speed of the motor
+     */
+    public double getSpeed() {
+        return m_intakeMotor.get();
+    }
 
-  public void stopFeeder() {
-    m_feederMotor.set(0);
-  }
-
-//   public Command receive() {
-//     return commandBuilder()
-//         .onInitialize(() -> feedMotor.set(FeederConstants.RECEIVE_SPEED))
-//         .isFinished(() -> hasNote())
-//         .onEnd(() -> feedMotor.stopMotor())
-//         .onlyIf(() -> !hasNote())
-//         .withName("feeder.receive()");
-// }
-
-  /* make a command that only runs when a button is pressed and then runs the feeder and intake together in the positive speed
-   * and will stop the commande when the sensor is triggered or the button is released; using function command class
-   */ 
-  public Command receive() {
-    return new FunctionalCommand(
-      () -> {
-        return;
-      },
-      () -> {
-        m_feederMotor.set(Constants.Intake.feederSpeed);
-        m_intakeMotor.set(Constants.Intake.intakeSpeed);;
-      },
-      (end) -> {
-        m_feederMotor.stopMotor();
+    /*
+     * Stop the intake motor
+     */
+    public void stopIntake() {
         m_intakeMotor.stopMotor();
-      },
-      () -> {
-        if(!sensor.get()) {return true;}   
-        else {return false;}
-      },
-      this
-    );
-  }
+    }
+
+    /*
+     * Commands the intake to spin in the positive direction - intaking
+     */
+    public Command intake() {
+        return Commands.run(()-> m_intakeMotor.set(IntakeConstants.kIntakeSpeed), this);
+    }
+
+    /*
+     * Commands the intake to spin in the negative direction - outtaking
+     */
+    public Command outtake() {
+        return Commands.run(()-> m_intakeMotor.set(-IntakeConstants.kIntakeSpeed), this);
+    }
+
+    /*
+     * Set the default Command for the subsystem
+     */
+    public void setDefaultCommand() {
+        setDefaultCommand(new RunCommand(this::stopIntake, this));
+    }
+    
 }
