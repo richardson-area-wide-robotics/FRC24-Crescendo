@@ -31,12 +31,12 @@ public class Pivot extends SubsystemBase{
 
     private boolean manualControl = false;
 
-    private ShuffleboardTab pivotTab = Shuffleboard.getTab("Pivot");
-    private GenericEntry m_setPointEntry = pivotTab.add("Set Point", 0).getEntry();
-    private GenericEntry m_encoderPositionEntry = pivotTab.add("Encoder Position", 0).getEntry();
-    private GenericEntry m_encoderPositionDegreesEntry = pivotTab.add("Encoder Position Degrees", 0).getEntry();
-    private GenericEntry m_atTopLimitEntry = pivotTab.add("At Top Limit", false).getEntry();
-    private GenericEntry m_atBottomLimitEntry = pivotTab.add("At Bottom Limit", false).getEntry();
+    // private ShuffleboardTab pivotTab = Shuffleboard.getTab("Pivot");
+    // private GenericEntry m_setPointEntry = pivotTab.add("Set Point", 0).getEntry();
+    // private GenericEntry m_encoderPositionEntry = pivotTab.add("Encoder Position", 0).getEntry();
+    // private GenericEntry m_encoderPositionDegreesEntry = pivotTab.add("Encoder Position Degrees", 0).getEntry();
+    // private GenericEntry m_atTopLimitEntry = pivotTab.add("At Top Limit", false).getEntry();
+    // private GenericEntry m_atBottomLimitEntry = pivotTab.add("At Bottom Limit", false).getEntry();
 
 
     /**
@@ -93,8 +93,6 @@ public class Pivot extends SubsystemBase{
         m_PivotRightMotor.burnFlash();
 
         m_setPoint = getEncoderPosition();
-
-        setDefaultCommand();
        
     }
 
@@ -116,11 +114,11 @@ public class Pivot extends SubsystemBase{
 
     @Override
     public void periodic() {
-        m_setPointEntry.setDouble(m_setPoint);
-        m_encoderPositionEntry.setDouble(getEncoderPosition());
-        m_encoderPositionDegreesEntry.setDouble(getEncoderPosition() * 360);
-        m_atTopLimitEntry.setBoolean(topLimit());
-        m_atBottomLimitEntry.setBoolean(bottomLimit());
+        // m_setPointEntry.setDouble(m_setPoint);
+        // m_encoderPositionEntry.setDouble(getEncoderPosition());
+        // m_encoderPositionDegreesEntry.setDouble(getEncoderPosition() * 360);
+        // m_atTopLimitEntry.setBoolean(topLimit());
+        // m_atBottomLimitEntry.setBoolean(bottomLimit());
         
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
         //     m_setPoint = PivotConstants.kPivotMaxAngle;

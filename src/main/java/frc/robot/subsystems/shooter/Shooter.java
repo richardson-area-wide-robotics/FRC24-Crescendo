@@ -37,6 +37,8 @@ public class Shooter extends SubsystemBase {
         kickerPIDController = motor.getPIDController();
 
         kickerEncoder = motor.getEncoder();
+
+        m_shooterState = ShooterState.IDLE;
         
     }
 

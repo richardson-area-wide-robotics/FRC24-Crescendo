@@ -16,11 +16,11 @@ import frc.robot.Constants.FeederConstants;
 public class Feeder extends SubsystemBase {
     private final CANSparkFlex m_feederMotor;
     private final DigitalInput m_sensor;
-    private ShuffleboardTab feederTab = Shuffleboard.getTab("Feeder");
+    // private ShuffleboardTab feederTab = Shuffleboard.getTab("Feeder");
 
-    private GenericEntry m_sensorEntry = feederTab.add("Has Note", false).getEntry();
-    private GenericEntry m_speedEntry = feederTab.add("Feeder Speed", 0).getEntry();
-    private GenericEntry m_currentEntry = feederTab.add("Feeder Current", 0).getEntry();
+    // private GenericEntry m_sensorEntry = feederTab.add("Has Note", false).getEntry();
+    // private GenericEntry m_speedEntry = feederTab.add("Feeder Speed", 0).getEntry();
+    // private GenericEntry m_currentEntry = feederTab.add("Feeder Current", 0).getEntry();
 
     public Feeder() {
         m_feederMotor = new CANSparkFlex(FeederConstants.kFeederCANID, CANSparkFlex.MotorType.kBrushless);
@@ -40,9 +40,9 @@ public class Feeder extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        m_sensorEntry.setBoolean(hasNote());
-        m_speedEntry.setDouble(getSpeed());
-        m_currentEntry.setDouble(m_feederMotor.getOutputCurrent());
+        // m_sensorEntry.setBoolean(hasNote());
+        // m_speedEntry.setDouble(getSpeed());
+        // m_currentEntry.setDouble(m_feederMotor.getOutputCurrent());
     }
 
     /*

@@ -18,10 +18,10 @@ public class Intake extends SubsystemBase {
 
     private IntakeState m_intakeState = IntakeState.IDLE;
 
-    private ShuffleboardTab intakeTab = Shuffleboard.getTab("Intake");
-    private GenericEntry m_speedEntry = intakeTab.add("Intake Speed", 0).getEntry();
-    private GenericEntry m_currentEntry = intakeTab.add("Intake Current", 0).getEntry();
-    private GenericEntry m_stateEntry = intakeTab.add("Intake State", m_intakeState).getEntry();
+    // private ShuffleboardTab intakeTab = Shuffleboard.getTab("Intake");
+    // private GenericEntry m_speedEntry = intakeTab.add("Intake Speed", 0).getEntry();
+    // private GenericEntry m_currentEntry = intakeTab.add("Intake Current", 0).getEntry();
+    // private GenericEntry m_stateEntry = intakeTab.add("Intake State", m_intakeState).getEntry();
 
     public Intake() {
     m_intakeMotor = new CANSparkMax(IntakeConstants.kIntakeCANID, CANSparkMax.MotorType.kBrushless);
@@ -38,8 +38,8 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        m_speedEntry.setDouble(getSpeed());
-        m_currentEntry.setDouble(getCurrent());
+        // m_speedEntry.setDouble(getSpeed());
+        // m_currentEntry.setDouble(getCurrent());
 
         // switch (m_intakeState) {
         //     case IDLE:
@@ -55,7 +55,7 @@ public class Intake extends SubsystemBase {
         //       break;
         //   }
 
-        m_stateEntry.setString(m_intakeState.toString());
+        // m_stateEntry.setString(m_intakeState.toString());
     }
 
     /**

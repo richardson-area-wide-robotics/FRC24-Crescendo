@@ -249,7 +249,7 @@ public final class Constants {
     public static final double kKickerI = 0.0;
     public static final double kKickerD = 0.0;
 
-    public static final boolean kKickerMotorInvert = true;
+    public static final boolean kKickerMotorInvert = false;
     public static final boolean kShooterLeftMotorInverted = true;
     public static final boolean kShooterRightMotorInverted = false;
 
