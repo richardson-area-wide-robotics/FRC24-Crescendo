@@ -25,6 +25,7 @@ import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.shooter.Feeder;
 import frc.robot.subsystems.shooter.Pivot;
 import frc.robot.subsystems.shooter.Shooter;
 
@@ -48,6 +49,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Pivot m_pivot = new Pivot();
   private final Shooter m_shooter = new Shooter();
+  private final Feeder m_feeder = new Feeder();
   private final AHRS m_gyro = new AHRS();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro);
   private final Climber m_climber = new Climber();
@@ -113,114 +115,64 @@ public class RobotContainer {
 
 
     /**
-     * INTAKE
+     * INTAKE and FEEDER controls
+     * 
+     * LEFT BUMPER: Intake note and feed into shooter
+     * RIGHT BUMPER: Spit note and outtake
      */
-    // m_driverController
-    //     .a()
-    //     .whileTrue(Commands.startEnd(() -> {
-    //       m_intake.setState(IntakeState.INTAKE);
-    //     }, () -> {
-    //       m_intake.setState(IntakeState.IDLE);
-    //     }, m_intake, m_shooter));
-    // m_driverController.rightBumper().whileTrue(m_intake.receive());
-
-    // m_driverController
-    //     .leftBumper()
-    //     .whileTrue(Commands.startEnd(() -> {
-    //       m_intake.setState(IntakeState.OUTTAKE);
-    //     }, m_intake, m_shooter));
-
-    // m_driverController
-    //     .leftBumper()
-    //     .whileTrue(Commands.startEnd(() -> {
-    //       m_intake.setState(IntakeState.OUTTAKE);
-    //     }, () -> {
-    //       m_intake.setState(IntakeState.IDLE);
-    //     }, m_intake));
+    m_driverController.leftBumper().whileTrue(m_feeder.feedNote().alongWith(m_intake.intake()));
+    m_driverController.rightBumper().whileTrue(m_feeder.spitNote().alongWith(m_intake.outtake()));
 
     /**
-     * SHOOTER
+     * SHOOTER PIVOT controls 
+     * 
+     * LEFT TRIGGER: Pivot up
+     * RIGHT TRIGGER: Pivot down
      */
-    // m_shooter.setDefaultCommand(Commands.run(() -> {
-    //   m_shooter.idle();
-    // }, m_shooter));
- 
-    // m_intake.setDefaultCommand(
-    //   Commands.run(() -> {
-    //     m_intake.idle();
-    //   }, m_intake));
+    m_driverController.leftTrigger().whileTrue(m_pivot.pivotUp());
+    m_driverController.rightTrigger().whileTrue(m_pivot.pivotDown());
 
-    
-    // TODO: consider making a method to stop just the feeder motor
-    // also just make this better lol
-    // m_driverController
-    //     .a()
-    //     .onTrue(Commands.run(() -> {
-    //       m_intake.setState(IntakeState.FIRE);
-    //     }, m_shooter)
-    //     .withTimeout(1.5)
-    //     .andThen(Commands.runOnce(() -> {
-    //       m_intake.setState(IntakeState.IDLE);
-    //     }, m_intake)));
+    /**
+     * PIVOT auto commands
+     * 
+     * LEFT D-PAD: Pivot to AMP
+     * RIGHT D-PAD: Pivot to Speaker
+     */
+    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP().alongWith(Commands.startEnd(() -> {
+      m_shooter.toggleState(ShooterState.AMP);
+    }, () -> {
+      m_shooter.toggleState(ShooterState.IDLE);
+    }, m_shooter)));
 
-    m_driverController
-        .x()
-        .whileTrue(Commands.startEnd(() -> {
-          m_shooter.toggleState(ShooterState.REVERSE);
-        }, () -> {
-          m_shooter.toggleState(ShooterState.IDLE);
-        }, m_shooter));
+    m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker());
 
+
+    /**
+     * ShOOTING controls
+     * 
+     * B BUTTON: Auto aim
+     * Y BUTTON: Toggle Shooter State
+     * A BUTTON: Shoot
+     */
     m_driverController
         .y()
         .onTrue(Commands.runOnce(() -> {
           m_shooter.toggleState(ShooterState.SPEAKER);
         }, m_shooter));
 
-    // SORRY ABOUT THIS BINDING
-    /* 
-    m_driverController
-        .povLeft()
-        .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetAmp);
-          m_shooter.toggleState(ShooterState.AMP);
-        }, m_pivot));
+    m_driverController.a().whileTrue(m_feeder.shootNote());
 
-    m_driverController
-        .povRight()
-        .onTrue(Commands.runOnce(() -> {
-          m_pivot.pivotTo(Constants.PivotConstants.kPivotPresetSubwoofer);
-        }, m_pivot));
 
-    m_driverController
-        .b()
-        .onTrue(Commands.run(() -> {
-          m_shooter.toggleState(ShooterState.AMP);
-        }, m_shooter));
+    /**
+     * CLIMBING controls
+     * 
+     * UP D-PAD: Climb up
+     * DOWN D-PAD: Climb down
+     */
+    m_driverController.povUp().whileTrue(m_climber.climbUp());
+    m_driverController.povDown().whileTrue(m_climber.climbDown());
 
-    m_driverController
-        .rightStick()
-        .onTrue(Commands.run(() -> {
-          // m_shooter.toggleOff();
-          m_shooter.toggleState(ShooterState.IDLE);
-        }, m_shooter));
-
-    m_driverController
-        .rightTrigger()
-        .whileTrue(Commands.runEnd(() -> {
-          m_pivot.pivot(PivotDirection.UP);
-        }, () -> {
-          m_pivot.pivot(PivotDirection.STOP);
-        }, m_pivot));
-
-    m_driverController
-        .leftTrigger()
-        .whileTrue(Commands.runEnd(() -> {
-          m_pivot.pivot(PivotDirection.DOWN);
-        }, () -> {
-          m_pivot.pivot(PivotDirection.STOP);
-        }, m_pivot));
-  }
+      }
 
   private void configureOperatorBindings() {
     /*
@@ -238,22 +190,6 @@ public class RobotContainer {
 
   /** Creates the Global event list for the autonomous paths */
   public void globalEventList() {
-    /**
-     * CLIMBER
-     */
-    m_climber.setDefaultCommand(Commands.run(m_climber::idle, m_climber));
-
-    m_driverController
-      .povDown()
-      .whileTrue(Commands.run(() -> {
-        m_climber.setDirection(ClimberDirection.UP);
-      }, m_climber));
-
-    m_driverController
-      .povUp()
-      .whileTrue(Commands.run(() -> {
-        m_climber.setDirection(ClimberDirection.DOWN);
-      }, m_climber));
   }
 
   /**

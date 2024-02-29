@@ -104,6 +104,13 @@ public class Feeder extends SubsystemBase {
     }
 
     /*
+     * Command that spits the note back towards the intake
+     */
+    public Command spitNote(){
+        return Commands.run(()-> outtake(), this);
+    }
+
+    /*
      * Functional Command that recieves the note from the intake and spins the feeder motor until the note is detected
      */
     public Command feedNote(){

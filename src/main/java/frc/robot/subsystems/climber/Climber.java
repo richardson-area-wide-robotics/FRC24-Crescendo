@@ -5,10 +5,12 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkRelativeEncoder.Type;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Angle;
 import static edu.wpi.first.units.Units.*;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.ClimberConstants.ClimberDirection;
@@ -24,48 +26,52 @@ public class Climber extends SubsystemBase {
     private RelativeEncoder m_climberLeftEncoder;
     private RelativeEncoder m_climberRightEncoder;
 
+    public void climberConfig(CANSparkMax motor, boolean climberLeftSide){
+        motor.restoreFactoryDefaults();
+
+        motor.setIdleMode(ClimberConstants.kClimberIdleMode);
+
+        if(climberLeftSide) {
+            motor.setInverted(ClimberConstants.kClimberLeftInverted);
+            m_climberLeftEncoder = motor.getEncoder();
+            m_climberLeftPIDController = motor.getPIDController();
+            m_climberLeftPIDController.setP(ClimberConstants.kClimberP);
+            m_climberLeftPIDController.setI(ClimberConstants.kClimberI);
+            m_climberLeftPIDController.setD(ClimberConstants.kClimberD);
+        }
+
+        if (!climberLeftSide) { 
+            motor.setInverted(ClimberConstants.kClimberRightInverted);
+            m_climberRightEncoder = motor.getEncoder();
+            m_climberRightPIDController = motor.getPIDController();
+            m_climberRightPIDController.setP(ClimberConstants.kClimberP);
+            m_climberRightPIDController.setI(ClimberConstants.kClimberI);
+            m_climberRightPIDController.setD(ClimberConstants.kClimberD);
+        }
+
+        motor.setSmartCurrentLimit(ClimberConstants.kClimberCurrentLimit);
+
+        motor.enableSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberForwardSoftLimitEnabled);
+        motor.enableSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberReverseSoftLimitEnabled);
+        motor.setSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberForwardSoftLimit);
+        motor.setSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberReverseSoftLimit);
+
+        motor.burnFlash();
+    }
+
     public Climber() {
         m_climberLeftMotor = new CANSparkMax(ClimberConstants.kClimberLeftCANID, MotorType.kBrushless);
         m_climberRightMotor = new CANSparkMax(ClimberConstants.kClimberRightCANID, MotorType.kBrushless);
-        
-        m_climberLeftMotor.restoreFactoryDefaults();
-        m_climberLeftMotor.setIdleMode(ClimberConstants.kClimberIdleMode);
-        m_climberLeftMotor.setInverted(ClimberConstants.kClimberLeftInverted);
-        m_climberLeftMotor.setSmartCurrentLimit(ClimberConstants.kClimberCurrentLimit);
-        m_climberLeftMotor.enableSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberForwardSoftLimitEnabled);
-        m_climberLeftMotor.enableSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberReverseSoftLimitEnabled);
-        m_climberLeftMotor.setSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberLeftForwardSoftLimit);
-        m_climberLeftMotor.setSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberLeftReverseSoftLimit);
-        // m_climberLeftEncoder = m_climberLeftMotor.getEncoder(Type.kHallSensor, 1);
-        m_climberLeftPIDController = m_climberLeftMotor.getPIDController();
-        m_climberLeftPIDController.setP(ClimberConstants.kLeftP);
-        m_climberLeftPIDController.setI(ClimberConstants.kLeftI);
-        m_climberLeftPIDController.setD(ClimberConstants.kLeftD);
-        m_climberLeftMotor.burnFlash();
 
-        m_climberRightMotor.restoreFactoryDefaults();
-        m_climberRightMotor.setIdleMode(ClimberConstants.kClimberIdleMode);
-        m_climberRightMotor.setInverted(ClimberConstants.kClimberRightInverted);
-        m_climberRightMotor.setSmartCurrentLimit(ClimberConstants.kClimberCurrentLimit);
-        m_climberRightMotor.enableSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberForwardSoftLimitEnabled);
-        m_climberRightMotor.enableSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberReverseSoftLimitEnabled);
-        m_climberRightMotor.setSoftLimit(SoftLimitDirection.kForward, ClimberConstants.kClimberRightForwardSoftLimit);
-        m_climberRightMotor.setSoftLimit(SoftLimitDirection.kReverse, ClimberConstants.kClimberRightReverseSoftLimit);
-        m_climberRightPIDController = m_climberRightMotor.getPIDController();
-        m_climberRightPIDController.setP(ClimberConstants.kRightP);
-        m_climberRightPIDController.setI(ClimberConstants.kRightI);
-        m_climberRightPIDController.setD(ClimberConstants.kRightD);
-        m_climberRightMotor.burnFlash();
+       climberConfig(m_climberLeftMotor, true);
+       climberConfig(m_climberRightMotor, false);
+
+        setDefaultCommand();
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-    }
-
-    public void idle() {
-        m_climberLeftMotor.set(0);
-        m_climberRightMotor.set(0);
     }
 
     /**
@@ -141,5 +147,20 @@ public class Climber extends SubsystemBase {
     public void stop() {
         m_climberLeftMotor.stopMotor();
         m_climberRightMotor.stopMotor();
+    }
+
+    /*
+     * Defualt command for the climber - stops the climber motors
+     */
+    public void setDefaultCommand() {
+        super.setDefaultCommand(Commands.run(this::stop, this));
+    }
+
+    public Command climbUp() {
+        return Commands.run(() -> setDirection(ClimberDirection.UP), this);
+    }
+
+    public Command climbDown() {
+        return Commands.run(() -> setDirection(ClimberDirection.DOWN), this);
     }
 }

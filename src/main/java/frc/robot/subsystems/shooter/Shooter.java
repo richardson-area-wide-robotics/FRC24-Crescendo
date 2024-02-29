@@ -106,6 +106,14 @@ public class Shooter extends SubsystemBase {
         m_shooterRightMotor.set(-0.1);
     }
 
+        public void toggleState(ShooterState state) {
+        if (m_shooterState == state || m_shooterState == ShooterState.AMP) {
+            m_shooterState = ShooterState.IDLE;
+        } else {
+            m_shooterState = state;
+        }
+    }
+
     public void idle() {
         // if(speakerMode) {
         //   speakerMode();

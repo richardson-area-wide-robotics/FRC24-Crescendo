@@ -348,19 +348,12 @@ public final class Constants {
       public static final boolean kClimberForwardSoftLimitEnabled = false;
       public static final boolean kClimberReverseSoftLimitEnabled = false;
   
-      public static final float kClimberLeftForwardSoftLimit = 0;
-      public static final float kClimberRightForwardSoftLimit = 0;
+      public static final float kClimberForwardSoftLimit = 0;
+      public static final float kClimberReverseSoftLimit = 0;
   
-      public static final float kClimberLeftReverseSoftLimit = 0;
-      public static final float kClimberRightReverseSoftLimit = 0;
-  
-      public static final double kLeftP = 0.1;
-      public static final double kLeftI = 0.0;
-      public static final double kLeftD = 0.0;
-  
-      public static final double kRightP = 0.1;
-      public static final double kRightI = 0.0;
-      public static final double kRightD = 0.0;
+      public static final double kClimberP = 0.1;
+      public static final double kClimberI = 0.0;
+      public static final double kClimberD = 0.0;
       
       public static final double kClimbSpeed = 0.2;
       public static final double kLevelSpeed = 0.1;
