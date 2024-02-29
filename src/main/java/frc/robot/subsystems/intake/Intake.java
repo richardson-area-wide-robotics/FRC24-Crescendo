@@ -124,9 +124,8 @@ public class Intake extends SubsystemBase {
         m_intakeMotor.stopMotor();
       },
       () -> {
-        // if(!sensor.get()) {return true;}   
-        // else {return false;}
-        return false;
+        if(!sensor.get()) {return true;}   
+        else {return false;}
       },
       this
     );

@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.Rotation;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
@@ -108,6 +109,7 @@ public class Pivot extends SubsystemBase {
     public void periodic() {
 
         SmartDashboard.putNumber("encoder Position", getEncoderPosition() * 360);
+        SmartDashboard.putNumber("encoder Position Rotations", getEncoderPosition());
         SmartDashboard.putNumber("pivot set angle", m_setPoint.in(Degrees));
         // if (m_setPoint > PivotConstants.kPivotMaxAngle) {
         // m_setPoint = PivotConstants.kPivotMaxAngle;
@@ -161,7 +163,12 @@ public class Pivot extends SubsystemBase {
      */
     public void pivotTo(Measure<Angle> angle) {
         m_setPoint = angle;
-        m_PivotPIDController.setReference(angle.in(Degrees)/360, ControlType.kPosition);
+        m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
+    }
+
+    public void pivotFromCamera(Measure<Angle> angle){
+        m_setPoint = angle;
+        m_PivotPIDController.setReference((angle.in(Degrees)/360) - 0.0045, ControlType.kPosition);
     }
 
     @Override

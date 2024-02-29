@@ -123,14 +123,14 @@ public class RobotContainer {
           m_intake.setState(IntakeState.IDLE);
         }, m_intake, m_shooter));
 
-        m_driverController
-        .rightBumper()
-        .whileTrue(Commands.startEnd(() -> {
-          m_intake.setState(IntakeState.INTAKE);
-        }, () -> {
-          m_intake.setState(IntakeState.IDLE);
-        }, m_intake, m_shooter)); 
-    // m_driverController.rightBumper().whileTrue(m_intake.receive());
+        // m_driverController
+        // .rightBumper()
+        // .whileTrue(Commands.startEnd(() -> {
+        //   m_intake.setState(IntakeState.INTAKE);
+        // }, () -> {
+        //   m_intake.setState(IntakeState.IDLE);
+        // }, m_intake, m_shooter)); 
+    m_driverController.rightBumper().whileTrue(m_intake.receive());
 
     // m_driverController
     // .leftBumper()
