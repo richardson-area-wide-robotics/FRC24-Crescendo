@@ -34,6 +34,13 @@ import static edu.wpi.first.units.Units.Radians;
 import java.util.function.DoubleSupplier;
 import frc.robot.commands.Lock;
 import frc.robot.subsystems.Camera;
+import java.util.List;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ClimberConstants.ClimberDirection;
+import frc.robot.subsystems.climber.Climber;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -49,6 +56,7 @@ public class RobotContainer {
   private final AHRS m_gyro = new AHRS();
   private final Camera m_camera = new Camera("camera");
   private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro, m_camera);
+  private final Climber m_climber = new Climber();
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
@@ -64,6 +72,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
     configureDriverBindings();
     configureOperatorBindings();
+    globalEventList();
     launchCommands();
   }
 
@@ -195,6 +204,7 @@ public class RobotContainer {
         })));
 
     // SORRY ABOUT THIS BINDING
+    /* 
     m_driverController
         .povLeft()
         .onTrue(Commands.runOnce(() -> {
@@ -207,6 +217,8 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> {
           m_pivot.pivotTo(Radians.of(Constants.PivotConstants.kPivotPresetSubwoofer));
         }, m_pivot));
+          m_pivot.pivotTo(GameConstants.kPivotPresetSubwoofer);
+        }, m_pivot));*/
 
     m_driverController
         .b()
@@ -260,6 +272,22 @@ public class RobotContainer {
 
   /** Creates the Global event list for the autonomous paths */
   public void globalEventList() {
+    /**
+     * CLIMBER
+     */
+    m_climber.setDefaultCommand(Commands.run(m_climber::idle, m_climber));
+
+    m_driverController
+      .povDown()
+      .whileTrue(Commands.run(() -> {
+        m_climber.setDirection(ClimberDirection.UP);
+      }, m_climber));
+
+    m_driverController
+      .povUp()
+      .whileTrue(Commands.run(() -> {
+        m_climber.setDirection(ClimberDirection.DOWN);
+      }, m_climber));
   }
 
   /**
