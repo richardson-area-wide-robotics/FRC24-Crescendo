@@ -230,6 +230,15 @@ public final class Constants {
 
   public static final boolean kCompetitionMode = false;
 
+  public static enum LockMode {
+    SPEAKER_LOCK_MODE,
+    AMP_LOCK_MODE,
+    GAMEPIECE_LOCK_MODE,
+    TRAP_1,
+    TRAP_2,
+    TRAP_3
+  }
+
   /* Shooter Constants */
   public static final class ShooterConstants {
     public static final int kKickerMotorCANID = 12;
@@ -256,6 +265,9 @@ public final class Constants {
     public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
     public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
     public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
+
+    public static final int kAmpAngleDegrees = 90;
+    public static final Measure<Distance> speakerHeight = Inches.of(81.0);
 
     public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
 
