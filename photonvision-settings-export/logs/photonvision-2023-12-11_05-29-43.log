@@ -1,0 +1,53 @@
+[2023-12-11 05:29:46] [General - Main] [INFO] Native libraries loaded.
+[2023-12-11 05:29:47] [Camera - LibCameraJNILoader] [INFO] Successfully loaded shared object libphotonlibcamera.so
+[2023-12-11 05:29:47] [General - Main] [ERROR] Platform does not support RKNN based machine learning!
+[2023-12-11 05:29:48] [Camera - MrCalJNILoader] [INFO] Successfully loaded shared object libmrcal_jni.so
+[2023-12-11 05:29:48] [General - Main] [INFO] Logging initialized in debug mode.
+[2023-12-11 05:29:48] [General - ShellExec] [DEBUG] Executing "cat /proc/device-tree/model"
+[2023-12-11 05:29:48] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:48] [General - Main] [INFO] Starting PhotonVision version v2024.2.2 on Linux Raspbian 64-bit (Pi PI_3)
+[2023-12-11 05:29:48] [General - Main] [DEBUG] Loading ConfigManager...
+[2023-12-11 05:29:48] [Config - SqlConfigProvider] [DEBUG] Using database /opt/photonvision/photonvision_config/photon.sqlite
+[2023-12-11 05:29:48] [Config - SqlConfigProvider] [INFO] Using correct database version: 2
+[2023-12-11 05:29:48] [Config - SqlConfigProvider] [DEBUG] Loading config...
+[2023-12-11 05:29:49] [Config - SqlConfigProvider] [ERROR] Could not deserialize apriltag layout! Loading defaults
+[2023-12-11 05:29:49] [General - Main] [DEBUG] Loading HardwareManager...
+[2023-12-11 05:29:49] [General - NetworkTablesManager] [INFO] Starting NT Client, server team is 0
+[2023-12-11 05:29:49] [General - NetworkTablesManager] [ERROR] [NetworkTablesManager] Could not connect to the robot! Will retry in the background...
+[2023-12-11 05:29:49] [General - Main] [DEBUG] Loading NetworkManager...
+[2023-12-11 05:29:49] [General - NetworkManager] [INFO] Setting DHCP with team 0
+[2023-12-11 05:29:49] [General - ShellExec] [DEBUG] Executing "cat /etc/hostname | tr -d " \t\n\r""
+[2023-12-11 05:29:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:49] [General - ShellExec] [DEBUG] Executing "echo photonvision > /etc/hostname"
+[2023-12-11 05:29:49] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:49] [General - ShellExec] [DEBUG] Executing "hostnamectl set-hostname photonvision"
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Executing "sed -i "s/127.0.1.1.*photonvision/127.0.1.1\tphotonvision/g" /etc/hosts"
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Executing "sudo service avahi-daemon restart"
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:50] [General - NetworkManager] [INFO] Set hostname to photonvision
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Executing "nmcli con mod "Wired connection 1" ipv4.method "auto" ipv6.method "disabled""
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:50] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Executing "dhclient eth0"
+[2023-12-11 05:29:50] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:29:50] [General - Main] [DEBUG] Loading NetworkTablesManager...
+[2023-12-11 05:29:50] [General - Main] [INFO] Loading ML models
+[2023-12-11 05:29:50] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/note-640-640-yolov5s.rknn already exists. Skipping extraction.
+[2023-12-11 05:29:50] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/labels.txt already exists. Skipping extraction.
+[2023-12-11 05:29:50] [General - Main] [DEBUG] Loading VisionSourceManager...
+[2023-12-11 05:29:50] [General - Main] [INFO] Starting server...
+[2023-12-11 05:29:50] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_WEBSERVER
+[2023-12-11 05:29:50] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:29:50] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:29:51] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:29:51] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_UI
+[2023-12-11 05:29:51] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, Destinations: DCD_GENSETTINGS
+[2023-12-11 05:47:11] [General - HardwareManager] [INFO] Shutting down LEDs...
+[2023-12-11 05:47:11] [Config - ConfigManager] [INFO] Force-flushing settings...
+[2023-12-11 05:47:11] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:47:11] [Config - SqlConfigProvider] [INFO] Settings saved!

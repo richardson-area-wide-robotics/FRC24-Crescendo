@@ -6,11 +6,9 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
-import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,14 +20,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IOConstants;
+import frc.robot.Constants.LockMode;
 import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Feeder;
 import frc.robot.subsystems.shooter.Pivot;
 import frc.robot.subsystems.shooter.Shooter;
+import static edu.wpi.first.units.Units.Radians;
 
 import java.util.function.DoubleSupplier;
+import frc.robot.commands.Lock;
+import frc.robot.subsystems.Camera;
 import java.util.List;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -51,7 +53,8 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Feeder m_feeder = new Feeder();
   private final AHRS m_gyro = new AHRS();
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro);
+  private final Camera m_camera = new Camera("camera");
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro, m_camera);
   private final Climber m_climber = new Climber();
 
   // The driver's controller
@@ -68,6 +71,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
     configureDriverBindings();
     globalEventList();
+    launchCommands();
   }
 
   /**
@@ -85,6 +89,8 @@ public class RobotContainer {
         -m_driverController.getLeftY(), Constants.IOConstants.kControllerDeadband);
     DoubleSupplier moveSideways = () -> MathUtil.applyDeadband(
         -m_driverController.getLeftX(), Constants.IOConstants.kControllerDeadband);
+
+    Lock lockMode = new Lock(m_robotDrive, m_pivot, m_camera, moveForward, moveSideways);
 
     // Configure default commands
     /**
@@ -112,7 +118,6 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(() -> {
           m_robotDrive.zeroHeading();
         }, m_robotDrive));
-
 
     /**
      * INTAKE and FEEDER controls
@@ -154,11 +159,15 @@ public class RobotContainer {
      * Y BUTTON: Toggle Shooter State
      * A BUTTON: Shoot
      */
+    m_driverController.b().whileTrue(lockMode);
+    
     m_driverController
         .y()
         .onTrue(Commands.runOnce(() -> {
           m_shooter.toggleState(ShooterState.SPEAKER);
-        }, m_shooter));
+        }, m_shooter).andThen(Commands.runOnce(() -> {
+          lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
+        })));
 
     m_driverController.a().whileTrue(m_feeder.shootNote());
 
@@ -230,4 +239,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("Auton Time", Timer.getFPGATimestamp());
 
   }
+
+  public void launchCommands() {
+  }
+  
 }

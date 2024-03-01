@@ -187,7 +187,7 @@ public final class Constants {
     public static final double kTurningMaxOutput = 1.0;
 
     // TODO: tune values for Vision auto-turning
-    public static final PIDGains kVisionTurningPIDGains = new PIDGains(1.0, 0, 0.01);
+    public static final PIDGains kVisionTurningPIDGains = new PIDGains(1.0, 0, 0.25);
 
     public static final double MAX_LOCKED_ON_SPEED = 0.33;
 
@@ -293,22 +293,22 @@ public final class Constants {
     public static final int pivotCurrentLimit = 40;
     public static final boolean pivotRightMotorInverted = true;
 
-    // TODO: Tune these values for the pivot please 
+    // TODO: Tune these values for the pivot please
     public static final double kPivotP = 3.0;
     public static final double kPivotI = 0.00008;
     public static final double kPivotD = 0.45;
     public static final boolean kPivotPositionPIDWrappingEnabled = false;
     public static final double kPivotMinOutput = -1.0;
     public static final double kPivotMaxOutput = 1.0;
-    
-    // Range of values the smart controller will use as a hard stop 
+
+    // Range of values the smart controller will use as a hard stop
     public static final float kPivotForwardSoftLimit = 0.31f;
     public static final float kPivotReverseSoftLimit = 0.01f;
 
     // Range that the driver will be allowed to move pivot to
-    public static final double kPivotMaxAngle = 0.3; 
+    public static final double kPivotMaxAngle = 0.3;
     public static final double kPivotMinAngle = 0.01;
-   
+
     public static final double kPivotPresetSubwoofer = 0.135;
     public static final double kPivotPresetAmp = 0.31;
 
@@ -376,71 +376,5 @@ public final class Constants {
         DOWN
       }
     }
-
-
-
-
-  //  public static class ShooterConstants {
-  //   public static final int kickerMotorCANID = 12;
-  //   public static final int shooterRightCANID = 13;
-  //   public static final int shooterLeftCANID = 14;
-
-  //   public static final int kickerMotorCurrentLimit = 60;
-  //   public static final int shooterRightMotorCurrentLimit = 60;
-  //   public static final int shooterLeftMotorCurrentLimit = 60;
-  //   public static final int pivotRightMotorCurrentLimit = 40;
-  //   public static final int pivotLeftMotorCurrentLimit = 40;
-
-  //   public static final double kPivotP = 1.5;
-  //   public static final double kPivotI = 0.0;
-  //   public static final double kPivotD = 0.001;
-
-  //   public static final double kShooterP = 0.0007;
-  //   public static final double kShooterI = 0.0;
-  //   public static final double kShooterD = 0.001;
-
-  //   public static final double kKickerP = 0.0;
-  //   public static final double kKickerI = 0.0;
-  //   public static final double kKickerD = 0.0;
-
-  //   public static final boolean pivotRightMotorInverted = true;
-
-  //   public static final Measure<Angle> kPivotToleranceAngle = Degrees.of(3.6);
-
-  //   // smallest angle (between hardstop and shooter) that the shooter can pivot to
-  //   public static final Measure<Angle> kPivotMinAngle = Degrees.of(5.0); // TBD
-
-  //   // highest angle (between hardstop and shooter) that the shooter can pivot to
-  //   public static final Measure<Angle> kPivotMaxAngle = Degrees.of(45.0); // TBD
-
-  //   public static final boolean kShooterLeftMotorInverted = true;
-  //   public static final boolean kShooterRightMotorInverted = false;
-
-  //   public static final Measure<Distance> kHorizontalNoteCompression = Inches.of(12.0);
-  //   public static final Measure<Distance> kShooterWheelRadius = Inches.of(2.0);
-  //   public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
-
-  //   public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
-
-  //   public static final double kPivotSpeed = 0.22;
-
-  //   public static enum PivotDirection {
-  //     UP, 
-  //     DOWN,
-  //     STOP
-  //   }
-
-  //   public static final int kAmpAngleDegrees = 90;
-
-
-  //   public static enum ShooterState {
-  //     IDLE, 
-  //     INTAKE,
-  //     OUTTAKE,
-  //     SPEAKER,
-  //     AMP,
-  //     REVERSE
-  //   }
-  // }
 
 }

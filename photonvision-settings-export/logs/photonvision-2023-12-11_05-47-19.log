@@ -1,0 +1,135 @@
+[2023-12-11 05:47:22] [General - Main] [INFO] Native libraries loaded.
+[2023-12-11 05:47:23] [Camera - LibCameraJNILoader] [INFO] Successfully loaded shared object libphotonlibcamera.so
+[2023-12-11 05:47:23] [General - Main] [ERROR] Platform does not support RKNN based machine learning!
+[2023-12-11 05:47:23] [Camera - MrCalJNILoader] [INFO] Successfully loaded shared object libmrcal_jni.so
+[2023-12-11 05:47:23] [General - Main] [INFO] Logging initialized in debug mode.
+[2023-12-11 05:47:23] [General - ShellExec] [DEBUG] Executing "cat /proc/device-tree/model"
+[2023-12-11 05:47:23] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:23] [General - Main] [INFO] Starting PhotonVision version v2024.2.2 on Linux Raspbian 64-bit (Pi PI_3)
+[2023-12-11 05:47:23] [General - Main] [DEBUG] Loading ConfigManager...
+[2023-12-11 05:47:23] [Config - SqlConfigProvider] [DEBUG] Using database /opt/photonvision/photonvision_config/photon.sqlite
+[2023-12-11 05:47:24] [Config - SqlConfigProvider] [INFO] Using correct database version: 2
+[2023-12-11 05:47:24] [Config - SqlConfigProvider] [DEBUG] Loading config...
+[2023-12-11 05:47:24] [Config - SqlConfigProvider] [ERROR] Could not deserialize apriltag layout! Loading defaults
+[2023-12-11 05:47:24] [General - Main] [DEBUG] Loading HardwareManager...
+[2023-12-11 05:47:25] [General - NetworkTablesManager] [INFO] Starting NT Client, server team is 0
+[2023-12-11 05:47:25] [General - NetworkTablesManager] [ERROR] [NetworkTablesManager] Could not connect to the robot! Will retry in the background...
+[2023-12-11 05:47:25] [General - Main] [DEBUG] Loading NetworkManager...
+[2023-12-11 05:47:25] [General - NetworkManager] [INFO] Setting DHCP with team 0
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "cat /etc/hostname | tr -d " \t\n\r""
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "echo photonvision > /etc/hostname"
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "hostnamectl set-hostname photonvision"
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "sed -i "s/127.0.1.1.*photonvision/127.0.1.1\tphotonvision/g" /etc/hosts"
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "sudo service avahi-daemon restart"
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - NetworkManager] [INFO] Set hostname to photonvision
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "nmcli con mod "Wired connection 1" ipv4.method "auto" ipv6.method "disabled""
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Executing "dhclient eth0"
+[2023-12-11 05:47:25] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:25] [General - Main] [DEBUG] Loading NetworkTablesManager...
+[2023-12-11 05:47:25] [General - Main] [INFO] Loading ML models
+[2023-12-11 05:47:25] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/note-640-640-yolov5s.rknn already exists. Skipping extraction.
+[2023-12-11 05:47:25] [Config - NeuralNetworkModelManager] [INFO] File /opt/photonvision/photonvision_config/models/labels.txt already exists. Skipping extraction.
+[2023-12-11 05:47:25] [General - Main] [DEBUG] Loading VisionSourceManager...
+[2023-12-11 05:47:25] [General - Main] [INFO] Starting server...
+[2023-12-11 05:47:25] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_WEBSERVER
+[2023-12-11 05:47:26] [Camera - VisionSourceManager] [DEBUG] Matching 1 new cameras!
+[2023-12-11 05:47:26] [Camera - VisionSourceManager] [INFO] Adding local video device - "OV9281" at "/base/soc/i2c0mux/i2c@1/ov9281@60"
+[2023-12-11 05:47:26] [Camera - VisionSourceManager] [DEBUG] After matching loaded configs 1 cameras were unmatched.
+[2023-12-11 05:47:26] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:47:26] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:47:26] [Camera - VisionSourceManager] [INFO] Creating a new camera config for camera OV9281
+[2023-12-11 05:47:26] [Camera - CameraConfiguration] [DEBUG] Creating USB camera configuration for UsbCamera OV9281 (AKA OV9281) at /base/soc/i2c0mux/i2c@1/ov9281@60
+[2023-12-11 05:47:26] [Camera - VisionSourceManager] [DEBUG] Matched or created 1 camera configs!
+[2023-12-11 05:47:26] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:47:26] [Camera - VisionSourceManager] [DEBUG] Creating VisionSource for CameraConfiguration [baseName=OV9281, uniqueName=OV9281, nickname=OV9281, path=/base/soc/i2c0mux/i2c@1/ov9281@60, otherPaths=[], cameraType=ZeroCopyPicam, cameraQuirks=null, FOV=70.0, calibrations=[], currentPipelineIndex=0, streamIndex=0, pipelineSettings=[], driveModeSettings=CVPipelineSettings{pipelineIndex=-1, pipelineType=DriverMode, inputImageRotationMode=DEG_0, pipelineNickname='Driver Mode', cameraExposure=20.0, cameraBrightness=50, cameraGain=75, cameraRedGain=11, cameraBlueGain=20, cameraVideoModeIndex=0, streamingFrameDivisor=NONE, ledMode=false, inputShouldShow=true, outputShouldShow=true}]
+[2023-12-11 05:47:26] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:47:26] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:47:28] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_UI
+[2023-12-11 05:47:28] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, Destinations: DCD_GENSETTINGS
+[2023-12-11 05:47:30] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:47:30] [Camera - VisionSourceManager] [DEBUG] Matched config for camera "AcceleratedPicamFrameProvider" and loaded 0 pipelines
+[2023-12-11 05:47:30] [Camera - VisionSourceManager] [INFO] Adding 1 configs to VMM.
+[2023-12-11 05:47:31] [WebServer - DataChangeService] [DEBUG] Added subscriber - Sources: DCS_WEBSOCKET, DCS_HTTP, DCS_NETWORKTABLES, DCS_VISIONMODULE, DCS_OTHER, Destinations: DCD_ACTIVEMODULE, DCD_ACTIVEPIPELINESETTINGS, DCD_GENSETTINGS, DCD_UI, DCD_WEBSERVER, DCD_OTHER
+[2023-12-11 05:47:31] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to 0
+[2023-12-11 05:47:31] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: New Pipeline
+[2023-12-11 05:47:31] [VisionModule - PipelineManager] [DEBUG] Creating Reflective pipeline
+[2023-12-11 05:47:31] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:47:31] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:47:31] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:47:31] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:47:31] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:47:31] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:47:31] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:47:31] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:47:33] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:47:33] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:47:34] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:49:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /index.html for host 10.99.99.216 in 31.878386 ms
+[2023-12-11 05:49:22] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint / for host 10.99.99.216 in 138.0278 ms
+[2023-12-11 05:49:23] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-429cba20.css for host 10.99.99.216 in 232.05453 ms
+[2023-12-11 05:49:24] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/index-da0137d0.js for host 10.99.99.216 in 1606.8646 ms
+[2023-12-11 05:49:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/loading-0f0dc28b.svg for host 10.99.99.216 in 24.514168 ms
+[2023-12-11 05:49:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/logoLarge-7c0b93cf.svg for host 10.99.99.216 in 37.601772 ms
+[2023-12-11 05:49:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/prompt-latin-400-normal-b7be1a25.woff2 for host 10.99.99.216 in 23.173124 ms
+[2023-12-11 05:49:25] [WebServer - DataSocketHandler] [INFO] New websocket connection from /10.99.99.216:49284
+[2023-12-11 05:49:25] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /assets/materialdesignicons-webfont-662fefa8.woff2 for host 10.99.99.216 in 659.27673 ms
+[2023-12-11 05:49:25] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:49:26] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:49:26] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:49:26] [WebServer - Server] [DEBUG] Handled HTTP request of type GET from endpoint /favicon.ico for host 10.99.99.216 in 15.270364 ms
+[2023-12-11 05:49:35] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:49:35] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:49:35] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:49:55] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:49:55] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:49:55] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:50:08] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:50:08] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:50:08] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:50:12] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:50:13] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:50:13] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 60 Width: 1280 Height: 800 Pixel Format: kUnknown
+[2023-12-11 05:50:14] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:50:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281
+[2023-12-11 05:50:15] [Camera - LibcameraGpuFrameProvider] [ERROR] No new frame from OV9281 for 3 seconds attempting recreate!
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:50:15] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:50:16] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:50:16] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
+[2023-12-11 05:50:17] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:50:17] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:50:18] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:50:22] [Config - ConfigManager] [DEBUG] Saving to disk...
+[2023-12-11 05:50:22] [Config - SqlConfigProvider] [DEBUG] Saving to disk
+[2023-12-11 05:50:22] [Config - SqlConfigProvider] [INFO] Settings saved!
+[2023-12-11 05:50:27] [VisionModule - PipelineManager] [INFO] Adding new pipe of type AprilTag at idx 0
+[2023-12-11 05:50:27] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 05:50:28] [General - ShellExec] [DEBUG] Executing "nmcli -t -f GENERAL.CONNECTION,GENERAL.DEVICE,GENERAL.TYPE device show"
+[2023-12-11 05:50:28] [General - ShellExec] [DEBUG] Got exit code 0
+[2023-12-11 05:50:28] [General - NetworkUtils] [DEBUG] Found network interfaces:
+[NMDeviceInfo [connName=Wired connection 1, devName=eth0, nmType=NMTYPE_ETHERNET], NMDeviceInfo [connName=lo, devName=lo, nmType=NMTYPE_UNKNOWN]]
+[2023-12-11 05:50:28] [VisionModule - VisionModule - OV9281] [INFO] Setting pipeline to 0
+[2023-12-11 05:50:28] [VisionModule - VisionModule - OV9281] [INFO] Pipeline name: New Pipeline
+[2023-12-11 05:50:28] [VisionModule - PipelineManager] [DEBUG] Creating AprilTag pipeline
+[2023-12-11 05:50:29] [VisionModule - VisionSourceSettables] [INFO] Setting video mode to FPS: 30 Width: 320 Height: 240 Pixel Format: kUnknown
+[2023-12-11 05:50:29] [VisionModule - VisionSourceSettables] [DEBUG] Stopping libcamera
+[2023-12-11 05:50:29] [VisionModule - VisionSourceSettables] [DEBUG] Destroying libcamera
+[2023-12-11 05:50:29] [VisionModule - VisionSourceSettables] [DEBUG] Creating libcamera
+[2023-12-11 05:50:29] [VisionModule - VisionSourceSettables] [DEBUG] Starting libcamera
