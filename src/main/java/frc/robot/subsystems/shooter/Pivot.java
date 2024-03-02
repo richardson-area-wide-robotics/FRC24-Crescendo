@@ -173,13 +173,13 @@ public class Pivot extends SubsystemBase {
         m_PivotRightMotor.set(speedPercentage);
     }
 
-    /**
-     * Pivots the shooter to a given angle about the axis of the absolute encoder.
-     */
-    public void pivotTo(Measure<Angle> angle) {
-        m_setPoint = angle;
-        m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
-    }
+    // /**
+    //  * Pivots the shooter to a given angle about the axis of the absolute encoder.
+    //  */
+    // public void pivotTo(Measure<Angle> angle) {
+    //     m_setPoint = angle;
+    //     m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
+    // }
 
     public void pivotFromCamera(Measure<Angle> angle){
         m_setPoint = angle;
@@ -193,6 +193,34 @@ public class Pivot extends SubsystemBase {
         builder.addBooleanProperty("atBottomLimit", this::bottomLimit, null);
         builder.addDoubleProperty("desiredPosition", this::getDesiredAngle, null);
         builder.addDoubleProperty("encoderPosition", this::getEncoderPosition, null);
+    }
+
+     /** 
+     * Pivots the shooter to a given angle about the axis of the absolute encoder. 
+     */
+    public void pivotTo(Measure<Angle> angle) {
+        m_setPoint = angle;
+        m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
+    }
+
+    public Command pivotUp(){
+        return Commands.run(()-> {manualControl = true; pivotSpeed(PivotConstants.kPivotSpeed);}, this);
+    }
+
+    public Command pivotDown(){
+        return Commands.run(()-> {manualControl = true; pivotSpeed(-PivotConstants.kPivotSpeed);}, this);
+    }
+
+    // public void setDefaultCommand(){
+    //     setDefaultCommand(Commands.run(()-> {manualControl = false; m_setPoint = getEncoderPosition(); pivotSpeed(0);}, this));
+    // }
+
+    public Command pivotToAMP(){
+        return Commands.run(()-> pivotTo(PivotConstants.kPivotPresetAmpv2), this);
+    }
+
+    public Command pivotToSpeaker(){
+        return Commands.run(()-> pivotTo(PivotConstants.kPivotPresetSubwooferv2), this);
     }
 
 }

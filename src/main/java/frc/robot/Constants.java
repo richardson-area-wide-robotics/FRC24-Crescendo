@@ -312,6 +312,9 @@ public final class Constants {
     public static final double kPivotPresetSubwoofer = 0.135;
     public static final double kPivotPresetAmp = 0.31;
 
+    public static final Measure<Angle> kPivotPresetSubwooferv2 = Radians.of(0.135);
+    public static final Measure<Angle> kPivotPresetAmpv2 = Radians.of(0.31);
+
     public static final double kPivotSpeed = 0.5;
 
        public static enum PivotDirection {
@@ -367,7 +370,7 @@ public final class Constants {
       public static final double kClimberI = 0.0;
       public static final double kClimberD = 0.0;
       
-      public static final double kClimbSpeed = 0.2;
+      public static final double kClimbSpeed = 0.9;
       public static final double kLevelSpeed = 0.1;
       public static final Measure<Angle> kRollTolerance = Degrees.of(5.0);
   

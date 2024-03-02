@@ -146,7 +146,7 @@ public class Feeder extends SubsystemBase {
                 idleFeeder();
             },
             () -> {
-                return !hasNote();
+                return false;
             },
             this
         );

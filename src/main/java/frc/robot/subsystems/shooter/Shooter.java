@@ -95,7 +95,7 @@ public class Shooter extends SubsystemBase {
             case REVERSE:
                 reverse();
             case IDLE:
-                stopAll();
+                idle();
                 break;
         }
     }
@@ -124,8 +124,12 @@ public class Shooter extends SubsystemBase {
         // } else {
         // stopAll();
         // }
-        m_shooterLeftMotor.stopMotor();
-        m_shooterRightMotor.stopMotor();
+        // m_shooterLeftMotor.stopMotor();
+        // m_shooterRightMotor.stopMotor();
+        m_shooterState = ShooterState.IDLE;
+        m_shooterLeftMotor.set(0.0);;
+        m_shooterRightMotor.set(0.0);
+        m_kickerMotor.set(0.0);
     }
 
     public void stopAll() {
@@ -146,8 +150,8 @@ public class Shooter extends SubsystemBase {
     }
 
     private void ampSpeed() {
-        m_shooterLeftMotor.set(0.2);
-        m_shooterRightMotor.set(0.2);
+        m_shooterLeftMotor.set(0.1);
+        m_shooterRightMotor.set(0.1);
         m_kickerMotor.set(0.1);
     }
 

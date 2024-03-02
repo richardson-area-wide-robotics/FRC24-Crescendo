@@ -15,12 +15,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.util.JoystickUtil;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.LockMode;
+import frc.robot.Constants.PivotConstants.PivotDirection;
 import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
@@ -134,8 +137,21 @@ public class RobotContainer {
      * LEFT TRIGGER: Pivot up
      * RIGHT TRIGGER: Pivot down
      */
-    m_driverController.leftTrigger().whileTrue(m_pivot.pivotUp());
-    m_driverController.rightTrigger().whileTrue(m_pivot.pivotDown());
+       m_driverController
+        .leftTrigger()
+        .whileTrue(Commands.runEnd(() -> {
+          m_pivot.pivot(PivotDirection.UP);
+        }, () -> {
+          m_pivot.pivot(PivotDirection.STOP);
+        }, m_pivot));
+
+    m_driverController
+        .rightTrigger()
+        .whileTrue(Commands.runEnd(() -> {
+          m_pivot.pivot(PivotDirection.DOWN);
+        }, () -> {
+          m_pivot.pivot(PivotDirection.STOP);
+        }, m_pivot));
 
     /**
      * PIVOT auto commands
@@ -143,13 +159,9 @@ public class RobotContainer {
      * LEFT D-PAD: Pivot to AMP
      * RIGHT D-PAD: Pivot to Speaker
      */
-    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP().alongWith(Commands.startEnd(() -> {
-      m_shooter.toggleState(ShooterState.AMP);
-    }, () -> {
-      m_shooter.toggleState(ShooterState.IDLE);
-    }, m_shooter)));
+    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.AMP)));
 
-    m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker());
+    m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.SPEAKER)));
 
 
     /**
@@ -160,7 +172,7 @@ public class RobotContainer {
      * A BUTTON: Shoot
      */
     m_driverController.b().whileTrue(lockMode);
-    
+
     m_driverController
         .y()
         .onTrue(Commands.runOnce(() -> {
@@ -209,8 +221,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
     // return AutoChooser.getAuton();
-    PathPlannerPath path = PathPlannerPath.fromPathFile("example");
-    return AutoBuilder.followPath(path);
+    return new SequentialCommandGroup(m_pivot.pivotToSpeaker().alongWith(Commands.runOnce(() -> 
+      m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.5)).andThen(m_feeder.shootNote().withTimeout(0.2)));
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("example");
+    // return AutoBuilder.followPath(path);
     // return new PathPlannerAuto("test");
   }
 
