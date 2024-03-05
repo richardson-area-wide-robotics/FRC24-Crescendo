@@ -50,6 +50,8 @@ public class Swerve extends SubsystemBase {
   private final SwerveModule m_backLeft;
   private final SwerveModule m_backRight;
 
+  public double yCSpeed;
+  public double xCSpeed;
   // The gyro sensor
   private final AHRS m_gyro;
 
@@ -119,6 +121,9 @@ public class Swerve extends SubsystemBase {
     m_frontRight.periodic();
     m_backLeft.periodic();
     m_backRight.periodic();
+
+    SmartDashboard.putNumber("xSpeed", xCSpeed);
+    SmartDashboard.putNumber("ySpeed", yCSpeed);
 
     m_chassisSpeed = m_kinematics.toChassisSpeeds(getModuleStates());
 
@@ -210,6 +215,9 @@ public class Swerve extends SubsystemBase {
     xSpeed *= m_maxSpeed;
     ySpeed *= m_maxSpeed;
     rot *= Constants.SwerveDriveConstants.kMaxAngularSpeed;
+
+    xCSpeed = xSpeed;
+    yCSpeed = ySpeed; 
 
     var swerveModuleStates =
         m_kinematics.toSwerveModuleStates(

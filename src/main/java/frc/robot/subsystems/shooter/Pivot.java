@@ -132,6 +132,9 @@ public class Pivot extends SubsystemBase {
         // m_setPoint = PivotConstants.kPivotMinAngle;
         // }
 
+        SmartDashboard.putNumber("Current left", m_PivotLeftMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Current right", m_PivotRightMotor.getOutputCurrent());
+
         if (!manualControl)
             pivotTo(m_setPoint);
     }
