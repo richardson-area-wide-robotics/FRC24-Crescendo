@@ -16,6 +16,7 @@ import frc.robot.Constants.FeederConstants;
 public class Feeder extends SubsystemBase {
     private final CANSparkFlex m_feederMotor;
     private final DigitalInput m_sensor;
+    public boolean hasNote;
     // private ShuffleboardTab feederTab = Shuffleboard.getTab("Feeder");
 
     // private GenericEntry m_sensorEntry = feederTab.add("Has Note", false).getEntry();
@@ -110,6 +111,14 @@ public class Feeder extends SubsystemBase {
         return Commands.run(()-> outtake(), this);
     }
 
+    public boolean indicator(boolean note){
+        return hasNote = note;
+    }
+
+    public boolean getIndicator(){
+        return hasNote;
+    }
+
     /*
      * Functional Command that recieves the note from the intake and spins the feeder motor until the note is detected
      */
@@ -123,6 +132,8 @@ public class Feeder extends SubsystemBase {
             },
             (interrupted) -> {
                 idleFeeder();
+                indicator(true);
+
             },
             () -> {
                 return hasNote();

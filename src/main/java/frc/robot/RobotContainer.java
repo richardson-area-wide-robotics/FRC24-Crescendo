@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -129,6 +130,15 @@ public class RobotContainer {
      * RIGHT BUMPER: Spit note and outtake
      */
     m_driverController.leftBumper().whileTrue(m_feeder.feedNote().alongWith(m_intake.intake()));
+
+    // m_driverControllerSP.setRumble(true, 0);]
+    if(m_feeder.getIndicator()){
+      m_driverControllerSP.setRumble(RumbleType.kBothRumble, 0.5);
+    }
+    else{
+      m_driverControllerSP.setRumble(RumbleType.kBothRumble, 0);
+    }
+
     m_driverController.rightBumper().whileTrue(m_feeder.spitNote().alongWith(m_intake.outtake()));
 
     /**
@@ -221,10 +231,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
     // return AutoChooser.getAuton();
-    return new SequentialCommandGroup(m_pivot.pivotToSpeaker().alongWith(Commands.runOnce(() -> 
-      m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.5)).andThen(m_feeder.shootNote().withTimeout(0.2)));
-    // PathPlannerPath path = PathPlannerPath.fromPathFile("example");
-    // return AutoBuilder.followPath(path);
+    PathPlannerPath path = PathPlannerPath.fromPathFile("example");
+    return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
+      m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-5,0, 0, false))));
     // return new PathPlannerAuto("test");
   }
 

@@ -109,7 +109,7 @@ public class Shooter extends SubsystemBase {
     }
 
         public void toggleState(ShooterState state) {
-        if (m_shooterState == state || m_shooterState == ShooterState.AMP) {
+        if (m_shooterState == state) {
             m_shooterState = ShooterState.IDLE;
         } else {
             m_shooterState = state;
