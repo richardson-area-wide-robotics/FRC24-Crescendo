@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -41,6 +42,7 @@ public class Feeder extends SubsystemBase {
      */
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("Indicator", getIndicator());
         // m_sensorEntry.setBoolean(hasNote());
         // m_speedEntry.setDouble(getSpeed());
         // m_currentEntry.setDouble(m_feederMotor.getOutputCurrent());

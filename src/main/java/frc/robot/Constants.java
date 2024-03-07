@@ -294,9 +294,9 @@ public final class Constants {
     public static final boolean pivotRightMotorInverted = true;
 
     // TODO: Tune these values for the pivot please
-    public static final double kPivotP = 3.0;
-    public static final double kPivotI = 0.00008;
-    public static final double kPivotD = 0.45;
+    public static final double kPivotP = 4.0;
+    public static final double kPivotI = 0.0001;
+    public static final double kPivotD = 0.5;
     public static final boolean kPivotPositionPIDWrappingEnabled = false;
     public static final double kPivotMinOutput = -1.0;
     public static final double kPivotMaxOutput = 1.0;
@@ -314,8 +314,9 @@ public final class Constants {
 
     public static final Measure<Angle> kPivotPresetSubwooferv2 = Radians.of(0.135);
     public static final Measure<Angle> kPivotPresetAmpv2 = Radians.of(0.31);
+    public static final Measure<Angle> kPivotPresetRest = Radians.of(0.015);
 
-    public static final double kPivotSpeed = 0.5;
+    public static final double kPivotSpeed = 0.2;
 
        public static enum PivotDirection {
       UP, 

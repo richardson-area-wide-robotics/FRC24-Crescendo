@@ -26,6 +26,8 @@ import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.LockMode;
 import frc.robot.Constants.PivotConstants.PivotDirection;
 import frc.robot.Constants.ShooterConstants.ShooterState;
+import frc.robot.auton.ShootBackUp;
+import frc.robot.auton.TwoShootBasicAuto;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Feeder;
@@ -60,6 +62,8 @@ public class RobotContainer {
   private final Camera m_camera = new Camera("camera");
   private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro, m_camera);
   private final Climber m_climber = new Climber();
+  private final ShootBackUp m_shootBackUp = new ShootBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final TwoShootBasicAuto m_twoShootBasicAuto = new TwoShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
@@ -131,14 +135,6 @@ public class RobotContainer {
      */
     m_driverController.leftBumper().whileTrue(m_feeder.feedNote().alongWith(m_intake.intake()));
 
-    // m_driverControllerSP.setRumble(true, 0);]
-    if(m_feeder.getIndicator()){
-      m_driverControllerSP.setRumble(RumbleType.kBothRumble, 0.5);
-    }
-    else{
-      m_driverControllerSP.setRumble(RumbleType.kBothRumble, 0);
-    }
-
     m_driverController.rightBumper().whileTrue(m_feeder.spitNote().alongWith(m_intake.outtake()));
 
     /**
@@ -169,7 +165,7 @@ public class RobotContainer {
      * LEFT D-PAD: Pivot to AMP
      * RIGHT D-PAD: Pivot to Speaker
      */
-    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.AMP)));
+    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE)));
 
     m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.SPEAKER)));
 
@@ -200,7 +196,8 @@ public class RobotContainer {
      * UP D-PAD: Climb up
      * DOWN D-PAD: Climb down
      */
-    m_driverController.povUp().whileTrue(m_climber.climbUp());
+    // m_driverController.povUp().whileTrue(m_climber.climbUp());
+    m_driverController.povUp().whileTrue(m_pivot.pivotToRest());
     m_driverController.povDown().whileTrue(m_climber.climbDown());
 
       }
@@ -223,6 +220,23 @@ public class RobotContainer {
   public void globalEventList() {
   }
 
+  public void getRumble(){
+    if(m_feeder.hasNote() == true){
+      m_driverControllerSP.setRumble(RumbleType.kLeftRumble, 0.1);
+    }
+    else if (m_feeder.hasNote() ==  false){
+      m_driverControllerSP.setRumble(RumbleType.kLeftRumble, 0);
+    }
+
+    if (m_shooter.getSpeed() > 0.5){
+      m_driverControllerSP.setRumble(RumbleType.kRightRumble, 0.1);
+    }
+
+    else if (m_shooter.getSpeed() < 0.5){
+      m_driverControllerSP.setRumble(RumbleType.kRightRumble, 0);
+    }
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -231,9 +245,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
     // return AutoChooser.getAuton();
-    PathPlannerPath path = PathPlannerPath.fromPathFile("example");
-    return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
-      m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-1,0, 0, false), m_robotDrive).alongWith(m_intake.intake()).withTimeout(1.0)));
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("example");
+    return m_twoShootBasicAuto;
+
+    /* Shoot and back up */
+    // return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
+    //   m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-1,0, 0, false), m_robotDrive).alongWith(m_intake.intake()).withTimeout(1.0)));
     // return new PathPlannerAuto("test");
   }
 

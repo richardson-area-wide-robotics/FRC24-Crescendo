@@ -226,4 +226,8 @@ public class Pivot extends SubsystemBase {
         return Commands.run(()-> pivotTo(PivotConstants.kPivotPresetSubwooferv2), this);
     }
 
+    public Command pivotToRest(){
+        return Commands.run(()-> pivotTo(PivotConstants.kPivotPresetRest), this);
+    }
+
 }

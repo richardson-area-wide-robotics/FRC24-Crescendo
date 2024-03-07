@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
@@ -79,6 +80,7 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putNumber("Applied output", getSpeed());
         switch (m_shooterState) {
             case INTAKE:
                 intake();
@@ -127,9 +129,13 @@ public class Shooter extends SubsystemBase {
         // m_shooterLeftMotor.stopMotor();
         // m_shooterRightMotor.stopMotor();
         m_shooterState = ShooterState.IDLE;
-        m_shooterLeftMotor.set(0.0);;
-        m_shooterRightMotor.set(0.0);
-        m_kickerMotor.set(0.0);
+        m_shooterLeftMotor.set(0.1);;
+        m_shooterRightMotor.set(0.1);
+        m_kickerMotor.set(0.1);
+    }
+
+    public double getSpeed(){
+       return m_shooterLeftMotor.getAppliedOutput();
     }
 
     public void stopAll() {
