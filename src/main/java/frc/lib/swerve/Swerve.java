@@ -365,6 +365,10 @@ public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds){
     SmartDashboard.putNumber("Pitch", getRoll());
   }
 
+  public void resetNavx(){
+    m_gyro.reset();
+  }
+
 //   /**
 //    * Create a trajectory following command. Note that the beginning and end states of the command
 //    * are not necessarily 0 speed.

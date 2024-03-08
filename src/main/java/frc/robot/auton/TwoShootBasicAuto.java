@@ -14,13 +14,16 @@ public class TwoShootBasicAuto extends SequentialCommandGroup {
     
     public TwoShootBasicAuto(DriveSubsystem drive, Intake intake, Shooter shooter, Pivot pivot, Feeder feeder) {
         super(
-        pivot.pivotToSpeaker().withTimeout(2.5)
-        .alongWith(Commands.runOnce(() -> shooter.toggleState(ShooterState.SPEAKER)))
+        Commands.runOnce(()-> drive.zeroHeading(), drive).
+        andThen(Commands.runOnce(()-> drive.resetEncoders(), drive)).
+        andThen(new WaitCommand(0.5)).
+        andThen(pivot.pivotToSpeaker().withTimeout(2.5))
+        .alongWith(Commands.runOnce(() -> shooter.setStateSpeaker(ShooterState.SPEAKER)))
         .andThen(new WaitCommand(0.9))
         .andThen(feeder.shootNote().withTimeout(1.0))
-        .andThen(Commands.run(()-> drive.drive(-0.5,0, 0, false), drive)
-        .alongWith(feeder.feedNote().alongWith(intake.intake())).until(()->feeder.getIndicator() == true).withTimeout(1.5))
-        .andThen(Commands.run(()-> drive.drive(0.35,0, 0, false), drive).withTimeout(3.0))
+        .andThen(Commands.run(()-> drive.drive(-0.1,0, 0, false), drive)
+        .alongWith(feeder.feedNote().alongWith(intake.intake())).until(()->feeder.getIndicator() == true))
+        .andThen(Commands.run(()-> drive.drive(0.1,0, 0, false), drive).withTimeout(3.0))
         .andThen(feeder.shootNote()));
     }
 }

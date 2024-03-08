@@ -12,6 +12,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,6 +27,7 @@ import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.LockMode;
 import frc.robot.Constants.PivotConstants.PivotDirection;
 import frc.robot.Constants.ShooterConstants.ShooterState;
+import frc.robot.auton.BackUp;
 import frc.robot.auton.ShootBackUp;
 import frc.robot.auton.TwoShootBasicAuto;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -64,6 +66,8 @@ public class RobotContainer {
   private final Climber m_climber = new Climber();
   private final ShootBackUp m_shootBackUp = new ShootBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final TwoShootBasicAuto m_twoShootBasicAuto = new TwoShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final BackUp m_backUp = new BackUp(m_robotDrive);
+  private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(IOConstants.kDriverControllerPort);
@@ -165,9 +169,9 @@ public class RobotContainer {
      * LEFT D-PAD: Pivot to AMP
      * RIGHT D-PAD: Pivot to Speaker
      */
-    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE)));
+    m_driverController.povLeft().whileTrue(m_pivot.pivotToAMP()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.IDLE)));
 
-    m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.SPEAKER)));
+    m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.SPEAKER)));
 
 
     /**
@@ -229,12 +233,19 @@ public class RobotContainer {
     }
 
     if (m_shooter.getSpeed() > 0.5){
-      m_driverControllerSP.setRumble(RumbleType.kRightRumble, 0.1);
+      m_driverControllerSP.setRumble(RumbleType.kRightRumble, 0.2);
     }
 
     else if (m_shooter.getSpeed() < 0.5){
       m_driverControllerSP.setRumble(RumbleType.kRightRumble, 0);
     }
+  }
+
+  public void setUpAutonomousDashboard(){
+  this.autonomousChooser.setDefaultOption("Shoot back up Basic Auto", m_shootBackUp);
+  this.autonomousChooser.addOption("Two Shoot Basic Auto", m_twoShootBasicAuto);
+  this.autonomousChooser.addOption("Back Up", m_backUp);
+  SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
   }
 
   /**
@@ -246,7 +257,7 @@ public class RobotContainer {
     // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
     // return AutoChooser.getAuton();
     // PathPlannerPath path = PathPlannerPath.fromPathFile("example");
-    return m_twoShootBasicAuto;
+    return autonomousChooser.getSelected();
 
     /* Shoot and back up */
     // return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 

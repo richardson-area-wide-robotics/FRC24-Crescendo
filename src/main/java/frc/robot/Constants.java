@@ -267,9 +267,19 @@ public final class Constants {
     public static final Measure<Velocity<Angle>> kKickerSpeed = RPM.of(300.0);
 
     public static final int kAmpAngleDegrees = 90;
-    public static final Measure<Distance> speakerHeight = Inches.of(81.0);
+    public static final Measure<Distance> speakerHeight = Inches.of(79.0);
 
     public static final Measure<Velocity<Distance>> kLaunchSpeedTolerance = MetersPerSecond.of(0.01);
+    public static final double RIGHT_PERCENT_OF_LEFT = 0.55;
+    public static final double PID_ACTIVE_RANGE = 750.0;
+    public static final double RAMP_SPEED = 0.95;
+    public static final double FEED_FORWARDKS = 0.11331 / 60.0;
+    public static final double FEED_FORWARDKV = 0.060404 / 60.0;
+    public static final double FEED_FORWARDKA = 0.064897 / 60.0;
+
+    public static final double PVal = 0.001;
+
+    public static final double REL_ENC_CONVERSION = 2.0;
 
       public static enum ShooterState {
       IDLE, 

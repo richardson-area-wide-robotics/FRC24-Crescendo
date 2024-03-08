@@ -14,12 +14,14 @@ public class ShootBackUp extends SequentialCommandGroup {
 
     public ShootBackUp(DriveSubsystem drive, Intake intake, Shooter shooter, Pivot pivot, Feeder feeder) {
       super(
-        pivot.pivotToSpeaker().withTimeout(2.5)
-        .alongWith(Commands.runOnce(() -> shooter.toggleState(ShooterState.SPEAKER)))
+        Commands.runOnce(()-> drive.zeroHeading(), drive).
+        andThen(new WaitCommand(0.5))
+        .andThen(pivot.pivotToSpeaker().withTimeout(2.5))
+        .alongWith(Commands.runOnce(() -> shooter.setStateSpeaker(ShooterState.SPEAKER)))
         .andThen(new WaitCommand(0.9))
         .andThen(feeder.shootNote().withTimeout(1.0))
-        .andThen(Commands.runOnce(()-> shooter.toggleState(ShooterState.IDLE)))
-        .andThen(Commands.run(()-> drive.drive(-1,0, 0, false), drive)
+        .andThen(Commands.runOnce(()-> shooter.setStateSpeaker(ShooterState.IDLE)))
+        .andThen(Commands.run(()-> drive.drive(-0.5,0, 0, false), drive)
         .alongWith(intake.intake()).withTimeout(1.0)));
     } 
 }

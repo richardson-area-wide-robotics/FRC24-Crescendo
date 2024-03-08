@@ -1,11 +1,14 @@
 package frc.robot.subsystems.shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
@@ -25,6 +28,12 @@ public class Shooter extends SubsystemBase {
     private RelativeEncoder shooterRightEncoder;
 
     private ShooterState m_shooterState;
+
+    private final SimpleMotorFeedforward feedforward;
+    private double leftTargetSpeed = 0.0;
+    private double rightTargetSpeed = 0.0;
+    private boolean leftPIDActive = false;
+    private boolean rightPIDActive = false;
 
     public void kickerConfig(CANSparkFlex motor){
         motor.restoreFactoryDefaults();
@@ -54,12 +63,18 @@ public class Shooter extends SubsystemBase {
             motor.setInverted(ShooterConstants.kShooterLeftMotorInverted);
             shooterLeftPIDController = motor.getPIDController();
             shooterLeftEncoder = motor.getEncoder();
+            shooterLeftPIDController.setP(ShooterConstants.PVal);
+            shooterLeftEncoder.setPositionConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
+            shooterLeftEncoder.setVelocityConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
         }
 
         if (!shooterLeftSide) {
             motor.setInverted(ShooterConstants.kShooterRightMotorInverted);
             shooterRightPIDController = motor.getPIDController();
             shooterRightEncoder = motor.getEncoder();
+            shooterRightPIDController.setP(ShooterConstants.PVal);
+            shooterRightEncoder.setPositionConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
+            shooterRightEncoder.setVelocityConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
         }
     }
 
@@ -71,6 +86,13 @@ public class Shooter extends SubsystemBase {
         kickerConfig(m_kickerMotor);
         shooterConfig(m_shooterLeftMotor, true);
         shooterConfig(m_shooterRightMotor, false);
+
+        feedforward =
+        new SimpleMotorFeedforward(
+            ShooterConstants.FEED_FORWARDKS,
+            ShooterConstants.FEED_FORWARDKV,
+            ShooterConstants.FEED_FORWARDKA
+        );
 
         m_kickerMotor.burnFlash();
         m_shooterLeftMotor.burnFlash();
@@ -89,6 +111,7 @@ public class Shooter extends SubsystemBase {
                 outtake();
                 break;
             case SPEAKER:
+                // Commands.run(()-> speakerMode());
                 speakerMode();
                 break;
             case AMP:
@@ -116,6 +139,10 @@ public class Shooter extends SubsystemBase {
         } else {
             m_shooterState = state;
         }
+    }
+
+    public void setStateSpeaker(ShooterState state){
+        m_shooterState = state;
     }
 
     public void idle() {
@@ -166,19 +193,44 @@ public class Shooter extends SubsystemBase {
      * to score from the bot's distance from the shooter. However, does not shoot the note. 
      */
     private void speakerMode() {
-        // calcPivot();
-        // calcShotSpeed();
-        // pivotTo(desiredPivotAngle);
-        // //System.out.println(m_shooterLeftEncoder.getVelocity());
-        // //System.out.println(m_shooterRightEncoder.getVelocity());
-        // // m_shooterRightPIDController.setReference(Math.pow(Math.PI*2,2)*desiredShotSpeed.in(MetersPerSecond), CANSparkFlex.ControlType.kVelocity);
-        // //m_shooterRightPIDController.setReference(wheelSpeedToRotation(desiredShotSpeed,Inches.of(2)).in(RPM), CANSparkFlex.ControlType.kVelocity);
-        // spinKicker(RPM.of(240));
-        // setShootSpeed(desiredShotSpeed, desiredRotationSpeed);
-
         m_shooterLeftMotor.set(0.6);
         m_shooterRightMotor.set(0.4);
         m_kickerMotor.set(0.75); // TODO: change to constant
+
+        // applySpeed(1.0);
+    }
+
+    public void applySpeed(double speed){
+        double leftSpeed = speed;
+        double rightSpeed = speed * ShooterConstants.RIGHT_PERCENT_OF_LEFT;
+
+        if (speed == 0.0) {
+            m_shooterLeftMotor.stopMotor();
+            m_shooterRightMotor.stopMotor();
+            leftPIDActive = false;
+            rightPIDActive = false;
+        } else {
+            double leftDelta = leftSpeed - shooterLeftEncoder.getVelocity();
+            if (Math.abs(leftDelta) < ShooterConstants.PID_ACTIVE_RANGE) {
+                shooterLeftPIDController.setReference(leftSpeed, ControlType.kVelocity, 0, feedforward.calculate(leftSpeed));
+                leftPIDActive = true;
+            } else {
+                m_shooterLeftMotor.set(ShooterConstants.RAMP_SPEED * Math.signum(leftDelta));
+                leftPIDActive = false;
+            }
+
+            double rightDelta = rightSpeed - shooterRightEncoder.getVelocity();
+            if (Math.abs(rightDelta) < ShooterConstants.PID_ACTIVE_RANGE) {
+                shooterRightPIDController.setReference(rightSpeed, ControlType.kVelocity, 0, feedforward.calculate(rightSpeed));
+                rightPIDActive = true;
+            } else {
+                m_shooterRightMotor.set(ShooterConstants.RAMP_SPEED * Math.signum(rightDelta));
+                rightPIDActive = false;
+            }
+        }
+
+        leftTargetSpeed = leftSpeed;
+        rightTargetSpeed = rightSpeed;
     }
 
     
