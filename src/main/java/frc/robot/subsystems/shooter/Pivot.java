@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotation;
 
@@ -100,6 +101,10 @@ public class Pivot extends SubsystemBase {
 
         m_setPoint = Radians.of(getEncoderPosition());
 
+        // SmartDashboard.putNumber("P.O.Pt 1", 0);
+        // SmartDashboard.putNumber("P.O.Pt 2", 0);
+        SmartDashboard.putNumber("Pivot Offset (Degrees)", 0);
+
     }
 
     public boolean bottomLimit() {
@@ -133,10 +138,10 @@ public class Pivot extends SubsystemBase {
         // }
 
         SmartDashboard.putNumber("Current left", m_PivotLeftMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Current right", m_PivotRightMotor.getOutputCurrent());
-
-        if (!manualControl)
-            pivotTo(m_setPoint);
+        SmartDashboard.putNumber("Current right", m_PivotRightMotor.getOutputCurrent());    
+        SmartDashboard.putNumber("set point", m_setPoint.in(Degrees));
+        // if (!manualControl)
+        //     pivotTo(m_setPoint);
     }
 
     public void pivot(PivotDirection direction) {
@@ -183,10 +188,21 @@ public class Pivot extends SubsystemBase {
     //     m_setPoint = angle;
     //     m_PivotPIDController.setReference(angle.in(Radians), ControlType.kPosition);
     // }
-
+    
+    // angle is in radians
     public void pivotFromCamera(Measure<Angle> angle){
         m_setPoint = angle;
-        m_PivotPIDController.setReference((angle.in(Degrees)/360) - 0.0045, ControlType.kPosition);
+        // Pivot Offset Points
+        // double pt_1 = SmartDashboard.getNumber("P.O.Pt 1", 0);
+        // double correction_1 = 0;
+        // if(correction_1 != pt_1){
+        //     double angle_1 = SmartDashboard.getNumber("pitch angle", 0);
+        //     correction_1 = pt_1;
+        // }
+        // double pt_2 = SmartDashboard.getNumber("P.O.Pt 2", 0);
+        // double offset; 
+        double offset = SmartDashboard.getNumber("Pivot Offset (Degrees)", 0);
+        m_PivotPIDController.setReference(((angle.in(Degrees) - offset)/360), ControlType.kPosition);
     }
 
     @Override
