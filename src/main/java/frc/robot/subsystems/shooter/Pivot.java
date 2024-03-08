@@ -37,6 +37,12 @@ public class Pivot extends SubsystemBase {
 
     private boolean manualControl = false;
 
+    private double correction_1 = 0;
+    private double correction_2 = 0;
+    private double angle_1 = 0;
+    private double angle_2 = 0;
+
+
     // private ShuffleboardTab pivotTab = Shuffleboard.getTab("Pivot");
     // private GenericEntry m_setPointEntry = pivotTab.add("Set Point", 0).getEntry();
     // private GenericEntry m_encoderPositionEntry = pivotTab.add("Encoder Position", 0).getEntry();
@@ -101,9 +107,10 @@ public class Pivot extends SubsystemBase {
 
         m_setPoint = Radians.of(getEncoderPosition());
 
-        // SmartDashboard.putNumber("P.O.Pt 1", 0);
-        // SmartDashboard.putNumber("P.O.Pt 2", 0);
-        SmartDashboard.putNumber("Pivot Offset (Degrees)", 0);
+        SmartDashboard.putNumber("P.O.Pt 1", 0);
+        SmartDashboard.putNumber("P.O.Pt 2", 0);
+        SmartDashboard.putNumber("k", 0);
+     //   SmartDashboard.putNumber("Pivot Offset (Degrees)", 0);
 
     }
 
@@ -192,17 +199,27 @@ public class Pivot extends SubsystemBase {
     // angle is in radians
     public void pivotFromCamera(Measure<Angle> angle){
         m_setPoint = angle;
-        // Pivot Offset Points
-        // double pt_1 = SmartDashboard.getNumber("P.O.Pt 1", 0);
-        // double correction_1 = 0;
-        // if(correction_1 != pt_1){
-        //     double angle_1 = SmartDashboard.getNumber("pitch angle", 0);
-        //     correction_1 = pt_1;
-        // }
-        // double pt_2 = SmartDashboard.getNumber("P.O.Pt 2", 0);
-        // double offset; 
-        double offset = SmartDashboard.getNumber("Pivot Offset (Degrees)", 0);
-        m_PivotPIDController.setReference(((angle.in(Degrees) - offset)/360), ControlType.kPosition);
+        //Pivot Offset Points
+        double tempC_1 = SmartDashboard.getNumber("P.O.Pt 1", 0);
+        if(correction_1 != tempC_1){
+           angle_1 = angle.in(Degrees);
+           correction_1 = tempC_1;
+        }
+        double tempC_2 = SmartDashboard.getNumber("P.O.Pt 2", 0);
+        if(correction_2 != tempC_2){
+           angle_2 = angle.in(Degrees);
+           correction_2 = tempC_2;
+        }
+        double k = SmartDashboard.getNumber("k",0);
+        double offset_angle = angle.in(Degrees)*Math.abs((correction_2-correction_1)/(angle_2-angle_1))+k;
+        if(offset_angle == 0){
+            offset_angle = angle.in(Degrees);
+        }
+        SmartDashboard.putNumber("Test Angle Offset", offset_angle);
+        SmartDashboard.putNumber("a_1", angle_1);
+        SmartDashboard.putNumber("a_2", angle_2);
+         
+        m_PivotPIDController.setReference(((angle.in(Degrees))/360), ControlType.kPosition);
     }
 
     @Override
