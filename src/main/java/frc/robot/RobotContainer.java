@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
@@ -257,12 +258,12 @@ public class RobotContainer {
     // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
     // return AutoChooser.getAuton();
     // PathPlannerPath path = PathPlannerPath.fromPathFile("example");
-    return autonomousChooser.getSelected();
+     return autonomousChooser.getSelected();
 
     /* Shoot and back up */
     // return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
     //   m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-1,0, 0, false), m_robotDrive).alongWith(m_intake.intake()).withTimeout(1.0)));
-    // return new PathPlannerAuto("test");
+    //return new PathPlannerAuto("test");
   }
 
   /**
@@ -288,7 +289,7 @@ public class RobotContainer {
   /** Run a function during autonomous to get run time of autonomous. */
   public void autonPeriodic() {
     SmartDashboard.putNumber("Auton Time", Timer.getFPGATimestamp());
-
+    SmartDashboard.putBoolean("Indicator",m_feeder.getIndicator());
   }
 
   public void launchCommands() {

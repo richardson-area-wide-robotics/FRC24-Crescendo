@@ -351,7 +351,7 @@ public final class Constants {
       public static final double kIntakeSpeed = 1;
       public static final double kOutakeSpeed = -1;
       public static final IdleMode kIntakeIdleMode = IdleMode.kCoast;
-      // public static final int kIntakeSensorPort = 0;
+      //public static final int kIntakeSensorPort = 1;
 
       public static enum IntakeState{
       IDLE, 

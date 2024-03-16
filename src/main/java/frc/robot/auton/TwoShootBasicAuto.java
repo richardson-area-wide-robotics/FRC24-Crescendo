@@ -21,9 +21,21 @@ public class TwoShootBasicAuto extends SequentialCommandGroup {
         .alongWith(Commands.runOnce(() -> shooter.setStateSpeaker(ShooterState.SPEAKER)))
         .andThen(new WaitCommand(0.9))
         .andThen(feeder.shootNote().withTimeout(1.0))
-        .andThen(Commands.run(()-> drive.drive(-0.1,0, 0, false), drive)
+        .andThen(Commands.run(()-> drive.drive(-0.1,0, 0, true), drive)
+        //Add Timer to stop drivetrain
         .alongWith(feeder.feedNote().alongWith(intake.intake())).until(()->feeder.getIndicator() == true))
-        .andThen(Commands.run(()-> drive.drive(0.1,0, 0, false), drive).withTimeout(3.0))
+        .andThen(Commands.run(()-> drive.drive(0.1,0, 0, true), drive).withTimeout(3.0))
         .andThen(feeder.shootNote()));
+
+        // Commands.runOnce(()-> drive.resetEncoders(), drive).
+        // andThen(new WaitCommand(0.5)).
+        // andThen(pivot.pivotToSpeaker().withTimeout(2.5))
+        // .alongWith(Commands.runOnce(() -> shooter.setStateSpeaker(ShooterState.SPEAKER)))
+        // .andThen(new WaitCommand(0.9))
+        // .andThen(feeder.shootNote().withTimeout(1.0))
+        // .andThen(Commands.run(()-> drive.drive(-0.1,0, 0, false), drive)
+        // .alongWith(feeder.feedNote().alongWith(intake.intake())).until(()->feeder.getIndicator() == true))
+        // .andThen(Commands.run(()-> drive.drive(0.1,0, 0, false), drive).withTimeout(3.0))
+        // .andThen(feeder.shootNote()));
     }
 }
