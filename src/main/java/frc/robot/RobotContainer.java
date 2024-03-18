@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -262,7 +263,16 @@ public class RobotContainer {
     /* Shoot and back up */
     // return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
     //   m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-1,0, 0, false), m_robotDrive).alongWith(m_intake.intake()).withTimeout(1.0)));
-    PathPlannerPath path = PathPlannerPath.fromPathFile("New New Path");
+
+
+    PathPlannerPath path = PathPlannerPath.fromPathFile("1 meter forward");
+
+    Pose2d initialPose = path.getPathPoses().get(0);
+
+    SmartDashboard.putString("initialPose", initialPose.toString());
+    
+    m_robotDrive.resetOdometry(initialPose);
+
     return AutoBuilder.followPath(path);
   }
 

@@ -156,14 +156,14 @@ public class DriveSubsystem extends Swerve {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void periodic() {
-    Optional<EstimatedRobotPose> pose = m_camera.getEstimatedGlobalPose();
-    Optional<Double> time = m_camera.getPoseTimeStamp();
+    // Optional<EstimatedRobotPose> pose = m_camera.getEstimatedGlobalPose();
+    // Optional<Double> time = m_camera.getPoseTimeStamp();
 
-    SmartDashboard.putBoolean("pose.isPresent()", pose.isPresent());
-    SmartDashboard.putBoolean("time.ispresent", time.isPresent());
-    if (pose.isPresent() && time.isPresent()) {
-      this.addPoseEstimate(pose.get().estimatedPose.toPose2d(), time.get());
-    }
+    // SmartDashboard.putBoolean("pose.isPresent()", pose.isPresent());
+    // SmartDashboard.putBoolean("time.ispresent", time.isPresent());
+    // if (pose.isPresent() && time.isPresent()) {
+    //   this.addPoseEstimate(pose.get().estimatedPose.toPose2d(), time.get());
+    // }
 
     SmartDashboard.putString("swervepose", this.getPose().toString());
     super.periodic();
