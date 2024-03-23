@@ -131,7 +131,7 @@ public final class Constants {
           kDriveMotorCANID, kSteerMotorCANID, kBackRightChassisAngularOffset);
     }
 
-    public static final boolean kGyroReversed = true;
+    public static final boolean kGyroReversed = false;
   }
 
   public static final class ModuleConstants {

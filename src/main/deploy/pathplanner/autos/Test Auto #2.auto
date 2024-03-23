@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 15.176181252832148,
+      "y": 5.53
     },
-    "rotation": 0
+    "rotation": -0.7433644174694755
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "1 meter forward"
           }
         }
       ]

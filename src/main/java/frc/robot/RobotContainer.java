@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.MathUtil;
@@ -63,7 +64,7 @@ public class RobotContainer {
   private final Feeder m_feeder = new Feeder();
   private final AHRS m_gyro = new AHRS();
   private final Camera m_camera = new Camera("camera");
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro, m_camera);
+  public final DriveSubsystem m_robotDrive = new DriveSubsystem(m_gyro, m_camera);
   private final Climber m_climber = new Climber();
   private final ShootBackUp m_shootBackUp = new ShootBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final TwoShootBasicAuto m_twoShootBasicAuto = new TwoShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
@@ -264,16 +265,16 @@ public class RobotContainer {
     // return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
     //   m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-1,0, 0, false), m_robotDrive).alongWith(m_intake.intake()).withTimeout(1.0)));
 
+    return new PathPlannerAuto("Test Auto #2");
+    //PathPlannerPath path = PathPlannerPath.fromPathFile("1 meter forward");
 
-    PathPlannerPath path = PathPlannerPath.fromPathFile("1 meter forward");
+    //Pose2d initialPose = path.getPathPoses().get(0);
 
-    Pose2d initialPose = path.getPathPoses().get(0);
-
-    SmartDashboard.putString("initialPose", initialPose.toString());
+    //SmartDashboard.putString("initialPose", initialPose.toString());
     
-    m_robotDrive.resetOdometry(initialPose);
+    //m_robotDrive.resetOdometry(initialPose);
 
-    return AutoBuilder.followPath(path);
+    //return AutoBuilder.followPath(path);
   }
 
   /**
@@ -285,6 +286,7 @@ public class RobotContainer {
     // m_robotDrive.putNumber();
     // SmartDashboard.putNumber("filtered PoseX", m_robotDrive.getPose().getX());
     // SmartDashboard.putNumber("filtered PoseY", m_robotDrive.getPose().getY());
+    
   }
 
   /**
