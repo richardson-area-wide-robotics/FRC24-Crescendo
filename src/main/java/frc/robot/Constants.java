@@ -131,7 +131,7 @@ public final class Constants {
           kDriveMotorCANID, kSteerMotorCANID, kBackRightChassisAngularOffset);
     }
 
-    public static final boolean kGyroReversed = false;
+    public static final boolean kGyroReversed = true;
   }
 
   public static final class ModuleConstants {
@@ -214,8 +214,8 @@ public final class Constants {
 
     // PID constants for new Pathplanner code
     // TODO: tune these values
-    public static final PIDConstants kTranslationGains = new PIDConstants(.05, 0.0, 0.0);
-    public static final PIDConstants kRotationGains = new PIDConstants(3, 0.0, .35);
+    public static final PIDConstants kTranslationGains = new PIDConstants(5, 0.0, 0.5);
+    public static final PIDConstants kRotationGains = new PIDConstants(5, 0.0, .5);
 
     public static final HolonomicPathFollowerConfig kPathFollowerConfig = new HolonomicPathFollowerConfig(
         kTranslationGains, kRotationGains, kMaxSpeedMetersPerSecond, SwerveDriveConstants.kDriveRadius,
