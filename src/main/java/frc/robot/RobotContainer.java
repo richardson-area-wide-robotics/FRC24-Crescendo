@@ -122,13 +122,15 @@ public class RobotContainer {
                 true),
             m_robotDrive));
 
+            
+
     /*
      * ---Reset button and X mode button
-     * left stick button on controller controls the re-zeroing of the heading
+     * right stick button on controller controls the re-zeroing of the heading
      */
 
     m_driverController
-        .leftStick()
+        .rightStick()
         .onTrue(Commands.runOnce(() -> {
           m_robotDrive.zeroHeading();
         }, m_robotDrive));
@@ -165,6 +167,22 @@ public class RobotContainer {
           m_pivot.pivot(PivotDirection.STOP);
         }, m_pivot));
 
+        m_operatorController
+        .leftTrigger()
+        .whileTrue(Commands.runEnd(() -> {
+          m_pivot.pivot(PivotDirection.UP);
+        }, () -> {
+          m_pivot.pivot(PivotDirection.STOP);
+        }, m_pivot));
+
+    m_operatorController
+        .rightTrigger()
+        .whileTrue(Commands.runEnd(() -> {
+          m_pivot.pivot(PivotDirection.DOWN);
+        }, () -> {
+          m_pivot.pivot(PivotDirection.STOP);
+        }, m_pivot));
+
     /**
      * PIVOT auto commands
      * 
@@ -175,6 +193,10 @@ public class RobotContainer {
 
     m_driverController.povRight().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.SPEAKER)));
 
+    
+     m_operatorController.povLeft().whileTrue(m_pivot.pivotToAMP()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.IDLE)));
+
+    m_operatorController.povRight().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.SPEAKER)));
 
     /**
      * ShOOTING controls
@@ -186,6 +208,14 @@ public class RobotContainer {
     m_driverController.b().whileTrue(lockMode);
 
     m_driverController
+        .y()
+        .onTrue(Commands.runOnce(() -> {
+          m_shooter.toggleState(ShooterState.SPEAKER);
+        }, m_shooter).andThen(Commands.runOnce(() -> {
+          lockMode.setMode(LockMode.SPEAKER_LOCK_MODE);
+        })));
+    
+    m_operatorController
         .y()
         .onTrue(Commands.runOnce(() -> {
           m_shooter.toggleState(ShooterState.SPEAKER);
@@ -205,6 +235,9 @@ public class RobotContainer {
     // m_driverController.povUp().whileTrue(m_climber.climbUp());
     m_driverController.povUp().whileTrue(m_climber.climbUp());
     m_driverController.povDown().whileTrue(m_climber.climbDown());
+
+    m_operatorController.povUp().whileTrue(m_climber.climbUp());
+    m_operatorController.povDown().whileTrue(m_climber.climbDown());
 
       }
 
