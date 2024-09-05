@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.lib.swerve.SwerveModule;
-import frc.lib.util.SwerveModuleConstants;
+import frc.lib.swerve.SwerveModuleConstants;
 import frc.robot.Constants;
 
 public class MAXSwerveModule implements SwerveModule {

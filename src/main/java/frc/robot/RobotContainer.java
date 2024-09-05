@@ -153,16 +153,20 @@ public class RobotContainer {
         .leftTrigger()
         .whileTrue(Commands.runEnd(() -> {
           m_pivot.pivot(PivotDirection.UP);
+          System.out.println("Pressing Left Trigger!");
         }, () -> {
           m_pivot.pivot(PivotDirection.STOP);
+          System.out.println("Left Trigger Stop!");
         }, m_pivot));
 
-    m_driverController
+        m_driverController
         .rightTrigger()
         .whileTrue(Commands.runEnd(() -> {
           m_pivot.pivot(PivotDirection.DOWN);
+          System.out.println("Pressing Right Trigger!");
         }, () -> {
           m_pivot.pivot(PivotDirection.STOP);
+          System.out.println("Right Trigger Stop!");
         }, m_pivot));
 
     /**
@@ -206,7 +210,7 @@ public class RobotContainer {
     m_driverController.povUp().whileTrue(m_climber.climbUp());
     m_driverController.povDown().whileTrue(m_climber.climbDown());
 
-      }
+    }
 
   private void configureOperatorBindings() {
     /*
@@ -244,10 +248,10 @@ public class RobotContainer {
   }
 
   public void setUpAutonomousDashboard(){
-  this.autonomousChooser.setDefaultOption("Shoot back up Basic Auto", m_shootBackUp);
-  this.autonomousChooser.addOption("Two Shoot Basic Auto", m_twoShootBasicAuto);
-  this.autonomousChooser.addOption("Back Up", m_backUp);
-  SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
+    this.autonomousChooser.setDefaultOption("Shoot back up Basic Auto", m_shootBackUp);
+    this.autonomousChooser.addOption("Two Shoot Basic Auto", m_twoShootBasicAuto);
+    this.autonomousChooser.addOption("Back Up", m_backUp);
+    SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
   }
 
   /**

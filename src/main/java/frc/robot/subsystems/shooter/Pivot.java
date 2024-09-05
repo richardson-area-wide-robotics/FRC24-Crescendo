@@ -144,9 +144,10 @@ public class Pivot extends SubsystemBase {
         // m_setPoint = PivotConstants.kPivotMinAngle;
         // }
 
-        SmartDashboard.putNumber("Current left", m_PivotLeftMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Current right", m_PivotRightMotor.getOutputCurrent());    
+        SmartDashboard.putNumber("Shooter Left Current", m_PivotLeftMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Shooter Right Current", m_PivotRightMotor.getOutputCurrent());
         SmartDashboard.putNumber("set point", m_setPoint.in(Degrees));
+        
         // if (!manualControl)
         //     pivotTo(m_setPoint);
     }
@@ -166,7 +167,9 @@ public class Pivot extends SubsystemBase {
                 break;
             case DOWN:
                 manualControl = true;
+                System.out.println("GOOOOING DOWB HOLKY SHIT");
                 pivotSpeed(-PivotConstants.kPivotSpeed);
+
                 // m_PivotAngle = m_PivotAngle.minus(Radians.of(0.0005)); // TODO: change to
                 // constant
                 // if (m_PivotAngle.in(Radians) <=
@@ -177,6 +180,7 @@ public class Pivot extends SubsystemBase {
                 break;
             case STOP:
             default:
+                System.out.println("STOPPING");
                 manualControl = false;
                 m_setPoint = Radians.of(getEncoderPosition());
                 pivotSpeed(0);
@@ -185,8 +189,12 @@ public class Pivot extends SubsystemBase {
     }
 
     public void pivotSpeed(double speedPercentage) {
+        System.err.println("Motor Speed Percentage: " + speedPercentage);
         m_PivotRightMotor.set(speedPercentage);
+        System.err.println("Motor Speed: " + m_PivotRightMotor.get()); 
+
     }
+
 
     // /**
     //  * Pivots the shooter to a given angle about the axis of the absolute encoder.

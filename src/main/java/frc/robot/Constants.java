@@ -24,7 +24,8 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.controller.PIDController;
 import frc.lib.controller.FFGains;
 import frc.lib.controller.PIDGains;
-import frc.lib.util.SwerveModuleConstants;
+import frc.lib.swerve.SwerveModuleConstants;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
@@ -295,8 +296,8 @@ public final class Constants {
   /* Pivot Constants */
     public static final class PivotConstants {
     // Id's for the pivot motors
-    public static final int pivotRightCANID = 9;
-    public static final int pivotLeftCANID = 10;
+    public static final int pivotRightCANID = 10;
+    public static final int pivotLeftCANID = 9;
 
     // Controller idle mode and current
     public static final IdleMode pivotIdleMode = IdleMode.kBrake;
@@ -328,11 +329,11 @@ public final class Constants {
 
     public static final double kPivotSpeed = 0.2;
 
-       public static enum PivotDirection {
-      UP, 
-      DOWN,
-      STOP
-    }
+      public static enum PivotDirection {
+        UP, 
+        DOWN,
+        STOP
+      }
     }
 
     public static final class FeederConstants{
@@ -354,9 +355,9 @@ public final class Constants {
       // public static final int kIntakeSensorPort = 0;
 
       public static enum IntakeState{
-      IDLE, 
-      INTAKE,
-      OUTTAKE,
+        IDLE, 
+        INTAKE,
+        OUTTAKE,
       }
     }
 
