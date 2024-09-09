@@ -66,6 +66,7 @@ public class Shooter extends SubsystemBase {
             shooterLeftPIDController.setP(ShooterConstants.PVal);
             shooterLeftEncoder.setPositionConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
             shooterLeftEncoder.setVelocityConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
+            motor.setInverted(ShooterConstants.kShooterLeftMotorInverted);
         }
 
         if (!shooterLeftSide) {
@@ -75,6 +76,7 @@ public class Shooter extends SubsystemBase {
             shooterRightPIDController.setP(ShooterConstants.PVal);
             shooterRightEncoder.setPositionConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
             shooterRightEncoder.setVelocityConversionFactor(ShooterConstants.REL_ENC_CONVERSION);
+            motor.setInverted(ShooterConstants.kShooterRightMotorInverted);
         }
     }
 
@@ -119,6 +121,8 @@ public class Shooter extends SubsystemBase {
                 break;
             case REVERSE:
                 reverse();
+            case FEED:
+                feederMode();
             case IDLE:
                 idle();
                 break;
@@ -193,11 +197,18 @@ public class Shooter extends SubsystemBase {
      * to score from the bot's distance from the shooter. However, does not shoot the note. 
      */
     private void speakerMode() {
-        m_shooterLeftMotor.set(0.6);
-        m_shooterRightMotor.set(0.4);
+        m_shooterLeftMotor.set(0.6);//,6 -> 0.3 for feeder
+        m_shooterRightMotor.set(0.4);//.4 -> 0.25 for feeder
         m_kickerMotor.set(0.75); // TODO: change to constant
 
         // applySpeed(1.0);
+    }
+
+    private void feederMode(){
+        m_shooterLeftMotor.set(0.5);
+        m_shooterRightMotor.set(0.4);
+        m_kickerMotor.set(0.75);
+
     }
 
     public void applySpeed(double speed){

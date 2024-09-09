@@ -32,6 +32,8 @@ import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.auton.BackUp;
 import frc.robot.auton.ShootBackUp;
 import frc.robot.auton.TwoShootBasicAuto;
+import frc.robot.auton.ThreeShootBasicAuto;
+import frc.robot.auton.ShootNoBackUp;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Feeder;
@@ -68,7 +70,9 @@ public class RobotContainer {
   private final Climber m_climber = new Climber();
   private final ShootBackUp m_shootBackUp = new ShootBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final TwoShootBasicAuto m_twoShootBasicAuto = new TwoShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final ThreeShootBasicAuto m_threeShootBasicAuto = new ThreeShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final BackUp m_backUp = new BackUp(m_robotDrive);
+  private final ShootNoBackUp m_shootNoBackUp = new ShootNoBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   // The driver's controller
@@ -144,6 +148,8 @@ public class RobotContainer {
     m_driverController.leftBumper().whileTrue(m_feeder.feedNote().alongWith(m_intake.intake()));
 
     m_driverController.rightBumper().whileTrue(m_feeder.spitNote().alongWith(m_intake.outtake()));
+    
+    m_operatorController.rightBumper().whileTrue(m_pivot.pivotToSpeaker()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.FEED)));
 
     /**
      * SHOOTER PIVOT controls 
@@ -280,6 +286,8 @@ public class RobotContainer {
   this.autonomousChooser.setDefaultOption("Shoot back up Basic Auto", m_shootBackUp);
   this.autonomousChooser.addOption("Two Shoot Basic Auto", m_twoShootBasicAuto);
   this.autonomousChooser.addOption("Back Up", m_backUp);
+  this.autonomousChooser.addOption("Shoot No Back Up", m_shootNoBackUp);
+  this.autonomousChooser.addOption("Three Shoot Basic Auto", m_threeShootBasicAuto);
   SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
   }
 
@@ -289,16 +297,16 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
-    // return AutoChooser.getAuton();
+    //System.out.println("Auton Selected" + AutoChooser.getAuton().getName());
+    //return AutoChooser.getAuton();
     // PathPlannerPath path = PathPlannerPath.fromPathFile("example");
-    //return autonomousChooser.getSelected();
+    return autonomousChooser.getSelected();
 
     /* Shoot and back up */
     // return new SequentialCommandGroup(m_pivot.pivotToSpeaker().withTimeout(2.5).alongWith(Commands.runOnce(() -> 
     //   m_shooter.toggleState(ShooterState.SPEAKER))).andThen(new WaitCommand(0.9)).andThen(m_feeder.shootNote().withTimeout(1.0)).andThen(Commands.runOnce(()-> m_shooter.toggleState(ShooterState.IDLE))).andThen(Commands.run(()-> m_robotDrive.drive(-1,0, 0, false), m_robotDrive).alongWith(m_intake.intake()).withTimeout(1.0)));
 
-    return new PathPlannerAuto("Test Auto #2");
+    //return new PathPlannerAuto("Test Auto #2");
     //PathPlannerPath path = PathPlannerPath.fromPathFile("1 meter forward");
 
     //Pose2d initialPose = path.getPathPoses().get(0);

@@ -287,7 +287,8 @@ public final class Constants {
       OUTTAKE,
       SPEAKER,
       AMP,
-      REVERSE
+      REVERSE,
+      FEED
     }
 }
 
