@@ -10,8 +10,8 @@ import frc.robot.subsystems.shooter.Feeder;
 import frc.robot.subsystems.shooter.Pivot;
 import frc.robot.subsystems.shooter.Shooter;
 
-public class ThreeShootBasicAuto extends SequentialCommandGroup {
-    public ThreeShootBasicAuto(DriveSubsystem drive, Intake intake, Shooter shooter, Pivot pivot, Feeder feeder) {
+public class ThreeShootLeftAuto extends SequentialCommandGroup {
+    public ThreeShootLeftAuto(DriveSubsystem drive, Intake intake, Shooter shooter, Pivot pivot, Feeder feeder) {
         super(
         Commands.runOnce(()-> drive.zeroHeading(), drive)
         .andThen(Commands.runOnce(()-> drive.resetEncoders(), drive))
@@ -23,17 +23,17 @@ public class ThreeShootBasicAuto extends SequentialCommandGroup {
 
         .andThen(Commands.run(()-> drive.drive(-0.15, 0, 0, false), drive)
         .alongWith(feeder.feedNote().alongWith(intake.intake())).until(()->feeder.getIndicator() == true))
-        .andThen(Commands.run(()-> drive.drive(0.25, 0, 0, false), drive).withTimeout(0.8))//0.125, 2.0
+        .andThen(Commands.run(()-> drive.drive(0.25, 0, 0, false), drive).withTimeout(0.825))//0.125, 2.0
         .andThen(feeder.shootNote().withTimeout(0.5))
 
         .andThen(Commands.run(()-> drive.drive(-0.15, 0, 0, false), drive).withTimeout(0.35))
-        .andThen(Commands.run(()-> drive.drive(0, 0, 0.2, false), drive).withTimeout(0.71))//0.1, 1.42
+        .andThen(Commands.run(()-> drive.drive(0, 0, 0.2, false), drive).withTimeout(0.65))//0.1, 1.42
         .andThen(Commands.run(()-> drive.drive(-0.15, 0, 0, false), drive)//-0.15, 3.0
         .alongWith(feeder.feedNote().alongWith(intake.intake())).withTimeout(3.0))//.until(()->feeder.getIndicator() == true))
         //.andThen(new WaitCommand(0.4))
         //.andThen(feeder.feedNote().alongWith(intake.intake())).withTimeout(1.0)
-        .andThen(Commands.run(()-> drive.drive(0, -0.1, 0, false), drive).withTimeout(1.5))
-        .andThen(Commands.run(()-> drive.drive(0.2, 0, 0, false), drive).withTimeout(2.00))//0.125, 3.25
+        .andThen(Commands.run(()-> drive.drive(0.2, -0.1, 0, false), drive).withTimeout(2.0))
+        //.andThen(Commands.run(()-> drive.drive(0.2, 0, 0, false), drive).withTimeout(2.00))//0.125, 3.25
         .andThen(feeder.shootNote().withTimeout(0.5))
         );
     }

@@ -32,7 +32,8 @@ import frc.robot.Constants.ShooterConstants.ShooterState;
 import frc.robot.auton.BackUp;
 import frc.robot.auton.ShootBackUp;
 import frc.robot.auton.TwoShootBasicAuto;
-import frc.robot.auton.ThreeShootBasicAuto;
+import frc.robot.auton.ThreeShootLeftAuto;
+import frc.robot.auton.ThreeShootRightAuto;
 import frc.robot.auton.ShootNoBackUp;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
@@ -70,7 +71,8 @@ public class RobotContainer {
   private final Climber m_climber = new Climber();
   private final ShootBackUp m_shootBackUp = new ShootBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final TwoShootBasicAuto m_twoShootBasicAuto = new TwoShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
-  private final ThreeShootBasicAuto m_threeShootBasicAuto = new ThreeShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final ThreeShootLeftAuto m_threeShootLeftAuto = new ThreeShootLeftAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final ThreeShootRightAuto m_threeShootRightAuto = new ThreeShootRightAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final BackUp m_backUp = new BackUp(m_robotDrive);
   private final ShootNoBackUp m_shootNoBackUp = new ShootNoBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
@@ -287,7 +289,8 @@ public class RobotContainer {
   this.autonomousChooser.addOption("Two Shoot Basic Auto", m_twoShootBasicAuto);
   this.autonomousChooser.addOption("Back Up", m_backUp);
   this.autonomousChooser.addOption("Shoot No Back Up", m_shootNoBackUp);
-  this.autonomousChooser.addOption("Three Shoot Basic Auto", m_threeShootBasicAuto);
+  this.autonomousChooser.addOption("Three Shoot Left Auto", m_threeShootLeftAuto);
+  this.autonomousChooser.addOption("Three Shoot Right Auto", m_threeShootRightAuto);
   SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
   }
 
