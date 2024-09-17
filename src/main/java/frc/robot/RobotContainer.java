@@ -34,6 +34,8 @@ import frc.robot.auton.ShootBackUp;
 import frc.robot.auton.TwoShootBasicAuto;
 import frc.robot.auton.ThreeShootLeftAuto;
 import frc.robot.auton.ThreeShootRightAuto;
+import frc.robot.auton.FrontFourLeftToRightAuto;
+import frc.robot.auton.FrontFourRightToLeftAuto;
 import frc.robot.auton.ShootNoBackUp;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.Intake;
@@ -73,6 +75,8 @@ public class RobotContainer {
   private final TwoShootBasicAuto m_twoShootBasicAuto = new TwoShootBasicAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final ThreeShootLeftAuto m_threeShootLeftAuto = new ThreeShootLeftAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final ThreeShootRightAuto m_threeShootRightAuto = new ThreeShootRightAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final FrontFourLeftToRightAuto m_frontFourLeftToRightAuto = new FrontFourLeftToRightAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final FrontFourRightToLeftAuto m_frontFourRightToLeftAuto = new FrontFourRightToLeftAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final BackUp m_backUp = new BackUp(m_robotDrive);
   private final ShootNoBackUp m_shootNoBackUp = new ShootNoBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
@@ -209,11 +213,11 @@ public class RobotContainer {
     /**
      * ShOOTING controls
      * 
-     * B BUTTON: Auto aim
+     * B BUTTON: Range Shooter Pivot
      * Y BUTTON: Toggle Shooter State
      * A BUTTON: Shoot
      */
-    m_driverController.b().whileTrue(lockMode);
+    m_driverController.b().whileTrue(m_pivot.pivotToRange()).onTrue(Commands.runOnce(()-> m_shooter.setStateSpeaker(ShooterState.SPEAKER)));
 
     m_driverController
         .y()
@@ -291,6 +295,8 @@ public class RobotContainer {
   this.autonomousChooser.addOption("Shoot No Back Up", m_shootNoBackUp);
   this.autonomousChooser.addOption("Three Shoot Left Auto", m_threeShootLeftAuto);
   this.autonomousChooser.addOption("Three Shoot Right Auto", m_threeShootRightAuto);
+  this.autonomousChooser.addOption("Front Four Left - Right Auto", m_frontFourLeftToRightAuto);
+  this.autonomousChooser.addOption("Front Four Right - Left Auto", m_frontFourRightToLeftAuto);
   SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
   }
 
