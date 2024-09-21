@@ -33,12 +33,14 @@ public class FrontFourRightToLeftAuto extends SequentialCommandGroup {
         .alongWith(feeder.feedNote().alongWith(intake.intake())).withTimeout(2.00))
         .andThen(feeder.shootNote().withTimeout(0.5))
 
-        .andThen(Commands.run(()-> drive.drive(0, -0.1435, 0.10, true), drive)
+        .andThen(Commands.run(()-> drive.drive(0, -0.1435, 0.08, true), drive)//0.10 rotation
         .alongWith(feeder.feedNote().alongWith(intake.intake())).withTimeout(2.00))
-        .andThen(Commands.run(()-> drive.drive(0, 0, -0.26, true), drive).withTimeout(0.6))
+        .andThen(Commands.run(()-> drive.drive(0.17, 0, -0.1475, true), drive).withTimeout(0.6))
         .andThen(feeder.shootNote().withTimeout(0.5))
 
-        .andThen(Commands.run(()-> drive.drive(-0.35, -0.2, 0, true), drive).withTimeout(2.00))
+        .andThen(Commands.run(()-> drive.drive(-0.725, -0.4575, 0, true), drive).withTimeout(1.75))//-0.35, -0.2
+        .andThen(Commands.run(()-> drive.drive(-0.275, 0, 0.01, true), drive)
+        .alongWith(feeder.feedNote().alongWith(intake.intake())).withTimeout(2.00))
         );
     }
 }
