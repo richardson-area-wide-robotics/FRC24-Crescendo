@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -79,6 +81,16 @@ public class RobotContainer {
   private final FrontFourRightToLeftAuto m_frontFourRightToLeftAuto = new FrontFourRightToLeftAuto(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
   private final BackUp m_backUp = new BackUp(m_robotDrive);
   private final ShootNoBackUp m_shootNoBackUp = new ShootNoBackUp(m_robotDrive, m_intake, m_shooter, m_pivot, m_feeder);
+  private final Command commandIntake = m_intake.intake();
+  private final Command commandOuttake = m_intake.outtake();
+  private final Command commandPivotToSpeaker = m_pivot.pivotToSpeaker();
+  private final Command commandShoot = Commands.run(() -> {
+          m_shooter.toggleState(ShooterState.SPEAKER);
+        }, m_shooter).andThen(Commands.runOnce(() -> {
+          m_feeder.shootNote();
+        }));
+  private final Command commandIdle = Commands.run(() -> m_shooter.idle());
+  private final Command commandPivotDown = m_pivot.pivotDown();
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   // The driver's controller
@@ -90,13 +102,20 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
+    NamedCommands.registerCommand("intake", commandIntake);
+    NamedCommands.registerCommand("outtake", commandOuttake);
+    NamedCommands.registerCommand("pivotToSpeaker", commandPivotToSpeaker);
+    NamedCommands.registerCommand("shoot", commandShoot);
+    NamedCommands.registerCommand("idle", commandIdle);
+    NamedCommands.registerCommand("pivotDown", commandPivotDown);
     // Configure the trigger bindings
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
     configureDriverBindings();
     globalEventList();
     launchCommands();
   }
+  private final PathPlannerAuto m_testAuto1 = new PathPlannerAuto("Test Auto #1");
+  private final PathPlannerAuto m_testAuto2 = new PathPlannerAuto("Test Auto #2");
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -297,6 +316,8 @@ public class RobotContainer {
   this.autonomousChooser.addOption("Three Shoot Right Auto", m_threeShootRightAuto);
   this.autonomousChooser.addOption("Front Four Left - Right Auto", m_frontFourLeftToRightAuto);
   this.autonomousChooser.addOption("Front Four Right - Left Auto", m_frontFourRightToLeftAuto);
+  this.autonomousChooser.addOption("Test Auto #1", m_testAuto1);
+  this.autonomousChooser.addOption("Test Auto #2", m_testAuto2);
   SmartDashboard.putData("Autonomous Chooser", this.autonomousChooser);
   }
 

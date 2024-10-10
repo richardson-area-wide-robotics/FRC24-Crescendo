@@ -12,9 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "1 Blue Meter Forward"
+            "name": "intake"
           }
         }
       ]
